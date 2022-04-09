@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fotaylogo">FotayLogo</string>
+    <string name="btn_registrar">Regístrate</string>
+    <string name="btn_iniciarsesion">Inicia sesión</string>
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="rep_contrasena">"Repetir contraseña "</string>
+    <string name="NoRegistrado">¿No tienes una cuenta? Regístrate</string>
+    <string name="Si_Registrado">¿Ya tienes una cuenta? Inicia sesión</string>
+    <string name="notif_fragment">Notificaciones</string>
+    <string name="profile_fragment">Perfil</string>
+    <string name="fav_fragment">Favoritos</string>
+    <string name="description">Añade una descripción</string>
+    <string name="options_menu_logout">Cerrar sesión</string>
+    <string name="username">Nombre de usuario</string>
+</resources>

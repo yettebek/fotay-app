@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background3"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="720dp"
+        android:layout_centerInParent="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <!-- Adding the image logo-->
+        <ImageView
+            android:id="@+id/fotay_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="90dp"
+            android:contentDescription="@string/fotaylogo"
+            android:src="@drawable/mainlogo" />
+
+
+        <!-- Botón 'Regístrate'-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_registrar"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="@dimen/corner_radius"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="355dp"
+            android:layout_marginRight="19dp"
+            android:backgroundTint="@color/btn_pressed"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/btn_registrar"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <android.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <!-- Botón 'Inicia sesión'-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_iniciarsesion"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="@dimen/corner_radius"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:backgroundTint="@color/btn_pressed"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/btn_iniciarsesion"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
