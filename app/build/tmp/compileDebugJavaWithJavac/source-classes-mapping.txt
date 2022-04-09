@@ -1,0 +1,44 @@
+com/project/fotayapp/fragments/homeFragment.java
+ com.project.fotayapp.fragments.homeFragment
+com/project/fotayapp/fragments/favouriteFragment.java
+ com.project.fotayapp.fragments.favouriteFragment
+com/project/fotayapp/activities/StartActivity.java
+ com.project.fotayapp.activities.StartActivity
+ com.project.fotayapp.activities.StartActivity$1
+ com.project.fotayapp.activities.StartActivity$2
+com/project/fotayapp/fragments/notificationFragment.java
+ com.project.fotayapp.fragments.notificationFragment
+com/project/fotayapp/BuildConfig.java
+ com.project.fotayapp.BuildConfig
+com/project/fotayapp/activities/UploadActivity.java
+ com.project.fotayapp.activities.UploadActivity
+ com.project.fotayapp.activities.UploadActivity$1
+ com.project.fotayapp.activities.UploadActivity$2
+com/project/fotayapp/activities/TransitionActivity.java
+ com.project.fotayapp.activities.TransitionActivity
+ com.project.fotayapp.activities.TransitionActivity$1
+com/project/fotayapp/activities/RegisterActivity.java
+ com.project.fotayapp.activities.RegisterActivity
+ com.project.fotayapp.activities.RegisterActivity$1
+ com.project.fotayapp.activities.RegisterActivity$2
+ com.project.fotayapp.activities.RegisterActivity$3
+ com.project.fotayapp.activities.RegisterActivity$4
+ com.project.fotayapp.activities.RegisterActivity$5
+ com.project.fotayapp.activities.RegisterActivity$6
+ com.project.fotayapp.activities.RegisterActivity$6$1
+ com.project.fotayapp.activities.RegisterActivity$7
+ com.project.fotayapp.activities.RegisterActivity$8
+com/project/fotayapp/activities/MenuActivity.java
+ com.project.fotayapp.activities.MenuActivity
+ com.project.fotayapp.activities.MenuActivity$1
+com/project/fotayapp/fragments/profileFragment.java
+ com.project.fotayapp.fragments.profileFragment
+com/project/fotayapp/activities/LoginActivity.java
+ com.project.fotayapp.activities.LoginActivity
+ com.project.fotayapp.activities.LoginActivity$1
+ com.project.fotayapp.activities.LoginActivity$2
+ com.project.fotayapp.activities.LoginActivity$3
+ com.project.fotayapp.activities.LoginActivity$4
+ com.project.fotayapp.activities.LoginActivity$4$1
+ com.project.fotayapp.activities.LoginActivity$5
+ com.project.fotayapp.activities.LoginActivity$6

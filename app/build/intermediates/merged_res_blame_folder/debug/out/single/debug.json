@@ -1,0 +1,318 @@
+[
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_login.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_profile_background_banner.jpg.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\profile_background_banner.jpg"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_pd_structure.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\pd_structure.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\color_text_input_edit_box_stroke_color.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\color\\text_input_edit_box_stroke_color.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_progress_dialog.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\progress_dialog.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_toolbar_background.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\toolbar_background.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-anydpi_ic_home_btn.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-anydpi\\ic_home_btn.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_launcher_background.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_edit_text_styles.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\edit_text_styles.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_home_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-hdpi\\ic_home_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher_foreground.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_register.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\activity_register.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_back.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic_back.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_profile_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_profile_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_transition.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\activity_transition.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_toolbar.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\toolbar.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_mainlogo.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\mainlogo.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_no_profile_picture.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic_no_profile_picture.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\menu_options_menu.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\menu\\options_menu.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_home_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_home_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_favourite_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-hdpi\\ic_favourite_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\xml_file_paths.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_notification_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-hdpi\\ic_notification_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_start.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\activity_start.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_btn_normal.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\btn_normal.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-anydpi_ic_profile_btn.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-anydpi\\ic_profile_btn.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\color_btn_upload_img.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\color\\btn_upload_img.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\color_btn_no_upload_img.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\color\\btn_no_upload_img.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_background3.jpg.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\background3.jpg"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_home_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_home_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_logo.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\logo.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\color_select_nav_btn.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\color\\select_nav_btn.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_btn_pressed.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\btn_pressed.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_notification.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\fragment_notification.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_profile_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-hdpi\\ic_profile_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_profile_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-mdpi\\ic_profile_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_round_button.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\round_button.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\font_candal.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\font\\candal.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_gradient_background.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\gradient_background.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_favourite.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\fragment_favourite.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_lock_24.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic_baseline_lock_24.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_baseline_person_24.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic_baseline_person_24.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\menu_bottom_menu_items.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\menu\\bottom_menu_items.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_favourite_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_favourite_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-anydpi_ic_notification_btn.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-anydpi\\ic_notification_btn.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\color_btn_pressed.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\color\\btn_pressed.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_notification_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_notification_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-anydpi_ic_favourite_btn.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-anydpi\\ic_favourite_btn.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_favourite_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_favourite_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic__camera_fab.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic__camera_fab.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\font_brawler.ttf.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\font\\brawler.ttf"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_home_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-mdpi\\ic_home_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_favourite_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-mdpi\\ic_favourite_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_ic_error.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\ic_error.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_profile_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_profile_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_menu.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\activity_menu.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher_foreground.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_profile.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\fragment_profile.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_notification_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-mdpi\\ic_notification_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_upload.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\activity_upload.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\layout_fragment_home.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_notification_btn.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_notification_btn.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\merged_res\\debug\\drawable_btn_background.xml.flat",
+        "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\drawable\\btn_background.xml"
+    }
+]
