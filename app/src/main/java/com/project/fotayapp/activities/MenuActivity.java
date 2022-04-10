@@ -7,6 +7,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,7 +24,6 @@ public class MenuActivity extends AppCompatActivity {
     //Declarar variables
     private BottomNavigationView bottomNavigationView;
     private Fragment currentFragment;
-    public MenuActivity menuActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

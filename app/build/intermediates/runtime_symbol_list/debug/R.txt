@@ -1763,6 +1763,7 @@ int drawable ic_notification_btn 0x7f08007c
 int drawable ic_photo_black_48dp 0x7f08007d
 int drawable ic_photo_camera_black_48dp 0x7f08007e
 int drawable ic_profile_btn 0x7f08007f
+int drawable ic_profile_options 0x7f0800bd
 int drawable logo 0x7f080080
 int drawable mainlogo 0x7f080081
 int drawable material_cursor_drawable 0x7f080082
@@ -1833,7 +1834,6 @@ int id CTRL 0x7f0a0003
 int id FUNCTION 0x7f0a0004
 int id META 0x7f0a0005
 int id NO_DEBUG 0x7f0a0006
-int id RelativeLayout 0x7f0a0007
 int id SHIFT 0x7f0a0008
 int id SHOW_ALL 0x7f0a0009
 int id SHOW_PATH 0x7f0a000a
@@ -2043,6 +2043,7 @@ int id inward 0x7f0a00d5
 int id italic 0x7f0a00d6
 int id item_touch_helper_previous_elevation 0x7f0a00d7
 int id iv_p_background 0x7f0a00d8
+int id iv_p_options 0x7f0a01f4
 int id iv_p_userimage 0x7f0a00d9
 int id jumpToEnd 0x7f0a00da
 int id jumpToStart 0x7f0a00db

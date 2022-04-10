@@ -1764,6 +1764,7 @@ drawable ic_notification_btn
 drawable ic_photo_black_48dp
 drawable ic_photo_camera_black_48dp
 drawable ic_profile_btn
+drawable ic_profile_options
 drawable logo
 drawable mainlogo
 drawable material_cursor_drawable
@@ -1834,7 +1835,6 @@ id CTRL
 id FUNCTION
 id META
 id NO_DEBUG
-id RelativeLayout
 id SHIFT
 id SHOW_ALL
 id SHOW_PATH
@@ -2044,6 +2044,7 @@ id inward
 id italic
 id item_touch_helper_previous_elevation
 id iv_p_background
+id iv_p_options
 id iv_p_userimage
 id jumpToEnd
 id jumpToStart

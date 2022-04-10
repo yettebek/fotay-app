@@ -9,7 +9,6 @@
     <string name="NoRegistrado">¿No tienes una cuenta?<b><u> Regístrate</u></b></string>
     <string name="Si_Registrado">¿Ya tienes una cuenta?<b><u> Inicia sesión</u></b></string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="home_fragment">Inicio</string>
     <string name="notif_fragment">Notificaciones</string>
     <string name="profile_fragment">Perfil</string>

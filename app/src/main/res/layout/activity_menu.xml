@@ -16,7 +16,6 @@
         android:background="@color/ic_launcher_background"
         android:fitsSystemWindows="true" />
 
-    <!-- Añadir dependencias en Gradle Scripts > build.gradle (Module)-->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"

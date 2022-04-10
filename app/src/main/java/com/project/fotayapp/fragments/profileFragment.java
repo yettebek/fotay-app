@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,21 +32,22 @@ public class profileFragment extends Fragment {
     //Declarar variables
     private ImageView iv_background_profile;
     private FloatingActionButton fab_imagen;
-    private Toolbar toolbar;
+    //private Toolbar toolbar;
     private RelativeLayout relativeLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         iv_background_profile = view.findViewById(R.id.iv_p_background);
         fab_imagen = view.findViewById(R.id.fab_imagen);
-        toolbar = view.findViewById(R.id.toolbar);
+        //toolbar = view.findViewById(R.id.toolbar);
 
-        //Toolbar para cerrar sesión con un Options Menu
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("Perfil");
+        //get username data from fragment to sharedPreferences
+        String preferenceUser = getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).getString("profileUsername", "");
 
+        //((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        //Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("Perfil");
         fab_imagen.setOnClickListener(v -> {
 
         //Abir UploadActivity para elegir la imagen a subir a la app:
@@ -59,20 +61,20 @@ public class profileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         //Activar Options Menu
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
     //Instanciar el Options Menu que albergará el item 'Cerrar sesión'
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.options_menu, menu);
+        //inflater.inflate(R.menu.options_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     /*Al pulsar sobre el item 'Cerrar sesión', limpiará los datos de la sharedPreference anterior
     y nos llevará de vuelta a la pantalla de registro*/
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.log_out) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
@@ -85,5 +87,5 @@ public class profileFragment extends Fragment {
             Toast.makeText(getContext(), "SESIÓN CERRADA", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

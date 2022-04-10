@@ -1,127 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@color/ic_launcher_background"
-    tools:context=".fragments.profileFragment">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    tools:context=".fragments.profileFragment"
+    android:layout_gravity="top">
 
     <ImageView
         android:id="@+id/iv_p_background"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:rotation="0"
+        android:layout_gravity="top"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_background_banner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.000" />
+        android:src="@drawable/profile_background_banner" />
+
+    <ImageView
+        android:id="@+id/iv_p_options"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:layout_marginStart="360dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_profile_options" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_p_userimage"
         android:layout_width="106dp"
         android:layout_height="106dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/ic_no_profile_picture"
         app:civ_border_color="@color/white"
         app:civ_border_width="2dp"
-        app:civ_circle_background_color="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_p_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/iv_p_background"
-        app:layout_constraintTop_toTopOf="@id/iv_p_background"
-        app:layout_constraintVertical_bias="0.000" />
+        app:civ_circle_background_color="@color/black" />
 
     <TextView
-        android:id="@+id/tv_p_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Nombre de usuario"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/iv_p_userimage"
-        app:layout_constraintStart_toStartOf="@id/iv_p_userimage"
-        app:layout_constraintTop_toBottomOf="@id/iv_p_userimage" />
-
-
-    <!--create a textview FOTOS-->
+            android:id="@+id/tv_p_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="180dp"
+            android:layout_marginStart="110dp"
+            android:text="Nombre de usuario"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_p_photos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="249dp"
         android:text="FOTOS"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="@id/tv_photo_counter"
-        app:layout_constraintStart_toStartOf="@id/iv_p_userimage"
-        app:layout_constraintTop_toBottomOf="@id/tv_p_username" />
-
+        android:textStyle="normal" />
 
     <TextView
         android:id="@+id/tv_photo_counter"
         android:layout_width="35dp"
-        android:layout_marginLeft="35dp"
-        android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="249dp"
         android:text="0"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/tv_p_photos"
-        app:layout_constraintStart_toStartOf="@id/tv_p_photos"
-        app:layout_constraintTop_toBottomOf="@id/tv_p_username" />
+        android:textStyle="bold" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_imagen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="395dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
         android:contentDescription="Subir imagen"
         android:focusable="true"
         android:src="@drawable/ic__camera_fab"
-        android:tint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        android:tint="@color/black" />
+
+</RelativeLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
