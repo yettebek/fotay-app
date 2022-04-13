@@ -18,3 +18,4 @@ gradle/
 local.properties
 *.gradle
 *.class
+*.properties

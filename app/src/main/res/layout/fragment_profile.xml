@@ -76,7 +76,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
         android:contentDescription="Subir imagen"

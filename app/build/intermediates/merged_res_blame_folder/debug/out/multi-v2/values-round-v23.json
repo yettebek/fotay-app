@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
+            "outputFile": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\src\\main\\res\\values-round\\strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "17",
-                        "endColumns": "58",
-                        "endOffsets": "71"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "100",
-                        "endColumns": "58",
-                        "endOffsets": "154"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\src\\main\\res\\values-round\\dimens.xml",
+                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-round\\dimens.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -35,6 +18,23 @@
                         "startOffsets": "55",
                         "endColumns": "44",
                         "endOffsets": "95"
+                    }
+                },
+                {
+                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-round\\strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "17",
+                        "endColumns": "58",
+                        "endOffsets": "71"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "100",
+                        "endColumns": "58",
+                        "endOffsets": "154"
                     }
                 }
             ]

@@ -6,207 +6,207 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="23"
-8-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml
+8-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="30" />
-9-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml
+9-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml
 10
 11    <uses-feature
-11-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:5:5-7:35
+11-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:5:5-7:35
 12        android:name="android.hardware.camera"
-12-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:6:9-47
+12-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:6:9-47
 13        android:required="true" />
-13-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:7:9-32
+13-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:7:9-32
 14
 15    <queries>
-15-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:9:5-11:15
+15-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:9:5-11:15
 16        <package android:name="com.google.android.GoogleCamera" />
-16-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:10:9-67
-16-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:10:18-64
+16-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:10:9-67
+16-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:10:18-64
 17        <!-- Query Camera Packages -->
 18        <intent>
-18-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:12:9-14:18
+18-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:12:9-14:18
 19            <action android:name="android.media.action.IMAGE_CAPTURE" />
-19-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:57:17-77
-19-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:57:25-74
+19-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:57:17-77
+19-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:57:25-74
 20        </intent> <!-- Query Open Document -->
 21        <intent>
-21-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:16:9-18:18
+21-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:16:9-18:18
 22            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
-22-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:17:13-79
-22-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:17:21-76
+22-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:17:13-79
+22-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:17:21-76
 23        </intent>
 24    </queries>
 25
 26    <uses-permission android:name="android.permission.INTERNET" />
-26-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:13:5-67
-26-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:13:22-64
+26-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:13:5-67
+26-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:13:22-64
 27    <uses-permission android:name="android.permission.WAKE_LOCK" />
-27-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:14:5-68
-27-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:14:22-65
+27-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:14:5-68
+27-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:14:22-65
 28    <uses-permission android:name="android.permission.CAMERA" /> <!-- INCLUIR LOS PERMISOS PARA ACCEDER A LA CAMARA -->
-28-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:15:5-65
-28-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:15:22-62
+28-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:15:5-65
+28-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:15:22-62
 29    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-29-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:16:5-80
-29-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:16:22-77
+29-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:16:5-80
+29-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:16:22-77
 30    <uses-permission
-30-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:17:5-19:38
+30-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:17:5-19:38
 31        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-31-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:18:9-65
+31-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:18:9-65
 32        android:maxSdkVersion="28" />
-32-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:19:9-35
+32-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:19:9-35
 33
 34    <!-- INCLUIR LOS PERMISOS PARA ACCEDER AL ALMACENAMIENTO (requestLegacyExternalStorage) -->
 35    <application
-35-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:23:5-76:19
+35-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:23:5-76:19
 36        android:allowBackup="true"
-36-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:24:9-35
+36-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:24:9-35
 37        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-37-->[androidx.core:core:1.5.0] C:\Users\llers\.gradle\caches\transforms-3\3097e1c5dd79a0661fe903d2c2778720\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+37-->[androidx.core:core:1.5.0] C:\Users\Yette\.gradle\caches\transforms-3\3097e1c5dd79a0661fe903d2c2778720\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
 38        android:debuggable="true"
 39        android:extractNativeLibs="false"
 40        android:icon="@mipmap/ic_launcher"
-40-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:25:9-43
+40-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:25:9-43
 41        android:label="@string/app_name"
-41-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:26:9-41
+41-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:26:9-41
 42        android:requestLegacyExternalStorage="true"
-42-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:27:9-52
+42-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:27:9-52
 43        android:roundIcon="@mipmap/ic_launcher_round"
-43-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:28:9-54
+43-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:28:9-54
 44        android:supportsRtl="true"
-44-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:29:9-35
+44-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:29:9-35
 45        android:testOnly="true"
 46        android:theme="@style/Theme.FotayApp"
-46-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:30:9-46
+46-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:30:9-46
 47        android:usesCleartextTraffic="true" >
-47-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:31:9-44
+47-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:31:9-44
 48        <activity
-48-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:34:9-36:52
+48-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:34:9-36:52
 49            android:name="com.project.fotayapp.activities.UploadActivity"
-49-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:35:13-54
+49-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:35:13-54
 50            android:screenOrientation="portrait" />
-50-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:36:13-49
+50-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:36:13-49
 51        <activity
-51-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:37:9-39:52
+51-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:37:9-39:52
 52            android:name="com.project.fotayapp.activities.MenuActivity"
-52-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:38:13-52
+52-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:38:13-52
 53            android:screenOrientation="portrait" />
-53-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:39:13-49
+53-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:39:13-49
 54        <activity
-54-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:40:9-42:52
+54-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:40:9-42:52
 55            android:name="com.project.fotayapp.activities.LoginActivity"
-55-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:41:13-53
+55-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:41:13-53
 56            android:screenOrientation="portrait" />
-56-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:42:13-49
+56-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:42:13-49
 57        <activity
-57-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:43:9-45:52
+57-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:43:9-45:52
 58            android:name="com.project.fotayapp.activities.RegisterActivity"
-58-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:44:13-56
+58-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:44:13-56
 59            android:screenOrientation="portrait" />
-59-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:45:13-49
+59-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:45:13-49
 60        <activity
-60-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:46:9-48:52
+60-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:46:9-48:52
 61            android:name="com.project.fotayapp.activities.StartActivity"
-61-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:47:13-53
+61-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:47:13-53
 62            android:screenOrientation="portrait" />
-62-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:48:13-49
+62-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:48:13-49
 63        <activity
-63-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:49:9-62:20
+63-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:49:9-62:20
 64            android:name="com.project.fotayapp.activities.TransitionActivity"
-64-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:50:13-58
+64-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:50:13-58
 65            android:exported="true"
-65-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:51:13-36
+65-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:51:13-36
 66            android:screenOrientation="portrait" >
-66-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:52:13-49
+66-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:52:13-49
 67            <intent-filter>
-67-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:53:13-61:29
+67-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:53:13-61:29
 68                <action android:name="android.intent.action.MAIN" />
-68-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:54:17-69
-68-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:54:25-66
+68-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:54:17-69
+68-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:54:25-66
 69
 70                <category android:name="android.intent.category.LAUNCHER" />
-70-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:55:17-77
-70-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:55:27-74
+70-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:55:17-77
+70-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:55:27-74
 71
 72                <action android:name="android.media.action.IMAGE_CAPTURE" />
-72-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:57:17-77
-72-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:57:25-74
+72-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:57:17-77
+72-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:57:25-74
 73                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
-73-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:58:17-82
-73-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:58:25-79
+73-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:58:17-82
+73-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:58:25-79
 74
 75                <category android:name="android.intent.category.DEFAULT" />
-75-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:60:17-76
-75-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:60:27-73
+75-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:60:17-76
+75-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:60:27-73
 76            </intent-filter>
 77        </activity>
 78
 79        <meta-data
-79-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:64:9-66:57
+79-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:64:9-66:57
 80            android:name="preloaded_fonts"
-80-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:65:13-43
+80-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:65:13-43
 81            android:resource="@array/preloaded_fonts" /> <!-- Provider foto cámara -->
-81-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:66:13-54
+81-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:66:13-54
 82        <provider
-82-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:67:9-75:20
+82-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:67:9-75:20
 83            android:name="androidx.core.content.FileProvider"
-83-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:68:13-62
+83-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:68:13-62
 84            android:authorities="com.project.fotayapp.fileprovider"
-84-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:69:13-68
+84-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:69:13-68
 85            android:exported="false"
-85-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:70:13-37
+85-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:70:13-37
 86            android:grantUriPermissions="true" >
-86-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:71:13-47
+86-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:71:13-47
 87            <meta-data
-87-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:72:13-74:54
+87-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:72:13-74:54
 88                android:name="android.support.FILE_PROVIDER_PATHS"
-88-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:73:17-67
+88-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:73:17-67
 89                android:resource="@xml/file_paths" />
-89-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:74:17-51
+89-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:74:17-51
 90        </provider>
 91
 92        <activity
-92-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:22:9-25:68
+92-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:22:9-25:68
 93            android:name="com.github.dhaval2404.imagepicker.ImagePickerActivity"
-93-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:23:13-81
+93-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:23:13-81
 94            android:screenOrientation="unspecified"
-94-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:24:13-52
+94-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:24:13-52
 95            android:theme="@style/Theme.Transparent.ImagePicker" />
-95-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:25:13-65
+95-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:25:13-65
 96        <activity
-96-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:26:9-29:72
+96-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:26:9-29:72
 97            android:name="com.yalantis.ucrop.UCropActivity"
-97-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:27:13-60
+97-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:27:13-60
 98            android:screenOrientation="portrait"
-98-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:28:13-49
+98-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:28:13-49
 99            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-99-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:29:13-69
+99-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:29:13-69
 100
 101        <provider
-101-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:31:9-39:20
+101-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:31:9-39:20
 102            android:name="com.github.dhaval2404.imagepicker.ImagePickerFileProvider"
-102-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:32:13-85
+102-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:32:13-85
 103            android:authorities="com.project.fotayapp.imagepicker.provider"
-103-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:33:13-72
+103-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:33:13-72
 104            android:exported="false"
-104-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:34:13-37
+104-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:34:13-37
 105            android:grantUriPermissions="true" >
-105-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\llers\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:35:13-47
+105-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\Yette\.gradle\caches\transforms-3\bada5e782ec75431b40b70881ba08c6f\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:35:13-47
 106            <meta-data
-106-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:72:13-74:54
+106-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:72:13-74:54
 107                android:name="android.support.FILE_PROVIDER_PATHS"
-107-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:73:17-67
+107-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:73:17-67
 108                android:resource="@xml/image_picker_provider_paths" />
-108-->C:\Users\llers\Desktop\YvTT\ANDROID_STUDIO\fotay-app\app\src\main\AndroidManifest.xml:74:17-51
+108-->D:\Users\yersu\YvTT\ANDROID_STUDIO\FotayApp\app\src\main\AndroidManifest.xml:74:17-51
 109        </provider>
 110        <provider
-110-->[com.squareup.picasso:picasso:2.71828] C:\Users\llers\.gradle\caches\transforms-3\254ee7ba01f54854b7328885d529cbc9\transformed\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+110-->[com.squareup.picasso:picasso:2.71828] C:\Users\Yette\.gradle\caches\transforms-3\32a1756f8bab16d3063593bf3c6001da\transformed\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
 111            android:name="com.squareup.picasso.PicassoProvider"
-111-->[com.squareup.picasso:picasso:2.71828] C:\Users\llers\.gradle\caches\transforms-3\254ee7ba01f54854b7328885d529cbc9\transformed\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+111-->[com.squareup.picasso:picasso:2.71828] C:\Users\Yette\.gradle\caches\transforms-3\32a1756f8bab16d3063593bf3c6001da\transformed\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
 112            android:authorities="com.project.fotayapp.com.squareup.picasso"
-112-->[com.squareup.picasso:picasso:2.71828] C:\Users\llers\.gradle\caches\transforms-3\254ee7ba01f54854b7328885d529cbc9\transformed\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+112-->[com.squareup.picasso:picasso:2.71828] C:\Users\Yette\.gradle\caches\transforms-3\32a1756f8bab16d3063593bf3c6001da\transformed\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
 113            android:exported="false" />
-113-->[com.squareup.picasso:picasso:2.71828] C:\Users\llers\.gradle\caches\transforms-3\254ee7ba01f54854b7328885d529cbc9\transformed\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+113-->[com.squareup.picasso:picasso:2.71828] C:\Users\Yette\.gradle\caches\transforms-3\32a1756f8bab16d3063593bf3c6001da\transformed\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
 114    </application>
 115
 116</manifest>

@@ -82,13 +82,14 @@
             app:cornerRadius="@dimen/corner_radius"
             android:layout_width="match_parent"
             android:layout_marginTop="24dp"
-            android:layout_height="65dp"
+            android:layout_height="80dp"
             android:backgroundTint="@color/btn_pressed"
             android:fontFamily="sans-serif-black"
-            android:text="@string/btn_iniciarsesion"
+            android:text="@string/btn_entrar"
             android:textAllCaps="false"
             android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textStyle="bold"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_no_acc"

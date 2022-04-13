@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,7 +58,6 @@ public class UploadActivity extends AppCompatActivity {
     private Uri fotayUri;
     private Bitmap bitmap;
 
-
     RequestQueue requestQueue;
 
     //URL del servidor
@@ -68,11 +66,23 @@ public class UploadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upload);
 
         //Denegación captura de pantalla en la App
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
-        setContentView(R.layout.activity_upload);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
+
+        /*findViewById(R.id.upload_layout).setOnApplyWindowInsetsListener((v, insets) -> {
+            /*int navigationBarHeight = WindowInsetsCompat.toWindowInsetsCompat(insets).getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            int statusBarHeight = WindowInsetsCompat.toWindowInsetsCompat(insets).getInsets(WindowInsetsCompat.Type.statusBars()).top;*/
+
+            /*ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            params.bottomMargin = insets.getSystemWindowInsetBottom();
+            //params.topMargin = insets.getSystemWindowInsetTop();
+            return insets.consumeSystemWindowInsets();
+        });*/
 
         //Inicializar variables en la View
         upload_back = findViewById(R.id.upload_back);
@@ -88,10 +98,6 @@ public class UploadActivity extends AppCompatActivity {
 
         // Declara RequestQueue para gestionar las peticiones al servidor
         requestQueue = Volley.newRequestQueue(this);
-
-        //Trasparencia barra de estado
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         //Desactivar botón de subida de imagen al servidor
         publishBtnFalse();

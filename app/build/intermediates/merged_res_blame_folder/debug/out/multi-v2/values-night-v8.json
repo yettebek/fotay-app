@@ -1,25 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\llers\\.gradle\\caches\\transforms-3\\cadf21eacd0260757bfcbb6421438691\\transformed\\appcompat-1.3.0\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "C:\\Users\\Yette\\.gradle\\caches\\transforms-3\\d72db9baf2815663fa1a414d6d31557c\\transformed\\material-1.3.0\\res\\values-night-v8\\values-night-v8.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1"
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
                     },
                     "to": {
-                        "startLines": "17,18,19,20,21,22,23,56",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "979,1049,1133,1217,1313,1415,1517,4382",
-                        "endColumns": "69,83,83,95,101,101,93,88",
-                        "endOffsets": "1044,1128,1212,1308,1410,1512,1606,4466"
+                        "startLines": "40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,57,58,59,60,61,62,63",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "2385,2473,2597,2699,2801,2917,3019,3133,3261,3377,3499,3635,3755,3889,4009,4121,4336,4474,4598,4728,4850,4988,5104",
+                        "endColumns": "87,123,101,101,115,101,113,127,115,121,135,119,133,119,111,125,137,123,129,121,137,115,119",
+                        "endOffsets": "2468,2592,2694,2796,2912,3014,3128,3256,3372,3494,3630,3750,3884,4004,4116,4242,4469,4593,4723,4845,4983,5099,5219"
                     }
                 },
                 {
-                    "source": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\src\\main\\res\\values-night\\dimens.xml",
+                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-night\\dimens.xml",
                     "from": {
                         "startLines": "-1",
                         "startColumns": "-1",
@@ -34,52 +34,51 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\llers\\.gradle\\caches\\transforms-3\\d72db9baf2815663fa1a414d6d31557c\\transformed\\material-1.3.0\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-night\\strings.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
-                    },
-                    "to": {
-                        "startLines": "40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,57,58,59,60,61,62,63",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "2520,2608,2732,2834,2936,3052,3154,3268,3396,3512,3634,3770,3890,4024,4144,4256,4471,4609,4733,4863,4985,5123,5239",
-                        "endColumns": "87,123,101,101,115,101,113,127,115,121,135,119,133,119,111,125,137,123,129,121,137,115,119",
-                        "endOffsets": "2603,2727,2829,2931,3047,3149,3263,3391,3507,3629,3765,3885,4019,4139,4251,4377,4604,4728,4858,4980,5118,5234,5354"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\src\\main\\res\\values-night\\strings.xml",
-                    "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
+                        "startLines": "-1,-1,7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,339,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "endColumns": "-1,-1,45,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
+                        "endOffsets": "-1,-1,380,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
                     },
                     "to": {
                         "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "145,220,299,359,412,462,524,575,623,687,745,807,859,924",
-                        "endColumns": "74,78,59,52,49,61,50,47,63,57,61,51,64,54",
-                        "endOffsets": "215,294,354,407,457,519,570,618,682,740,802,854,919,974"
+                        "startOffsets": "145,220,299,345,406,460,510,572,623,671,735,793,845,910",
+                        "endColumns": "74,78,45,60,53,49,61,50,47,63,57,51,64,54",
+                        "endOffsets": "215,294,340,401,455,505,567,618,666,730,788,840,905,960"
                     }
                 },
                 {
-                    "source": "C:\\Users\\llers\\Desktop\\YvTT\\ANDROID_STUDIO\\fotay-app\\app\\src\\main\\res\\values-night\\themes.xml",
+                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-night\\themes.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "102",
-                        "endLines": "17",
-                        "endColumns": "12",
-                        "endOffsets": "1023"
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
                     },
                     "to": {
                         "startLines": "24",
                         "startColumns": "4",
-                        "startOffsets": "1611",
+                        "startOffsets": "1597",
                         "endLines": "39",
                         "endColumns": "12",
-                        "endOffsets": "2515"
+                        "endOffsets": "2380"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Yette\\.gradle\\caches\\transforms-3\\cadf21eacd0260757bfcbb6421438691\\transformed\\appcompat-1.3.0\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1"
+                    },
+                    "to": {
+                        "startLines": "17,18,19,20,21,22,23,56",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "965,1035,1119,1203,1299,1401,1503,4247",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "1030,1114,1198,1294,1396,1498,1592,4331"
                     }
                 }
             ]

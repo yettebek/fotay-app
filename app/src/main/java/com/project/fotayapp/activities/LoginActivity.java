@@ -191,9 +191,7 @@ public class LoginActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                /*Toast.makeText(LoginActivity.this, "Nombre o contraseña incorrectos.", Toast.LENGTH_LONG).show();*/
-                error.printStackTrace();
-                Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }) { //Parámetros que solicitamos para generar una respuesta del servidor
             @Override

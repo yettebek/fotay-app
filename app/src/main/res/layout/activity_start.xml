@@ -1,69 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background3"
-    android:fitsSystemWindows="true">
+    tools:context=".activities.StartActivity" >
 
     <LinearLayout
-        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="720dp"
-        android:layout_centerInParent="true"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <!-- Adding the image logo-->
         <ImageView
             android:id="@+id/fotay_logo"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginTop="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginStart="9dp"
             android:contentDescription="@string/fotaylogo"
-            android:src="@drawable/mainlogo" />
+            android:src="@drawable/mainlogo"/>
+
+    </LinearLayout>
 
 
-        <!-- Botón 'Regístrate'-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
 
+        <!--Botón de registro-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_registrar"
             style="@style/Widget.MaterialComponents.Button"
-            app:cornerRadius="@dimen/corner_radius"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginLeft="19dp"
-            android:layout_marginTop="355dp"
-            android:layout_marginRight="19dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginEnd="19dp"
             android:backgroundTint="@color/btn_pressed"
             android:fontFamily="sans-serif-black"
             android:text="@string/btn_registrar"
             android:textAllCaps="false"
             android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <android.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:cornerRadius="@dimen/corner_radius" />
 
         <!-- Botón 'Inicia sesión'-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_iniciarsesion"
             style="@style/Widget.MaterialComponents.Button"
-            app:cornerRadius="@dimen/corner_radius"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="12dp"
             android:backgroundTint="@color/btn_pressed"
             android:fontFamily="sans-serif-black"
             android:text="@string/btn_iniciarsesion"
             android:textAllCaps="false"
             android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:cornerRadius="@dimen/corner_radius" />
 
     </LinearLayout>
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

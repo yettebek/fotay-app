@@ -2060,7 +2060,6 @@ id leftToRight
 id line1
 id line3
 id linear
-id linear_layout
 id listMode
 id list_item
 id log_out
@@ -2160,6 +2159,7 @@ id progress_horizontal
 id radio
 id ratio
 id rectangles
+id relativeLayout
 id reverseSawtooth
 id right
 id rightToLeft
@@ -2311,6 +2311,7 @@ id up
 id upload_back
 id upload_description
 id upload_img
+id upload_layout
 id useLogo
 id view_offset_helper
 id view_overlay
@@ -2544,6 +2545,7 @@ string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string bottomsheet_action_expand_halfway
+string btn_entrar
 string btn_iniciarsesion
 string btn_registrar
 string character_counter_content_description

@@ -3,8 +3,6 @@ package com.project.fotayapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,8 +21,8 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         //Trasparencia barra de estado
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        /*Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
 
         //Asignar las variables con sus ids
         btnRegister = findViewById(R.id.btn_registrar);
