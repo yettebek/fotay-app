@@ -1,59 +1,50 @@
 package com.project.fotayapp.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.fotayapp.R;
-import com.project.fotayapp.activities.StartActivity;
+import com.project.fotayapp.activities.OptionsActivity;
 import com.project.fotayapp.activities.UploadActivity;
-
-import java.util.Objects;
 
 public class profileFragment extends Fragment {
 
     //Declarar variables
-    private ImageView iv_background_profile;
+    private ImageView iv_background_profile, iv_options_profile;
     private FloatingActionButton fab_imagen;
-    //private Toolbar toolbar;
-    private RelativeLayout relativeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         iv_background_profile = view.findViewById(R.id.iv_p_background);
+        iv_options_profile = view.findViewById(R.id.iv_p_options);
         fab_imagen = view.findViewById(R.id.fab_imagen);
-        //toolbar = view.findViewById(R.id.toolbar);
 
         //get username data from fragment to sharedPreferences
-        String preferenceUser = getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).getString("profileUsername", "");
+        //String preferenceUser = getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).getString("profileUsername", "");
 
-        //((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        //Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("Perfil");
+        iv_options_profile.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), OptionsActivity.class);
+            startActivity(intent);
+        });
+
         fab_imagen.setOnClickListener(v -> {
-
         //Abir UploadActivity para elegir la imagen a subir a la app:
         Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
         startActivity(uploadIntent);
         });
+
         return view;
     }
 
