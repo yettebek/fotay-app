@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/text_input_edit_box_stroke_color</item>
         <item name="colorOnSecondary">#3F51B5</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="M">@android:color/transparent</item>
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

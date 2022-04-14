@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/ic_launcher_background"
+    android:fitsSystemWindows="true"
     tools:context=".activities.OptionsActivity">
 
     <LinearLayout

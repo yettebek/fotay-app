@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".activities.UploadActivity">
 
     <LinearLayout
@@ -19,15 +20,14 @@
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:background="@android:color/transparent"
-            android:fitsSystemWindows="true">
+            android:background="@android:color/transparent">
 
             <ImageView
                 android:id="@+id/upload_back"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/ic_back" />
 
         </com.google.android.material.appbar.AppBarLayout>

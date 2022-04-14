@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:statusBarBackground="@android:color/transparent">
+
+<RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/ic_launcher_background"
     tools:context=".fragments.profileFragment"
-    android:layout_gravity="top">
+    android:layout_gravity="top"
+    app:statusBarBackground="@android:color/transparent">
 
     <ImageView
         android:id="@+id/iv_p_background"
@@ -14,15 +22,15 @@
         android:layout_height="300dp"
         android:layout_gravity="top"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_background_banner" />
+        android:src="@drawable/p_background_banner" />
 
     <ImageView
         android:id="@+id/iv_p_options"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="37dp"
+        android:layout_height="38dp"
         android:layout_gravity="right"
-        android:layout_marginStart="364dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginStart="350dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/ic_profile_options" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -36,16 +44,27 @@
         app:civ_border_width="2dp"
         app:civ_circle_background_color="@color/black" />
 
+    <!--create an image view for ic_user_icon-->
+    <ImageView
+        android:id="@+id/iv_p_usericon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="185dp"
+        android:src="@drawable/ic_user_icon" />
+
     <TextView
-            android:id="@+id/tv_p_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
-            android:layout_marginStart="110dp"
-            android:text="Nombre de usuario"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+        android:id="@+id/tv_p_username"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="180dp"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:text="Nombre de usuario"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_p_photos"
@@ -62,7 +81,7 @@
         android:id="@+id/tv_photo_counter"
         android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
+        android:layout_marginStart="222dp"
         android:layout_marginTop="249dp"
         android:text="0"
         android:textColor="@color/white"
@@ -86,7 +105,7 @@
 
 </RelativeLayout>
 
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 

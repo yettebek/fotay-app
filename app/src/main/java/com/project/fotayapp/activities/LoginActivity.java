@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -31,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.project.fotayapp.R;
+import com.project.fotayapp.UserDataSQLite;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String webhostURL = "https://fotay.000webhostapp.com/files/php/selectData.php";
 
+    private UserDataSQLite db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //Dar formato de estilo de letra al textview
         tv_no_acc.setText(Html.fromHtml("¿No tienes una cuenta? <b><u> Regístrate</u></b>"));
+
+        // Inicializar base de datos SQLite para almacenar datos de usuario
+        db = new UserDataSQLite(getApplicationContext());
 
         //Obtener datos de usuario de la última sesion
         getLoginSharedPreferencesFromApp();
@@ -154,7 +157,6 @@ public class LoginActivity extends AppCompatActivity {
     private void loginValidation(String nomUsu, String pswd) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
-            @RequiresApi(api = Build.VERSION_CODES.P)
             @SuppressLint("ResourceType")
             @Override
             public void onResponse(String response) {
@@ -173,6 +175,9 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                             //Guarda los datos de sesión
                             saveLoginSharedPreferences();
+
+                            //Anadir los datos del usuario a la base de datos local sqlite
+                            db.addUser(nomUsu);
 
                             //La validación es correcta, se inicia la siguiente pantalla termiando la activity anterior
                             Intent menuIntent = new Intent(LoginActivity.this, MenuActivity.class);

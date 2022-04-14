@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/ic_launcher_background"
     android:fitsSystemWindows="true"
+    app:statusBarBackground="@android:color/transparent"
     tools:context=".activities.MenuActivity">
 
     <FrameLayout
@@ -13,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/app_bar_layout"
-        android:background="@color/ic_launcher_background"
-        android:fitsSystemWindows="true" />
+        android:background="@color/ic_launcher_background" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -23,8 +23,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/ic_launcher_background"
-        android:fitsSystemWindows="true">
+        android:background="@color/ic_launcher_background">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_view"
@@ -32,12 +31,10 @@
             android:layout_height="wrap_content"
             android:background="@color/ic_launcher_background"
             android:elevation="8dp"
-            android:fitsSystemWindows="true"
             app:itemIconTint="@color/select_nav_btn"
-            app:labelVisibilityMode="unlabeled"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu_items" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
 
 </RelativeLayout>

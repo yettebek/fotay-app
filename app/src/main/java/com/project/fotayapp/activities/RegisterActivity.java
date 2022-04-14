@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.project.fotayapp.R;
+import com.project.fotayapp.UserDataSQLite;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,9 +68,8 @@ public class RegisterActivity extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(
             "^" + "(?=.*[0-9])" + "(?=.*[a-zA-Z])" + "(?=\\S+$)" + ".{8,}" + "$");
 
-    /*private static final String TAG = RegisterActivity.class.getSimpleName();
-    private String TAG_SUCCESS = "success", TAG_MESSAGE = "message", TAG_JSON_OBJ = "json_object_request";
-    int success;*/
+    //Instanciar la base de datos local sqlite
+    private UserDataSQLite db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,9 @@ public class RegisterActivity extends AppCompatActivity {
         tiet_contr2 = findViewById(R.id.tiet_contr2);
         btn_registrar = findViewById(R.id.btn_registrar);
         tv_si_acc = findViewById(R.id.tv_si_acc);
+
+        // Inicializar base de datos SQLite para almacenar datos de usuario
+        db = new UserDataSQLite(getApplicationContext());
 
         //Dar formato de estilo de letra al textview
         tv_si_acc.setText(Html.fromHtml("¿Ya tienes una cuenta? <b><u> Inicia sesión</u></b>"));
@@ -220,7 +223,9 @@ public class RegisterActivity extends AppCompatActivity {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            //Toast.makeText(getApplicationContext(), "Cuenta registrada.", Toast.LENGTH_LONG).show();
+
+                            //Anadir los datos del usuario a la base de datos local sqlite
+                            db.addUser(nomUsu);
 
                             //La validación es correcta se inicia la siguiente pantalla terminando la activity anterior
                             Intent menuIntent = new Intent(RegisterActivity.this, MenuActivity.class);
