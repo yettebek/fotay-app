@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background3"
-    tools:context=".activities.StartActivity" >
+    tools:context=".activities.StartActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,10 +18,10 @@
             android:id="@+id/fotay_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
             android:layout_marginStart="9dp"
+            android:layout_marginTop="36dp"
             android:contentDescription="@string/fotaylogo"
-            android:src="@drawable/mainlogo"/>
+            android:src="@drawable/mainlogo" />
 
     </LinearLayout>
 
@@ -29,15 +29,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
 
         <!--Botón de registro-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_registrar"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_marginStart="19dp"
             android:layout_marginEnd="19dp"
             android:backgroundTint="@color/btn_pressed"
@@ -45,8 +45,8 @@
             android:text="@string/btn_registrar"
             android:textAllCaps="false"
             android:textColor="#000000"
-            android:textStyle="bold"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:cornerRadius="@dimen/corner_radius" />
 
         <!-- Botón 'Inicia sesión'-->
@@ -54,18 +54,18 @@
             android:id="@+id/btn_iniciarsesion"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_marginStart="19dp"
-            android:layout_marginEnd="19dp"
             android:layout_marginTop="13dp"
+            android:layout_marginEnd="19dp"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/btn_pressed"
             android:fontFamily="sans-serif-black"
             android:text="@string/btn_iniciarsesion"
             android:textAllCaps="false"
             android:textColor="#000000"
-            android:textStyle="bold"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:cornerRadius="@dimen/corner_radius" />
 
     </LinearLayout>

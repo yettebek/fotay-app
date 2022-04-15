@@ -115,7 +115,7 @@
             style="@style/Widget.MaterialComponents.Button"
             app:cornerRadius="@dimen/corner_radius"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/btn_pressed"
             android:fontFamily="sans-serif-black"

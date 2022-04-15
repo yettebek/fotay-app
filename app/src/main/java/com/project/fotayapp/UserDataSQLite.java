@@ -70,7 +70,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
 
     // Getting user data from database
     public HashMap<String, String> getUserDetails() {
-        HashMap<String, String> user = new HashMap<String, String>();
+        HashMap<String, String> user_sqlite = new HashMap<String, String>();
 
         String selectQuery = "SELECT * FROM " + TABLE_USER;
 
@@ -81,15 +81,15 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         // Move to first row
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
-            user.put("usu_nombre", cursor.getString(1));
+            user_sqlite.put("usu_nombre", cursor.getString(1));
         }
         cursor.close();
         db.close();
 
         // return user
-        Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
+        Log.d(TAG, "Fetching user from Sqlite: " + user_sqlite.toString());
 
-        return user;
+        return user_sqlite;
     }
 
     /**

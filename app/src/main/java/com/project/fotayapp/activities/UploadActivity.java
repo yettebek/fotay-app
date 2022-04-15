@@ -33,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.hendraanggrian.appcompat.widget.SocialAutoCompleteTextView;
 import com.project.fotayapp.R;
+import com.project.fotayapp.UserDataSQLite;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,7 +53,6 @@ public class UploadActivity extends AppCompatActivity {
 
     SocialAutoCompleteTextView upload_description;
 
-    String nomUsu;
     String photo_description;
 
     private Uri fotayUri;
@@ -62,6 +62,8 @@ public class UploadActivity extends AppCompatActivity {
 
     //URL del servidor
     private static final String webhostURL = "https://fotay.000webhostapp.com/files/php/uploadData.php";
+
+    private UserDataSQLite db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class UploadActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
+        // Inicializar base de datos SQLite para almacenar datos de usuario
+        db = new UserDataSQLite(getApplicationContext());
 
         /*findViewById(R.id.upload_layout).setOnApplyWindowInsetsListener((v, insets) -> {
             /*int navigationBarHeight = WindowInsetsCompat.toWindowInsetsCompat(insets).getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
@@ -92,9 +96,6 @@ public class UploadActivity extends AppCompatActivity {
 
         //Obtener descripción de la foto
         photo_description = upload_description.getText().toString().trim();
-
-        //Obtener nombre de usuario de la sesión
-        //nomUsu = Objects.requireNonNull(tiet_usu.getText()).toString().trim();
 
         // Declara RequestQueue para gestionar las peticiones al servidor
         requestQueue = Volley.newRequestQueue(this);
@@ -223,6 +224,11 @@ public class UploadActivity extends AppCompatActivity {
     //Subir imagen al servidor remoto
     public void uploadImgToServer() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
+
+        // Hashmap para obtener los datos del usuario desde sqlite
+        HashMap<String, String> user_sqlite = db.getUserDetails();
+        String nomUsu = user_sqlite.get("usu_nombre");
+
         //[Volley API]
         StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
@@ -254,7 +260,7 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<String, String>();
-                //param.put("usu_nombre", nomUsu);
+                param.put("usu_nombre", nomUsu);
                 param.put("foto_coment", photo_description);
                 param.put("foto_ruta", getImagePath(bitmap));
                 return param;

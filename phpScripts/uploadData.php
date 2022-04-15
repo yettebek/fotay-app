@@ -12,14 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $photo_name = "fotay_" . $timestamp . ".jpg";
     $WEBHOST_URL = "https://fotay.000webhostapp.com/files/php/$photo_name";
 
-    #consulta de prueba
-    $select_image_query = "SELECT foto_id FROM fotos ORDER BY foto_id ASC";
-    $result_select = $mysql->query($select_image_query);
-
-    while ($row = $result_select->fetch_array()) {
-        $default_photo_id = $row['foto_id'];
-    }
-
     #insercción de la imágen en la BBDD
     $insert_image_query = "INSERT INTO fotos (usu_nombre, foto_fecha, foto_coment, foto_ruta) VALUES('$usu_nombre',NOW(),'$photo_comment','$WEBHOST_URL')";
 
