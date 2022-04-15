@@ -94,9 +94,6 @@ public class UploadActivity extends AppCompatActivity {
         btn_upload_img = findViewById(R.id.btn_upload_img);
         upload_description = findViewById(R.id.upload_description);
 
-        //Obtener descripción de la foto
-        photo_description = upload_description.getText().toString().trim();
-
         // Declara RequestQueue para gestionar las peticiones al servidor
         requestQueue = Volley.newRequestQueue(this);
 

@@ -1,16 +1,20 @@
 package com.project.fotayapp.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.fotayapp.R;
 import com.project.fotayapp.UserDataSQLite;
@@ -22,7 +26,7 @@ import java.util.HashMap;
 public class profileFragment extends Fragment {
 
     //Declarar variables
-    private ImageView iv_background_profile, iv_options_profile;
+    private ImageView iv_profile_pic, iv_options_profile;
     private FloatingActionButton fab_imagen;
     private TextView tv_photo_count, tv_p_username;
 
@@ -39,7 +43,7 @@ public class profileFragment extends Fragment {
         window.setStatusBarColor(Color.TRANSPARENT);*/
 
         // Cargar los componentes de la vista del Fragment
-        iv_background_profile = view.findViewById(R.id.iv_p_background);
+        iv_profile_pic = view.findViewById(R.id.iv_p_userimage);
         iv_options_profile = view.findViewById(R.id.iv_p_options);
         fab_imagen = view.findViewById(R.id.fab_imagen);
         tv_photo_count = view.findViewById(R.id.tv_photo_counter);
@@ -68,21 +72,44 @@ public class profileFragment extends Fragment {
             startActivity(uploadIntent);
         });
 
+
+        //setOnClickListener para iv_profile_pic
+        iv_profile_pic.setOnClickListener(v -> {
+
+        //Para acceder a la galería de fotos o la cámara
+            ImagePicker.with(this)
+                    .crop(8f,8f)//Para recortar la imagen
+                    .compress(1024) //comprimir la imagen a un tamaño máximo de 1MB
+                    .maxResultSize(600, 600)    //La resolución máxima permitida será 600 x 600 pixeles
+                    .start();
+        });
+
         return view;
     }
 
-    /*Activar menu de opciones en este Fragment*/
+    // Método para recibir la imagen desde la galería o la cámara
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        //Activar Options Menu
-        //setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    /*Instanciar el Options Menu que albergará el item 'Cerrar sesión'
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //inflater.inflate(R.menu.options_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }*/
+        // Comprobar si el resultado es correcto
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ImagePicker.REQUEST_CODE) {
+                // Obtener la imagen de la galería
+                assert data != null;
+                Uri imageUri = data.getData();
+
+                // Cargar la imagen en el ImageView
+                iv_profile_pic.setImageURI(imageUri);
+
+                // Actualizar el contador de fotos
+                //tv_photo_count.setText(String.valueOf(db.getPhotoCount()));
+
+            } else {
+                Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+            }
+        }
+    }
 }
+
