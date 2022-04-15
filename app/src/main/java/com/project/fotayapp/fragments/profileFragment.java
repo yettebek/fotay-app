@@ -82,8 +82,6 @@ public class profileFragment extends Fragment {
         //Activar Options Menu
         //setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-
-
     }
 
     //Instanciar el Options Menu que albergará el item 'Cerrar sesión'

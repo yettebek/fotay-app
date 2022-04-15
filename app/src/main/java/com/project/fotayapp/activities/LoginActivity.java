@@ -169,15 +169,15 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     progressDialog.setCancelable(false);
 
+                    //Anadir los datos del usuario a la base de datos local sqlite
+                    db.addUser(nomUsu);
+
                     //Especificar el tiempo de espera del diálogo
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             //Guarda los datos de sesión
                             saveLoginSharedPreferences();
-
-                            //Anadir los datos del usuario a la base de datos local sqlite
-                            db.addUser(nomUsu);
 
                             //La validación es correcta, se inicia la siguiente pantalla termiando la activity anterior
                             Intent menuIntent = new Intent(LoginActivity.this, MenuActivity.class);

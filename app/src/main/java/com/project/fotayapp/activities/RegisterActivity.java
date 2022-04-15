@@ -219,14 +219,14 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     progressDialog.setCancelable(false);
 
+                    //Anadir los datos del usuario a la base de datos local sqlite
+                    db.addUser(nomUsu);
+
                     //Especificar el tiempo de espera del diálogo
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-
-                            //Anadir los datos del usuario a la base de datos local sqlite
-                            db.addUser(nomUsu);
-
+                            
                             //La validación es correcta se inicia la siguiente pantalla terminando la activity anterior
                             Intent menuIntent = new Intent(RegisterActivity.this, MenuActivity.class);
                             menuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
