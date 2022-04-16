@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     //URL del servidor
-    private static final String webhostURL = "https://fotay.000webhostapp.com/files/php/insertData.php";
+    private static final String webhostURL = "https://fotay.000webhostapp.com/insertData.php";
 
     //Validación de los campos
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(

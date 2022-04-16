@@ -61,8 +61,7 @@ public class UploadActivity extends AppCompatActivity {
     RequestQueue requestQueue;
 
     //URL del servidor
-    private static final String webhostURL = "https://fotay.000webhostapp.com/files/php/uploadData.php";
-
+    private static final String webhostURL = "https://fotay.000webhostapp.com/uploadData.php";
     private UserDataSQLite db;
 
     @Override

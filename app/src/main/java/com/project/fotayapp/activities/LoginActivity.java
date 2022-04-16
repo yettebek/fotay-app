@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     // Instanciar RequestQueue.
     RequestQueue requestQueue;
 
-    private static final String webhostURL = "https://fotay.000webhostapp.com/files/php/selectData.php";
+    private static final String webhostURL = "https://fotay.000webhostapp.com/selectData.php";
 
     private UserDataSQLite db;
 
