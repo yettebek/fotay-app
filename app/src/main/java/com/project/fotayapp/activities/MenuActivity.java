@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.project.fotayapp.R;
-import com.project.fotayapp.fragments.favouriteFragment;
 import com.project.fotayapp.fragments.homeFragment;
 import com.project.fotayapp.fragments.notificationFragment;
 import com.project.fotayapp.fragments.profileFragment;
@@ -43,9 +42,7 @@ public class MenuActivity extends AppCompatActivity {
                     currentFragment = new homeFragment();
                 } else if (id == R.id.nav_notif) {
                     currentFragment = new notificationFragment();
-                } else if (id == R.id.nav_fav) {
-                    currentFragment = new favouriteFragment();
-                } else if (id == R.id.nav_prof) {
+                }  else if (id == R.id.nav_prof) {
                     currentFragment = new profileFragment();
                 }
                 if (currentFragment != null) {

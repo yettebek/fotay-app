@@ -32,7 +32,7 @@ public class PostPhotoAdapter extends RecyclerView.Adapter<PostPhotoAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(adapterContext).inflate(R.layout.layout_grid_photo, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_grid_photo, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,6 +42,14 @@ public class PostPhotoAdapter extends RecyclerView.Adapter<PostPhotoAdapter.View
         PostPhoto postPhoto = postPhotoAdapterList.get(position);
         //Cargar la imagen en el ImageView con Picasso
         Picasso.get().load(postPhoto.getFoto_ruta()).fit().centerInside().into(viewHolder.iv_photo);
+
+        //Añaadir el listener al pulsar la imagen
+        /*viewHolder.iv_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(adapterContext, postPhoto.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
 
     @Override
@@ -58,7 +66,7 @@ public class PostPhotoAdapter extends RecyclerView.Adapter<PostPhotoAdapter.View
             super(itemView);
 
             //Inicializamos la foto en el ViewHolder
-            iv_photo = itemView.findViewById(R.id.iv_card_photo);
+            this.iv_photo = itemView.findViewById(R.id.iv_card_photo);
         }
     }
 }

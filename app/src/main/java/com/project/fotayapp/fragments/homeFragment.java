@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,7 +35,7 @@ public class homeFragment extends Fragment {
     private RecyclerView recyclerView;
     private PostPhotoAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
-    public final String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";
+    private static final int NUM_COLUMNS = 2;
 
 
     @Override
@@ -46,8 +47,10 @@ public class homeFragment extends Fragment {
         adapter = new PostPhotoAdapter(getContext(), photoList);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        //declare a StaggeredGridLayoutManager with 2 columns
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
@@ -70,6 +73,7 @@ public class homeFragment extends Fragment {
 
     private void getUserPosts() {
         //[Volley API]
+        String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";
         JsonArrayRequest JSONRequest = new JsonArrayRequest(Request.Method.GET, webhostURL, null,
                 new Response.Listener<JSONArray>() {
                     @Override

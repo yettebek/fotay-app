@@ -11,13 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -38,7 +37,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class profileFragment extends Fragment {
 
@@ -55,6 +53,7 @@ public class profileFragment extends Fragment {
     private PostPhotoAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
 
+    private static final int NUM_COLUMNS = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,21 +74,25 @@ public class profileFragment extends Fragment {
 
         //Inicializar adaptador
         adapter = new PostPhotoAdapter(getContext(), photoList);
-
+        //Inicializar recyclerView encargado de mostrar las fotos
         recyclerView = view.findViewById(R.id.rv_p_photos);
 
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(getContext());
 
-        // Hashmap para obtener los datos del usuario desde sqlite
+        // Hashmap para obtener el nombre de usuario desde sqlite
         HashMap<String, String> user_sqlite = db.getUserName();
         String profile_username = user_sqlite.get("usu_nombre");
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        //declare a StaggeredGridLayoutManager with 2 columns
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
+
+        /*GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);*/
+
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
@@ -130,18 +133,24 @@ public class profileFragment extends Fragment {
         return view;
     }
 
+    public String webhosturl(){
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre");
+        return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre="+nomUsu;
+    }
+
     //Método para obtener los posts del usuario desde la base de datos
     private void getUserPosts() {
         // Hashmap para obtener los datos del usuario desde sqlite
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String nomUsu = user_sqlite.get("usu_nombre");
+        //HashMap<String, String> user_sqlite = db.getUserName();
+        //String nomUsu = user_sqlite.get("usu_nombre");
 
         //[Volley API]
-        JsonArrayRequest JSONRequest = new JsonArrayRequest( webhostURL,
+        JsonArrayRequest JSONRequest = new JsonArrayRequest(webhosturl(),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        //Toast.makeText(getContext(), "Cantidad de posts: " + response.length(), Toast.LENGTH_LONG).show();
+
                         tv_photo_count.setText(String.valueOf(response.length()));
                         try {
                             for (int i = 0; i < response.length(); i++) {
@@ -172,10 +181,13 @@ public class profileFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Sin imágenes.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+
             }
         }
-        ) {
+        );/* {
             @NonNull
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -183,7 +195,7 @@ public class profileFragment extends Fragment {
                 param.put("usu_nombre", nomUsu);
                 return param;
             }
-        };
+        };*/
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(JSONRequest);
     }

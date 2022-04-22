@@ -7,78 +7,99 @@
     android:fitsSystemWindows="true"
     app:statusBarBackground="@android:color/transparent">
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:id="@+id/rl_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            tools:context=".fragments.profileFragment">
+
+            <ImageView
+                android:id="@+id/iv_p_background"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="top"
+                android:scaleType="centerCrop"
+                android:src="@drawable/p_background_banner" />
+
+            <ImageView
+                android:id="@+id/iv_p_options"
+                android:layout_width="37dp"
+                android:layout_height="38dp"
+                android:layout_gravity="right"
+                android:layout_marginStart="360dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_profile_options" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_p_userimage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/ic_no_profile_picture"
+                app:civ_circle_background_color="@color/default_profile_pic_color" />
+
+            <TextView
+                android:id="@+id/tv_p_username"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="180dp"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:text="Nombre de usuario"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_user_icon" />
+
+            <TextView
+                android:id="@+id/tv_p_photos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="176dp"
+                android:layout_marginTop="249dp"
+                android:text="FOTOS"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tv_photo_counter"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="229dp"
+                android:layout_marginTop="249dp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_p_photos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="300dp"
+                android:background="@color/ic_launcher_background"
+                android:orientation="vertical" />
+
+        </RelativeLayout>
+    </ScrollView>
+
     <RelativeLayout
-        android:id="@+id/rl_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"
-        app:statusBarBackground="@android:color/transparent"
-        tools:context=".fragments.profileFragment">
-
-        <ImageView
-            android:id="@+id/iv_p_background"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_gravity="top"
-            android:scaleType="centerCrop"
-            android:src="@drawable/p_background_banner" />
-
-        <ImageView
-            android:id="@+id/iv_p_options"
-            android:layout_width="37dp"
-            android:layout_height="38dp"
-            android:layout_gravity="right"
-            android:layout_marginStart="360dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/ic_profile_options" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_p_userimage"
-            android:layout_width="106dp"
-            android:layout_height="106dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/ic_no_profile_picture"
-            app:civ_border_width="0dp"
-            app:civ_circle_background_color="@color/btn_pressed" />
-
-        <TextView
-            android:id="@+id/tv_p_username"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="180dp"
-            android:drawablePadding="0dp"
-            android:gravity="center"
-            android:maxLength="20"
-            android:maxLines="1"
-            android:text="Nombre de usuario"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_user_icon" />
-
-        <TextView
-            android:id="@+id/tv_p_photos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="176dp"
-            android:layout_marginTop="249dp"
-            android:text="FOTOS"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="normal" />
-
-        <TextView
-            android:id="@+id/tv_photo_counter"
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="229dp"
-            android:layout_marginTop="249dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        android:layout_gravity="bottom">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_imagen"
@@ -94,17 +115,6 @@
             android:focusable="true"
             android:src="@drawable/ic__camera_fab"
             android:tint="@color/black" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_p_photos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="300dp"
-            android:orientation="vertical"
-            android:background="@color/ic_launcher_background"
-            />
-
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
