@@ -8,10 +8,10 @@
     app:statusBarBackground="@android:color/transparent">
 
     <RelativeLayout
+        android:id="@+id/rl_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"
-        android:background="@color/ic_launcher_background"
         app:statusBarBackground="@android:color/transparent"
         tools:context=".fragments.profileFragment">
 
@@ -39,9 +39,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
             android:src="@drawable/ic_no_profile_picture"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="2dp"
-            app:civ_circle_background_color="@color/black" />
+            app:civ_border_width="0dp"
+            app:civ_circle_background_color="@color/btn_pressed" />
 
         <TextView
             android:id="@+id/tv_p_username"
@@ -95,6 +94,16 @@
             android:focusable="true"
             android:src="@drawable/ic__camera_fab"
             android:tint="@color/black" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_p_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="300dp"
+            android:orientation="vertical"
+            android:background="@color/ic_launcher_background"
+            />
 
     </RelativeLayout>
 

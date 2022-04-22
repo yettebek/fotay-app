@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.project.fotayapp.R;
-import com.project.fotayapp.UserDataSQLite;
+import com.project.fotayapp.models.UserDataSQLite;
 
 
 public class OptionsActivity extends AppCompatActivity {
@@ -43,9 +43,9 @@ public class OptionsActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
             sharedPreferences.edit().clear().apply();
 
-            db.deleteUsers();
-
             startActivity(new Intent(OptionsActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+            db.deleteUsers();
             finish();
         });
     }

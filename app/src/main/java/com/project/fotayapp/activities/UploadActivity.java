@@ -33,7 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.hendraanggrian.appcompat.widget.SocialAutoCompleteTextView;
 import com.project.fotayapp.R;
-import com.project.fotayapp.UserDataSQLite;
+import com.project.fotayapp.models.UserDataSQLite;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -183,6 +183,10 @@ public class UploadActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 Toast.makeText(this, "NO imagen en galería.", Toast.LENGTH_LONG).show();
             }
+            /**
+            *Añadir un progress bar para indicar que se está recibiendo la imagen
+             **/
+
             //Botón de subida de imagen al servidor activado
             publishBtnTrue();
 
@@ -222,7 +226,7 @@ public class UploadActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this);
 
         // Hashmap para obtener los datos del usuario desde sqlite
-        HashMap<String, String> user_sqlite = db.getUserDetails();
+        HashMap<String, String> user_sqlite = db.getUserName();
         String nomUsu = user_sqlite.get("usu_nombre");
 
         //[Volley API]
@@ -264,16 +268,5 @@ public class UploadActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
-
-        /*Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        };
-        Handler handler = new Handler();
-        handler.postDelayed(runnable, 6999);*/
     }
-
-
 }

@@ -29,7 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.project.fotayapp.R;
-import com.project.fotayapp.UserDataSQLite;
+import com.project.fotayapp.models.UserDataSQLite;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -220,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.setCancelable(false);
 
                     //Anadir los datos del usuario a la base de datos local sqlite
-                    db.addUser(nomUsu);
+                    db.addUserTableUsuarios(nomUsu);
 
                     //Especificar el tiempo de espera del diálogo
                     Handler handler = new Handler();

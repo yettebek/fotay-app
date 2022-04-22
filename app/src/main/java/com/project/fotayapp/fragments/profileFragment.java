@@ -11,17 +11,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.fotayapp.R;
-import com.project.fotayapp.UserDataSQLite;
 import com.project.fotayapp.activities.OptionsActivity;
 import com.project.fotayapp.activities.UploadActivity;
+import com.project.fotayapp.adapters.PostPhotoAdapter;
+import com.project.fotayapp.models.PostPhoto;
+import com.project.fotayapp.models.UserDataSQLite;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class profileFragment extends Fragment {
 
@@ -31,6 +48,13 @@ public class profileFragment extends Fragment {
     private TextView tv_photo_count, tv_p_username;
 
     private UserDataSQLite db;
+
+    public final String webhostURL = "https://fotay.000webhostapp.com/fetchDataProfile.php";
+
+    private RecyclerView recyclerView;
+    private PostPhotoAdapter adapter;
+    private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,16 +73,35 @@ public class profileFragment extends Fragment {
         tv_photo_count = view.findViewById(R.id.tv_photo_counter);
         tv_p_username = view.findViewById(R.id.tv_p_username);
 
+        //Inicializar adaptador
+        adapter = new PostPhotoAdapter(getContext(), photoList);
+
+        recyclerView = view.findViewById(R.id.rv_p_photos);
 
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(getContext());
 
         // Hashmap para obtener los datos del usuario desde sqlite
-        HashMap<String, String> user_sqlite = db.getUserDetails();
+        HashMap<String, String> user_sqlite = db.getUserName();
         String profile_username = user_sqlite.get("usu_nombre");
+
+        //Método para obtener los posts del usuario desde la base de datos
+        getUserPosts();
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+
+        //Inicializar la lista de fotos
+        photoList = new ArrayList<>();
 
         // Setear el nombre de usuario en el TextView
         tv_p_username.setText(profile_username);
+
+        //counter fotos
+        //int photo_count = db.getPhotoCount();
+        //tv_photo_count.setText(String.valueOf(photo_count));
 
         // Abriendo la actividad de ajustes
         iv_options_profile.setOnClickListener(v -> {
@@ -76,9 +119,9 @@ public class profileFragment extends Fragment {
         //setOnClickListener para iv_profile_pic
         iv_profile_pic.setOnClickListener(v -> {
 
-        //Para acceder a la galería de fotos o la cámara
+            //Para acceder a la galería de fotos o la cámara
             ImagePicker.with(this)
-                    .crop(8f,8f)//Para recortar la imagen
+                    .crop(8f, 8f)//Para recortar la imagen
                     .compress(1024) //comprimir la imagen a un tamaño máximo de 1MB
                     .maxResultSize(600, 600)    //La resolución máxima permitida será 600 x 600 pixeles
                     .start();
@@ -86,6 +129,65 @@ public class profileFragment extends Fragment {
 
         return view;
     }
+
+    //Método para obtener los posts del usuario desde la base de datos
+    private void getUserPosts() {
+        // Hashmap para obtener los datos del usuario desde sqlite
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre");
+
+        //[Volley API]
+        JsonArrayRequest JSONRequest = new JsonArrayRequest( webhostURL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Toast.makeText(getContext(), "Cantidad de posts: " + response.length(), Toast.LENGTH_LONG).show();
+                        tv_photo_count.setText(String.valueOf(response.length()));
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+
+                                JSONObject jsonObject = (JSONObject) response.get(i);
+
+                                /*String usu_nombre = jsonObject.getString("user");
+                                String foto_fecha = jsonObject.getString("type");
+                                String foto_coment = jsonObject.getString("tags");*/
+                                String foto_ruta = jsonObject.getString("foto_ruta");
+
+                                //Agregar el objeto a la lista de objetos
+                                photoList.add(new PostPhoto(/*usu_nombre, foto_fecha, foto_coment,*/ foto_ruta));
+
+                                //Agregar a sqlite
+                                //db.addUserTableFotos(usu_nombre, foto_fecha, foto_coment, foto_ruta);
+
+                                //RecyclerAdapter
+                                adapter = new PostPhotoAdapter(getContext(), photoList);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        //adapter.notifyDataSetChanged();
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+        ) {
+            @NonNull
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<String, String>();
+                param.put("usu_nombre", nomUsu);
+                return param;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(JSONRequest);
+    }
+
 
     // Método para recibir la imagen desde la galería o la cámara
     @Override
@@ -112,4 +214,5 @@ public class profileFragment extends Fragment {
         }
     }
 }
+
 
