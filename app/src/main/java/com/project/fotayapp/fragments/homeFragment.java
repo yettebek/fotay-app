@@ -71,6 +71,13 @@ public class homeFragment extends Fragment {
         return view;
     }
 
+    /*@Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getUserPosts();
+
+    }*/
+
     private void getUserPosts() {
         //[Volley API]
         String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";

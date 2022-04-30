@@ -2,8 +2,11 @@ package com.project.fotayapp.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,13 +36,21 @@ import com.project.fotayapp.activities.UploadActivity;
 import com.project.fotayapp.adapters.PostPhotoAdapter;
 import com.project.fotayapp.models.PostPhoto;
 import com.project.fotayapp.models.UserDataSQLite;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class profileFragment extends Fragment {
 
@@ -47,16 +61,19 @@ public class profileFragment extends Fragment {
 
     private UserDataSQLite db;
 
-    public final String webhostURL = "https://fotay.000webhostapp.com/fetchDataProfile.php";
-
     private RecyclerView recyclerView;
     private PostPhotoAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
 
     private static final int NUM_COLUMNS = 2;
 
+    private Uri fotayUri;
+    private Bitmap bitmap;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         /*//change the status bar color to transparent
@@ -80,14 +97,16 @@ public class profileFragment extends Fragment {
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(getContext());
 
-        // Hashmap para obtener el nombre de usuario desde sqlite
+        // Hashmap para obtener el nombre de usuario desde sqlite y mostrarlo en la vista del fragment
         HashMap<String, String> user_sqlite = db.getUserName();
-        String profile_username = user_sqlite.get("usu_nombre");
+        String profileusername = user_sqlite.get("usu_nombre");
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
+        //Método para obtener la imagen de perfil del usuario desde la base de datos
+        loadProfileImg();
 
-        //declare a StaggeredGridLayoutManager with 2 columns
+        //declarar un StaggeredGridLayoutManager con 2 columnas
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
 
         /*GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);*/
@@ -100,7 +119,8 @@ public class profileFragment extends Fragment {
         photoList = new ArrayList<>();
 
         // Setear el nombre de usuario en el TextView
-        tv_p_username.setText(profile_username);
+        tv_p_username.setText(profileusername);
+
 
         //counter fotos
         //int photo_count = db.getPhotoCount();
@@ -110,12 +130,14 @@ public class profileFragment extends Fragment {
         iv_options_profile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), OptionsActivity.class);
             startActivity(intent);
+
         });
 
         //Abir UploadActivity para elegir la imagen a subir a la app:
         fab_imagen.setOnClickListener(v -> {
             Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
             startActivity(uploadIntent);
+            getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
         });
 
 
@@ -129,28 +151,63 @@ public class profileFragment extends Fragment {
                     .maxResultSize(600, 600)    //La resolución máxima permitida será 600 x 600 pixeles
                     .start();
         });
-
         return view;
     }
 
-    public String webhosturl(){
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String nomUsu = user_sqlite.get("usu_nombre");
-        return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre="+nomUsu;
+    // Método para recibir la imagen desde la galería o la cámara
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Comprobar si el resultado es correcto
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ImagePicker.REQUEST_CODE) {
+                // Obtener la imagen de la galería
+                assert data != null;
+                fotayUri = data.getData();
+                // Cargar la imagen en el ImageView
+                iv_profile_pic.setImageURI(fotayUri);
+
+                //Guardar imagen a la App de galería del teléfono
+                InputStream imageStream;
+                OutputStream out;
+                try {
+                    imageStream = requireActivity().getContentResolver().openInputStream(fotayUri);
+                    bitmap = BitmapFactory.decodeStream(imageStream);
+                    out = new FileOutputStream(new File(requireContext().getCacheDir(), "user_profile.jpg"));
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.flush();
+                    //out.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //Enviar la imagen a la base de datos
+                updateProfilePicture();
+
+                // Actualizar el contador de fotos
+                //tv_photo_count.setText(String.valueOf(db.getPhotoCount()));
+            } else {
+                Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+            }
+        }
     }
 
-    //Método para obtener los posts del usuario desde la base de datos
-    private void getUserPosts() {
-        // Hashmap para obtener los datos del usuario desde sqlite
-        //HashMap<String, String> user_sqlite = db.getUserName();
-        //String nomUsu = user_sqlite.get("usu_nombre");
+    public String webhosturl() {
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre");
+        return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre=" + nomUsu;
+    }
 
+
+    //Método para obtener los posts del usuario desde la base de datos
+    public void getUserPosts() {
         //[Volley API]
         JsonArrayRequest JSONRequest = new JsonArrayRequest(webhosturl(),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
                         tv_photo_count.setText(String.valueOf(response.length()));
                         try {
                             for (int i = 0; i < response.length(); i++) {
@@ -175,7 +232,6 @@ public class profileFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        //adapter.notifyDataSetChanged();
                     }
 
                 }, new Response.ErrorListener() {
@@ -183,8 +239,6 @@ public class profileFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), "Sin imágenes.", Toast.LENGTH_SHORT).show();
                 //Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-
             }
         }
         );/* {
@@ -196,35 +250,94 @@ public class profileFragment extends Fragment {
                 return param;
             }
         };*/
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(JSONRequest);
     }
 
+    // Método para actualizar la imagen del usuario //NO SUBE LA IMAGEN A LA BASE DE DATOS
+    private void updateProfilePicture() {
+        // Hashmap para obtener los datos del usuario desde sqlite
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String profileusername = user_sqlite.get("usu_nombre");
 
-    // Método para recibir la imagen desde la galería o la cámara
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Comprobar si el resultado es correcto
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ImagePicker.REQUEST_CODE) {
-                // Obtener la imagen de la galería
-                assert data != null;
-                Uri imageUri = data.getData();
-
-                // Cargar la imagen en el ImageView
-                iv_profile_pic.setImageURI(imageUri);
-
-                // Actualizar el contador de fotos
-                //tv_photo_count.setText(String.valueOf(db.getPhotoCount()));
-
-            } else {
-                Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
-                getActivity().finish();
+        String url = "https://fotay.000webhostapp.com/profileUpload.php";
+        //StringRequest para actualizar la imagen del usuario en la base de datos
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getContext(), "Imagen subida correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
-        }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("usu_nombre", profileusername);
+                params.put("foto_perfil", getImagePath(bitmap));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+    }
+
+    public String getImagePath(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    public String webhosturl2() {
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre");
+        return "https://fotay.000webhostapp.com/profileFetch.php?usu_nombre=" + nomUsu;
+    }
+
+    // Método para cargar la imagen de perfil del usuario
+    private void loadProfileImg() {
+        //Petición en formato json para recibir la imagen de perfil del usuario
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(webhosturl2(), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                //Toast.makeText(getContext(), String.valueOf(response), Toast.LENGTH_LONG).show();
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject jsonObject = (JSONObject) response.get(i);
+                        String foto_perfil = jsonObject.getString("foto_perfil");
+
+                        //Si no hay imagen de perfil, se carga la imagen por defecto
+                        if (foto_perfil.equals("null")) {
+                            Toast.makeText(getContext(), "Sin imagen de perfil.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //Cargar la imagen de perfil del usuario en el ImageView
+                            Picasso.get().load(foto_perfil).fit().centerInside().into(iv_profile_pic);
+                            Toast.makeText(getContext(), "Imagen de usuario cargada.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), String.valueOf(error), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), String.valueOf(error), Toast.LENGTH_LONG).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(jsonArrayRequest);
     }
 }
+
 
 

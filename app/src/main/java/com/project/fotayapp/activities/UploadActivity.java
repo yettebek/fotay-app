@@ -33,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.hendraanggrian.appcompat.widget.SocialAutoCompleteTextView;
 import com.project.fotayapp.R;
+import com.project.fotayapp.fragments.profileFragment;
 import com.project.fotayapp.models.UserDataSQLite;
 
 import java.io.ByteArrayOutputStream;
@@ -63,6 +64,7 @@ public class UploadActivity extends AppCompatActivity {
     //URL del servidor
     private static final String webhostURL = "https://fotay.000webhostapp.com/uploadData.php";
     private UserDataSQLite db;
+    public profileFragment pf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,8 @@ public class UploadActivity extends AppCompatActivity {
 
         // Inicializar base de datos SQLite para almacenar datos de usuario
         db = new UserDataSQLite(getApplicationContext());
+
+        pf = new profileFragment();
 
         /*findViewById(R.id.upload_layout).setOnApplyWindowInsetsListener((v, insets) -> {
             /*int navigationBarHeight = WindowInsetsCompat.toWindowInsetsCompat(insets).getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
@@ -128,22 +132,7 @@ public class UploadActivity extends AppCompatActivity {
         });
     }
 
-    //Activa el botón 'Publicar Imagen'
-    private void publishBtnTrue() {
-        Toast.makeText(this, "Imagen selecionada.", Toast.LENGTH_LONG).show();
-        btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_upload_img));
-        btn_upload_img.setEnabled(true);
-        btn_upload_img.setText(R.string.publicar_imagen);
-    }
-
-    //Desactiva el botón 'Publicar Imagen'
-    private void publishBtnFalse() {
-        btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_no_upload_img));
-        btn_upload_img.setText(R.string.sin_imagen);
-        btn_upload_img.setEnabled(false);
-    }
-
-    //Recoger la imagen proveniente de la cámara o de la galería.
+    //Recoger la imagen proveniente del ImagePicker y mostrarla en el ImageView
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -184,7 +173,7 @@ public class UploadActivity extends AppCompatActivity {
                 Toast.makeText(this, "NO imagen en galería.", Toast.LENGTH_LONG).show();
             }
             /**
-            *Añadir un progress bar para indicar que se está recibiendo la imagen
+             *Añadir un progress bar para indicar que se está recibiendo la imagen
              **/
 
             //Botón de subida de imagen al servidor activado
@@ -199,6 +188,22 @@ public class UploadActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    //Activa el botón 'Publicar Imagen'
+    private void publishBtnTrue() {
+        Toast.makeText(this, "Imagen selecionada.", Toast.LENGTH_LONG).show();
+        btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_upload_img));
+        btn_upload_img.setEnabled(true);
+        btn_upload_img.setText(R.string.publicar_imagen);
+    }
+
+    //Desactiva el botón 'Publicar Imagen'
+    private void publishBtnFalse() {
+        btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_no_upload_img));
+        btn_upload_img.setText(R.string.sin_imagen);
+        btn_upload_img.setEnabled(false);
+    }
+
 
     //Recibe la información de la imagen en bytes y la devuelve en una String
     public String getImagePath(Bitmap bitmap) {
@@ -238,17 +243,19 @@ public class UploadActivity extends AppCompatActivity {
                 progressDialog.setMessage("Subiendo imagen...");
                 progressDialog.show();
                 new Handler().postDelayed(new Runnable() {
-                                              @Override
-                                              public void run() {
-                                                  progressDialog.dismiss();
-                                                  //Cerrar actividad
-                                                  finish();
-                                              }
-                                          }
-                        , 6000);
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
 
+                        //Actualiza las fotos del usuario
+                        pf.webhosturl();
+                        pf.getUserPosts();
+
+                        //Cerrar actividad
+                        finish();
+                    }
+                }, 6000);
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
