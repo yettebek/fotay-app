@@ -1,10 +1,14 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once("db.php");
-    
+    session_start();
+
     //real_escape_string: para prevenir la inyección por SQL
     $usu_nombre = mysqli_real_escape_string($mysql, $_POST['usu_nombre']);
     $usu_contrasena = mysqli_real_escape_string($mysql, $_POST['usu_contrasena']);
+
+    //crear una sessión para el usuario
+    $_SESSION['usu_nombre'] = $usu_nombre;
 
     $check_duplicate_username = "SELECT usu_nombre FROM usuarios WHERE usu_nombre = '$usu_nombre' ";
 

@@ -7,11 +7,11 @@
     android:fitsSystemWindows="true"
     app:statusBarBackground="@android:color/transparent">
 
-    <ScrollView
-        android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
         android:layout_gravity="fill_vertical"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -86,15 +86,14 @@
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_p_photos"
+                android:id="@+id/profileRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="300dp"
                 android:background="@color/ic_launcher_background"
                 android:orientation="vertical" />
-
         </RelativeLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -118,6 +117,3 @@
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-

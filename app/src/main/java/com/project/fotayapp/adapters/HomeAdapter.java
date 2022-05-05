@@ -1,0 +1,104 @@
+package com.project.fotayapp.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.hendraanggrian.appcompat.widget.SocialTextView;
+import com.project.fotayapp.R;
+import com.project.fotayapp.models.PostPhoto;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+
+    //Variables
+    private final Context hContext;
+    private ArrayList<PostPhoto> hAdapterList = new ArrayList<PostPhoto>();
+
+    //Constructor
+    public HomeAdapter(Context homeContext, ArrayList<PostPhoto> homePhotosAdapterList) {
+        this.hContext = homeContext;
+        this.hAdapterList = homePhotosAdapterList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(hContext).inflate(R.layout.layout_home_photo, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        //Obtenemos la posición de cada objeto en la lista
+        PostPhoto postPhoto = hAdapterList.get(position);
+        //Si no hay imagen de perfil, se carga la imagen por defecto
+        if (postPhoto.getFoto_perfil().equalsIgnoreCase("null")) {
+            //Imagen de perfil por defecto
+            //holder.iv_profile_pic.setImageResource(R.drawable.ic_no_profile_picture);
+            Picasso.get().load(postPhoto.getFoto_perfil()).placeholder(R.drawable.ic_no_profile_picture).into(holder.iv_profile_pic);
+        } else {
+            Picasso.get().load(postPhoto.getFoto_perfil()).fit().centerInside().into(holder.iv_profile_pic);
+        }
+        //Cargar el nombre de usuario
+        String userName = postPhoto.getUsu_nombre();
+        //Cargar la feche de publicación
+        String date = postPhoto.getFoto_fecha();
+        //Cargar la imagen en el ImageView con Picasso
+        Picasso.get().load(postPhoto.getFoto_ruta()).fit().centerInside().into(holder.iv_post_photo);
+        //Cargar la descripción
+        String description = postPhoto.getFoto_coment();
+
+        holder.tv_username.setText(userName);
+        holder.tv_post_date.setText(date);
+        holder.tv_post_description.setText(description);
+
+        //OnClickListener en iv_like cambiar el icono de like a like_fill
+        holder.iv_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Cambiar el icono de like a like_fill
+                holder.iv_like.setImageResource(R.drawable.ic_like_fill);
+
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return hAdapterList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        //Variables
+        public ImageView iv_profile_pic, iv_post_photo, iv_like, iv_comment, iv_more;
+        public TextView tv_username, tv_post_date, tv_post_likes, tv_post_comments;
+        public SocialTextView tv_post_description;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            //Inicializar las variables
+            this.iv_profile_pic = itemView.findViewById(R.id.home_profile_image);
+            this.iv_post_photo = itemView.findViewById(R.id.home_photo);
+            this.iv_more = itemView.findViewById(R.id.iv_more);
+            this.iv_like = itemView.findViewById(R.id.iv_like);
+            this.iv_comment = itemView.findViewById(R.id.iv_comment);
+            this.tv_username = itemView.findViewById(R.id.home_username);
+            this.tv_post_date = itemView.findViewById(R.id.home_date);
+            this.tv_post_likes = itemView.findViewById(R.id.tv_likes);
+            this.tv_post_comments = itemView.findViewById(R.id.tv_comments);
+            this.tv_post_description = itemView.findViewById(R.id.description);
+        }
+    }
+}

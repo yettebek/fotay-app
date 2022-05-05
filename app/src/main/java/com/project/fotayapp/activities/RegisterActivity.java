@@ -58,7 +58,6 @@ public class RegisterActivity extends AppCompatActivity {
     String nomUsu;
     String pswd;
     String pswd2;
-
     ProgressDialog progressDialog;
 
     //URL del servidor
@@ -250,6 +249,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Map<String, String> param = new HashMap<String, String>();
                 param.put("usu_nombre", nomUsu);
                 param.put("usu_contrasena", pswd);
+                //param.put("foto_perfil", foto_perfil);
                 return param;
             }
         };

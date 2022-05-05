@@ -14,6 +14,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_nom_usu"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:imeOptions="actionDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -70,6 +71,7 @@
             android:id="@+id/tiet_contr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLength="32"
             android:textColor="#ffffff"

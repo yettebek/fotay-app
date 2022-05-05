@@ -1,6 +1,5 @@
 package com.project.fotayapp.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class profileFragment extends Fragment {
@@ -65,7 +65,7 @@ public class profileFragment extends Fragment {
     private PostPhotoAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
 
-    private static final int NUM_COLUMNS = 2;
+    private static final int NUM_COLUMNS = 3;
 
     private Uri fotayUri;
     private Bitmap bitmap;
@@ -92,7 +92,7 @@ public class profileFragment extends Fragment {
         //Inicializar adaptador
         adapter = new PostPhotoAdapter(getContext(), photoList);
         //Inicializar recyclerView encargado de mostrar las fotos
-        recyclerView = view.findViewById(R.id.rv_p_photos);
+        recyclerView = view.findViewById(R.id.profileRecyclerView);
 
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(getContext());
@@ -121,7 +121,6 @@ public class profileFragment extends Fragment {
         // Setear el nombre de usuario en el TextView
         tv_p_username.setText(profileusername);
 
-
         //counter fotos
         //int photo_count = db.getPhotoCount();
         //tv_photo_count.setText(String.valueOf(photo_count));
@@ -135,9 +134,15 @@ public class profileFragment extends Fragment {
 
         //Abir UploadActivity para elegir la imagen a subir a la app:
         fab_imagen.setOnClickListener(v -> {
-            Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
+            /*Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
             startActivity(uploadIntent);
-            getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();*/
+            //Para acceder a la galería de fotos o la cámara
+            ImagePicker.with(this)
+                    .crop()//Para recortar la imagen
+                    .compress(1024) //comprimir la imagen a un tamaño de 2MB
+                    .maxResultSize(1080, 1920)    //La resolución máxima permitida
+                    .start(2);
         });
 
 
@@ -149,7 +154,7 @@ public class profileFragment extends Fragment {
                     .crop(8f, 8f)//Para recortar la imagen
                     .compress(1024) //comprimir la imagen a un tamaño máximo de 1MB
                     .maxResultSize(600, 600)    //La resolución máxima permitida será 600 x 600 pixeles
-                    .start();
+                    .start(1); //1 para la imagen de perfil, 2 para la imagen de post
         });
         return view;
     }
@@ -160,37 +165,48 @@ public class profileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Comprobar si el resultado es correcto
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ImagePicker.REQUEST_CODE) {
-                // Obtener la imagen de la galería
-                assert data != null;
-                fotayUri = data.getData();
-                // Cargar la imagen en el ImageView
-                iv_profile_pic.setImageURI(fotayUri);
+        if (requestCode == 1 && resultCode != getActivity().RESULT_CANCELED) {
+            Toast.makeText(getContext(), "requestCode 1", Toast.LENGTH_SHORT).show();
+            assert data != null;
+            // Obtener la imagen de la galería
+            fotayUri = data.getData();
+            // Cargar la imagen en el ImageView
+            iv_profile_pic.setImageURI(fotayUri);
 
-                //Guardar imagen a la App de galería del teléfono
-                InputStream imageStream;
-                OutputStream out;
-                try {
-                    imageStream = requireActivity().getContentResolver().openInputStream(fotayUri);
-                    bitmap = BitmapFactory.decodeStream(imageStream);
-                    out = new FileOutputStream(new File(requireContext().getCacheDir(), "user_profile.jpg"));
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    out.flush();
-                    //out.close();
+            //Guardar imagen a la App de galería del teléfono
+            InputStream imageStream;
+            OutputStream out;
+            try {
+                imageStream = requireActivity().getContentResolver().openInputStream(fotayUri);
+                bitmap = BitmapFactory.decodeStream(imageStream);
+                out = new FileOutputStream(new File(requireContext().getCacheDir(), "user_profile.jpg"));
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.flush();
+                //out.close();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //Enviar la imagen a la base de datos
-                updateProfilePicture();
-
-                // Actualizar el contador de fotos
-                //tv_photo_count.setText(String.valueOf(db.getPhotoCount()));
-            } else {
-                Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
-                getActivity().finish();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            //Enviar la imagen a la base de datos
+            updateProfilePicture();
+
+            // Actualizar el contador de fotos
+            //tv_photo_count.setText(String.valueOf(db.getPhotoCount()));
+        }  if (requestCode == 2 && resultCode != getActivity().RESULT_CANCELED) {
+            Toast.makeText(getContext(), "Cargando Imagen...".toUpperCase(Locale.ROOT), Toast.LENGTH_LONG).show();
+
+            //Uri de la foto
+            fotayUri = data.getData();
+
+            //pass the image uri to the upload activity
+            Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
+            uploadIntent.putExtra("fotayUri", fotayUri.toString());
+            startActivity(uploadIntent);
+
+            getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+        } else {
+            Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -199,7 +215,6 @@ public class profileFragment extends Fragment {
         String nomUsu = user_sqlite.get("usu_nombre");
         return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre=" + nomUsu;
     }
-
 
     //Método para obtener los posts del usuario desde la base de datos
     public void getUserPosts() {
@@ -214,14 +229,13 @@ public class profileFragment extends Fragment {
 
                                 JSONObject jsonObject = (JSONObject) response.get(i);
 
-                                /*String usu_nombre = jsonObject.getString("user");
-                                String foto_fecha = jsonObject.getString("type");
-                                String foto_coment = jsonObject.getString("tags");*/
+                                String usu_nombre = jsonObject.getString("usu_nombre");
+                                String foto_fecha = jsonObject.getString("foto_fecha");
+                                String foto_coment = jsonObject.getString("foto_coment");
                                 String foto_ruta = jsonObject.getString("foto_ruta");
 
                                 //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(/*usu_nombre, foto_fecha, foto_coment,*/ foto_ruta));
-
+                                photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, ""));
                                 //Agregar a sqlite
                                 //db.addUserTableFotos(usu_nombre, foto_fecha, foto_coment, foto_ruta);
 
@@ -233,7 +247,6 @@ public class profileFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -241,15 +254,7 @@ public class profileFragment extends Fragment {
                 //Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }
-        );/* {
-            @NonNull
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("usu_nombre", nomUsu);
-                return param;
-            }
-        };*/
+        );
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(JSONRequest);
     }
@@ -311,26 +316,26 @@ public class profileFragment extends Fragment {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = (JSONObject) response.get(i);
                         String foto_perfil = jsonObject.getString("foto_perfil");
+                        //Toast.makeText(getContext(), String.valueOf(response), Toast.LENGTH_LONG).show();
 
                         //Si no hay imagen de perfil, se carga la imagen por defecto
-                        if (foto_perfil.equals("null")) {
-                            Toast.makeText(getContext(), "Sin imagen de perfil.", Toast.LENGTH_SHORT).show();
+                        if (foto_perfil.equalsIgnoreCase("") || foto_perfil.equalsIgnoreCase("null")) {
+                            //iv_profile_pic.setImageResource(R.drawable.ic_no_profile_picture);
+                            Picasso.get().load(foto_perfil).placeholder(R.drawable.ic_no_profile_picture).into(iv_profile_pic);
+                            //Toast.makeText(getContext(), "Sin imagen de perfil.", Toast.LENGTH_SHORT).show();
                         } else {
                             //Cargar la imagen de perfil del usuario en el ImageView
                             Picasso.get().load(foto_perfil).fit().centerInside().into(iv_profile_pic);
-                            Toast.makeText(getContext(), "Imagen de usuario cargada.", Toast.LENGTH_SHORT).show();
-
+                            //Toast.makeText(getContext(), "Imagen de usuario cargada.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), String.valueOf(error), Toast.LENGTH_LONG).show();
                 Toast.makeText(getContext(), String.valueOf(error), Toast.LENGTH_LONG).show();
             }
         });

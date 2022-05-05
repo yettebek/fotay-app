@@ -1,19 +1,21 @@
 package com.project.fotayapp.models;
 
 public class PostPhoto {
-    /*private String usu_nombre;
+    private String usu_nombre;
     private String foto_fecha;
-    private String foto_coment;*/
+    private String foto_coment;
     private String foto_ruta;
+    private String foto_perfil;
 
-    public PostPhoto(/*String usu_nombre, String foto_fecha, String foto_coment,*/ String foto_ruta) {
-        /*this.usu_nombre = usu_nombre;
+    public PostPhoto(String usu_nombre, String foto_fecha, String foto_coment, String foto_ruta, String foto_perfil) {
+        this.usu_nombre = usu_nombre;
         this.foto_fecha = foto_fecha;
-        this.foto_coment = foto_coment;*/
+        this.foto_coment = foto_coment;
         this.foto_ruta = foto_ruta;
+        this.foto_perfil = foto_perfil;
     }
 
-    /*public String getUsu_nombre() {
+    public String getUsu_nombre() {
         return usu_nombre;
     }
 
@@ -35,7 +37,7 @@ public class PostPhoto {
 
     public void setFoto_coment(String foto_coment) {
         this.foto_coment = foto_coment;
-    }*/
+    }
 
     public String getFoto_ruta() {
         return foto_ruta;
@@ -43,5 +45,13 @@ public class PostPhoto {
 
     public void setFoto_ruta(String foto_ruta) {
         this.foto_ruta = foto_ruta;
+    }
+
+    public String getFoto_perfil() {
+        return foto_perfil;
+    }
+
+    public void setFoto_perfil(String foto_perfil) {
+        this.foto_perfil = foto_perfil;
     }
 }

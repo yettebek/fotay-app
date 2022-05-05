@@ -4,21 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
-import com.project.fotayapp.adapters.PostPhotoAdapter;
+import com.project.fotayapp.adapters.HomeAdapter;
 import com.project.fotayapp.models.PostPhoto;
 
 import org.json.JSONArray;
@@ -32,10 +35,13 @@ import java.util.ArrayList;
 public class homeFragment extends Fragment {
 
     //Declarar variables
+    private ImageView iv_profile_pic, iv_post_photo;
+    private TextView tv_username, tv_post_date, tv_post_likes, tv_post_comments;
+    private SocialTextView tv_post_description;
+
     private RecyclerView recyclerView;
-    private PostPhotoAdapter adapter;
+    private HomeAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
-    private static final int NUM_COLUMNS = 2;
 
 
     @Override
@@ -43,15 +49,19 @@ public class homeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //Inicializar adaptador
-        adapter = new PostPhotoAdapter(getContext(), photoList);
+        iv_profile_pic = view.findViewById(R.id.home_profile_image);
+        iv_post_photo = view.findViewById(R.id.home_photo);
+        tv_username = view.findViewById(R.id.home_username);
+        tv_post_date = view.findViewById(R.id.home_date);
+        tv_post_description = view.findViewById(R.id.description);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        //declare a StaggeredGridLayoutManager with 2 columns
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        //Inicializar adaptador
+        adapter = new HomeAdapter(getContext(), photoList);
+
+        //Inicializar recyclerView
+        recyclerView = view.findViewById(R.id.homeRecyclerView);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         //Inicializar la lista de fotos
@@ -60,63 +70,49 @@ public class homeFragment extends Fragment {
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
 
-        /*fab_pic = view.findViewById(R.id.fab_pic);
 
-        fab_pic.setOnClickListener(v -> {
-
-            //Abir UploadActivity para elegir la imagen a subir a la app:
-            Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
-            startActivity(uploadIntent);
-        });*/
         return view;
     }
-
-    /*@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getUserPosts();
-
-    }*/
 
     private void getUserPosts() {
         //[Volley API]
         String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";
-        JsonArrayRequest JSONRequest = new JsonArrayRequest(Request.Method.GET, webhostURL, null,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         //Toast.makeText(getContext(), "Cantidad de posts: " + response.length(), Toast.LENGTH_LONG).show();
-                        StringBuilder jsonResponse = new StringBuilder(" ");
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = (JSONObject) response.get(i);
-                                /*String usu_nombre = jsonObject.getString("user");
-                                String foto_fecha = jsonObject.getString("type");
-                                String foto_coment = jsonObject.getString("tags");*/
-                                String foto_ruta = jsonObject.getString("foto_ruta");
+                            JSONArray jsonArray = response.getJSONArray("posts");
 
-                                //Toast.makeText(getContext(), "Fotos: " + foto_ruta, Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject post = jsonArray.getJSONObject(i);
+                                //recuperar los datos de la tabla fotos
+                                String usu_nombre = post.getString("usu_nombre");
+                                String foto_fecha = post.getString("foto_fecha");
+                                String foto_coment = post.getString("foto_coment");
+                                String foto_ruta = post.getString("foto_ruta");
 
-                                jsonResponse.append("Foto nº").append(i + 1).append(": ").append(foto_ruta).append("\n\n");
-                                //textView.setText(jsonResponse);
+                                //recuperar imagen de perfil de la tabla usuarios
+                                String foto_perfil = post.getString("foto_perfil");
 
                                 //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(/*usu_nombre, foto_fecha, foto_coment,*/ foto_ruta));
+                                photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
 
                                 //Agregar a sqlite
                                 //db.addUserTableFotos(usu_nombre, foto_fecha, foto_coment, foto_ruta);
-
-                                //RecyclerAdapter
-                                adapter = new PostPhotoAdapter(getContext(), photoList);
-                                recyclerView.setAdapter(adapter);
                             }
+
+                            //RecyclerAdapter
+                            adapter = new HomeAdapter(getContext(), photoList);
+                            recyclerView.setAdapter(adapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getContext(),
                                     "Error: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
-                        //adapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -133,7 +129,13 @@ public class homeFragment extends Fragment {
                 return param;
             }
         };*/
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        //Timeout de la petición
+        JSONRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(JSONRequest);
     }
 }

@@ -3,11 +3,9 @@ package com.project.fotayapp.activities;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,20 +15,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.hendraanggrian.appcompat.widget.SocialAutoCompleteTextView;
 import com.project.fotayapp.R;
 import com.project.fotayapp.fragments.profileFragment;
@@ -60,9 +58,11 @@ public class UploadActivity extends AppCompatActivity {
     private Bitmap bitmap;
 
     RequestQueue requestQueue;
+    ProgressBar progressBar;
 
     //URL del servidor
     private static final String webhostURL = "https://fotay.000webhostapp.com/uploadData.php";
+
     private UserDataSQLite db;
     public profileFragment pf;
 
@@ -81,35 +81,18 @@ public class UploadActivity extends AppCompatActivity {
 
         pf = new profileFragment();
 
-        /*findViewById(R.id.upload_layout).setOnApplyWindowInsetsListener((v, insets) -> {
-            /*int navigationBarHeight = WindowInsetsCompat.toWindowInsetsCompat(insets).getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
-            int statusBarHeight = WindowInsetsCompat.toWindowInsetsCompat(insets).getInsets(WindowInsetsCompat.Type.statusBars()).top;*/
-
-            /*ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            params.bottomMargin = insets.getSystemWindowInsetBottom();
-            //params.topMargin = insets.getSystemWindowInsetTop();
-            return insets.consumeSystemWindowInsets();
-        });*/
-
         //Inicializar variables en la View
         upload_back = findViewById(R.id.upload_back);
         upload_img = findViewById(R.id.upload_img);
         btn_upload_img = findViewById(R.id.btn_upload_img);
         upload_description = findViewById(R.id.upload_description);
+        progressBar = findViewById(R.id.progress_circular);
 
         // Declara RequestQueue para gestionar las peticiones al servidor
         requestQueue = Volley.newRequestQueue(this);
 
-        //Desactivar botón de subida de imagen al servidor
+        //Desactivar botón de subida de imagen al servidor si no hay imagen seleccionada
         publishBtnFalse();
-
-
-        //Para acceder a la galería de fotos o la cámara
-        ImagePicker.with(this)
-                .crop()//Para recortar la imagen
-                .compress(1024) //comprimir la imagen a un tamaño de 2MB
-                .maxResultSize(3030, 3030)    //La resolución máxima permitida será 3030 x 3030 pixeles
-                .start();
 
         //Salir de UploadActivity
         upload_back.setOnClickListener(new View.OnClickListener() {
@@ -130,19 +113,16 @@ public class UploadActivity extends AppCompatActivity {
                 uploadImgToServer();
             }
         });
+        //Método que recoge la imagen proveniente del fragment a través del ImagePicker y mostrarla en el ImageView
+        getImageFromFragment();
     }
 
     //Recoger la imagen proveniente del ImagePicker y mostrarla en el ImageView
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //Si no elige ninguna de las opciones se cerrará la actividad
-        if (resultCode == UploadActivity.RESULT_OK) {
-            //Uri de la foto
-            fotayUri = data.getData();
-            //Añadir imagen al ImageView
+    private void getImageFromFragment() {
+        //Recoger la imagen del intent creado en el fragmento
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            fotayUri = Uri.parse(bundle.getString("fotayUri"));
             upload_img.setImageURI(fotayUri);
 
             //Guardar imagen a la App de galería del teléfono
@@ -172,26 +152,17 @@ public class UploadActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 Toast.makeText(this, "NO imagen en galería.", Toast.LENGTH_LONG).show();
             }
-            /**
-             *Añadir un progress bar para indicar que se está recibiendo la imagen
-             **/
-
             //Botón de subida de imagen al servidor activado
             publishBtnTrue();
-
-            /*Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            mediaScanIntent.setData(fotayUri);
-            this.sendBroadcast(mediaScanIntent);*/
-
         } else {
-            Toast.makeText(this, "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "NO imagen en galería.", Toast.LENGTH_LONG).show();
             finish();
         }
     }
 
     //Activa el botón 'Publicar Imagen'
     private void publishBtnTrue() {
-        Toast.makeText(this, "Imagen selecionada.", Toast.LENGTH_LONG).show();
+        progressBar.setVisibility(View.GONE);
         btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_upload_img));
         btn_upload_img.setEnabled(true);
         btn_upload_img.setText(R.string.publicar_imagen);
@@ -199,11 +170,12 @@ public class UploadActivity extends AppCompatActivity {
 
     //Desactiva el botón 'Publicar Imagen'
     private void publishBtnFalse() {
+        //ProgressBar de espera de carga de imagen
+        progressBar.setVisibility(View.VISIBLE);
         btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_no_upload_img));
         btn_upload_img.setText(R.string.sin_imagen);
         btn_upload_img.setEnabled(false);
     }
-
 
     //Recibe la información de la imagen en bytes y la devuelve en una String
     public String getImagePath(Bitmap bitmap) {
@@ -213,18 +185,6 @@ public class UploadActivity extends AppCompatActivity {
 
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
-    /*public String getImagePath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA}; //EXTERNAL_CONTENT_URI
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor == null) {
-            return null;
-        }
-        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String s = cursor.getString(columnIndex);
-        cursor.close();
-        return s;
-    }*/
 
     //Subir imagen al servidor remoto
     public void uploadImgToServer() {
@@ -273,7 +233,12 @@ public class UploadActivity extends AppCompatActivity {
                 return param;
             }
         };
-
+        //Timeout de la petición
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Añadir petición a la cola
         requestQueue.add(stringRequest);
     }
 }

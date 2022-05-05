@@ -168,6 +168,8 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.setContentView(R.layout.progress_dialog);
                     progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                     progressDialog.setCancelable(false);
+                    progressDialog.setCanceledOnTouchOutside(false);
+
 
                     //Anadir los datos del usuario a la base de datos local sqlite
                     db.addUserTableUsuarios(nomUsu);
