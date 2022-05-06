@@ -83,7 +83,7 @@ public class MenuActivity extends AppCompatActivity {
         });
         setupViewPager(viewPager2);
     }
-
+    //Llenar el ViewPager2 con los fragments
     private void setupViewPager(ViewPager2 viewPager2) {
         //Crear el adapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
@@ -96,6 +96,10 @@ public class MenuActivity extends AppCompatActivity {
         adapter.addFragment(homeFragment);
         adapter.addFragment(notificationFragment);
         adapter.addFragment(profileFragment);
+
+          //Desactivar el swipe
+        viewPager2.setUserInputEnabled(false);
+
 
         //Asignar el adapter al viewPager2
         viewPager2.setAdapter(adapter);

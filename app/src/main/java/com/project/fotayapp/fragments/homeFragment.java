@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -19,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
 import com.project.fotayapp.adapters.HomeAdapter;
@@ -29,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 @SuppressWarnings("CommentedOutCode")
@@ -38,7 +42,9 @@ public class homeFragment extends Fragment {
     private ImageView iv_profile_pic, iv_post_photo;
     private TextView tv_username, tv_post_date, tv_post_likes, tv_post_comments;
     private SocialTextView tv_post_description;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private FloatingActionButton fab_up;
+    private NestedScrollView nestedScrollView;
     private RecyclerView recyclerView;
     private HomeAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
@@ -54,6 +60,9 @@ public class homeFragment extends Fragment {
         tv_username = view.findViewById(R.id.home_username);
         tv_post_date = view.findViewById(R.id.home_date);
         tv_post_description = view.findViewById(R.id.description);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        fab_up = view.findViewById(R.id.fab_up);
+        nestedScrollView = view.findViewById(R.id.home_nested_scroll_view);
 
         //Inicializar adaptador
         adapter = new HomeAdapter(getContext(), photoList);
@@ -70,11 +79,33 @@ public class homeFragment extends Fragment {
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
 
+        //Actualizar la lista de fotos al actualizar la vista
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getUserPosts();
+
+                adapter.notifyDataSetChanged();
+                adapter.notifyItemChanged(4);
+                adapter.notifyItemInserted(4);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        //Boton flotante para desplazarse hacia la parte superior de la pantalla
+        fab_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nestedScrollView.fullScroll(View.FOCUS_UP);
+                //recyclerView.smoothScrollToPosition(0);
+            }
+        });
 
         return view;
     }
 
-    private void getUserPosts() {
+    public void getUserPosts() {
+        Toast.makeText(getContext(), "loading posts...".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
         //[Volley API]
         String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";
         JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null,
@@ -106,6 +137,7 @@ public class homeFragment extends Fragment {
                             //RecyclerAdapter
                             adapter = new HomeAdapter(getContext(), photoList);
                             recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -131,7 +163,7 @@ public class homeFragment extends Fragment {
         };*/
         //Timeout de la petición
         JSONRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
+                8000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

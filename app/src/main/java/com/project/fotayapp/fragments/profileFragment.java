@@ -182,7 +182,7 @@ public class profileFragment extends Fragment {
                 out = new FileOutputStream(new File(requireContext().getCacheDir(), "user_profile.jpg"));
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 out.flush();
-                //out.close();
+                out.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -190,22 +190,20 @@ public class profileFragment extends Fragment {
             //Enviar la imagen a la base de datos
             updateProfilePicture();
 
-            // Actualizar el contador de fotos
-            //tv_photo_count.setText(String.valueOf(db.getPhotoCount()));
         }  if (requestCode == 2 && resultCode != getActivity().RESULT_CANCELED) {
             Toast.makeText(getContext(), "Cargando Imagen...".toUpperCase(Locale.ROOT), Toast.LENGTH_LONG).show();
 
             //Uri de la foto
             fotayUri = data.getData();
 
-            //pass the image uri to the upload activity
+            //Enviar la imagen a la otra actividad por medio de un intent
             Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
             uploadIntent.putExtra("fotayUri", fotayUri.toString());
             startActivity(uploadIntent);
 
             getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
-        } else {
+        } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
         }
     }
