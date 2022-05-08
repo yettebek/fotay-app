@@ -8,16 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -26,13 +28,14 @@ import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
 import com.project.fotayapp.adapters.HomeAdapter;
 import com.project.fotayapp.models.PostPhoto;
+import com.project.fotayapp.models.UserDataSQLite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.HashMap;
 
 
 @SuppressWarnings("CommentedOutCode")
@@ -44,11 +47,10 @@ public class homeFragment extends Fragment {
     private SocialTextView tv_post_description;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FloatingActionButton fab_up;
-    private NestedScrollView nestedScrollView;
     private RecyclerView recyclerView;
     private HomeAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
-
+    public UserDataSQLite db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +64,6 @@ public class homeFragment extends Fragment {
         tv_post_description = view.findViewById(R.id.description);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         fab_up = view.findViewById(R.id.fab_up);
-        nestedScrollView = view.findViewById(R.id.home_nested_scroll_view);
 
         //Inicializar adaptador
         adapter = new HomeAdapter(getContext(), photoList);
@@ -71,10 +72,14 @@ public class homeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.homeRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
         //Inicializar la lista de fotos
         photoList = new ArrayList<>();
+
+        // Inicializar base de datos sqlite
+        db = new UserDataSQLite(getContext());
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
@@ -83,12 +88,15 @@ public class homeFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                //Actualizar la lista de posts
+                photoList.clear();
                 getUserPosts();
-
+                swipeRefreshLayout.setRefreshing(false);
+                /*getUserPosts();
                 adapter.notifyDataSetChanged();
                 adapter.notifyItemChanged(4);
                 adapter.notifyItemInserted(4);
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);*/
             }
         });
 
@@ -96,8 +104,8 @@ public class homeFragment extends Fragment {
         fab_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nestedScrollView.fullScroll(View.FOCUS_UP);
-                //recyclerView.smoothScrollToPosition(0);
+                recyclerView.fling(0, 1000);
+                recyclerView.scrollToPosition(0);
             }
         });
 
@@ -105,14 +113,12 @@ public class homeFragment extends Fragment {
     }
 
     public void getUserPosts() {
-        Toast.makeText(getContext(), "loading posts...".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
         //[Volley API]
         String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";
         JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //Toast.makeText(getContext(), "Cantidad de posts: " + response.length(), Toast.LENGTH_LONG).show();
                         try {
                             JSONArray jsonArray = response.getJSONArray("posts");
 
@@ -127,17 +133,17 @@ public class homeFragment extends Fragment {
                                 //recuperar imagen de perfil de la tabla usuarios
                                 String foto_perfil = post.getString("foto_perfil");
 
-                                //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
-
+                                if (!usu_nombre.equalsIgnoreCase(getSessionUsername())) {
+                                    //Agregar el objeto a la lista de objetos
+                                    photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                }
                                 //Agregar a sqlite
                                 //db.addUserTableFotos(usu_nombre, foto_fecha, foto_coment, foto_ruta);
                             }
-
+                            Toast.makeText(getContext(), "Cargando " + photoList.size() + " posts...", Toast.LENGTH_SHORT).show();
                             //RecyclerAdapter
                             adapter = new HomeAdapter(getContext(), photoList);
                             recyclerView.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -149,18 +155,14 @@ public class homeFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nVuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
-        );/* {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("usu_nombre", nomUsu);
-                return param;
-            }
-        };*/
+        );
         //Timeout de la petición
         JSONRequest.setRetryPolicy(new DefaultRetryPolicy(
                 8000,
@@ -170,4 +172,11 @@ public class homeFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(JSONRequest);
     }
+
+    public String getSessionUsername() {
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre").trim();
+        return nomUsu;
+    }
+
 }

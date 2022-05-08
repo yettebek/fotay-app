@@ -67,7 +67,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             public void onClick(View v) {
                 //Cambiar el icono de like a like_fill
                 holder.iv_like.setImageResource(R.drawable.ic_like_fill);
-
             }
         });
 

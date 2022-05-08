@@ -31,11 +31,11 @@
 
             <ImageView
                 android:id="@+id/iv_p_options"
-                android:layout_width="37dp"
-                android:layout_height="38dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="right"
-                android:layout_marginStart="360dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="370dp"
+                android:layout_marginTop="7dp"
                 android:src="@drawable/ic_profile_options" />
 
             <de.hdodenhof.circleimageview.CircleImageView

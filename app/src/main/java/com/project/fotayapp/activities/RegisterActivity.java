@@ -106,10 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
         // Declara RequestQueue para gestionar las peticiones al servidor
         requestQueue = Volley.newRequestQueue(this);
 
-        //Guardar datos de sesión del usuario
-        //SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
-
-
         //Quitar el mensaje de error al escribir sobre cada TextInputEditText
         tiet_usu.addTextChangedListener(new TextWatcher() {
 

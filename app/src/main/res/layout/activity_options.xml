@@ -18,17 +18,27 @@
             android:layout_height="wrap_content"
             android:id="@+id/settings_toolbar" />
 
-        <!--create green text view-->
         <TextView
-            android:id="@+id/log_out_settings"
-            android:layout_width="match_parent"
+            android:id="@+id/settings_logout_account"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="33dp"
             android:text="Cerrar sesión"
             android:textColor="@color/log_out_session"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:layout_marginStart="70dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/settings_delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Eliminar cuenta"
+            android:textColor="@color/log_out_session"
+            android:textSize="26sp"
+            android:layout_marginStart="70dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 

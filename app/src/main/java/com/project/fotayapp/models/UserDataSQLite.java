@@ -78,6 +78,14 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
 
+    public void updateUserTableUsuarios(String usu_nombre) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SQL_NAME, usu_nombre); // Nombre de usuario
+        db.update(TABLE_USER, values, SQL_NAME + " = ?", new String[]{usu_nombre});
+        db.close();
+    }
+
     public void addUserTableFotos(String usu_nombre, String foto_fecha, String foto_coment, String foto_ruta) {
         // NEED TO LOOP THROUGH THE ARRAYLIST AND INSERT INTO THE DATABASE
         SQLiteDatabase db = this.getWritableDatabase();
@@ -95,7 +103,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
 
-    // Obtener nombe de usuario desde la base de datos
+    // Obtener nombe de usuario desde la base de datos SQLite
     public HashMap<String, String> getUserName() {
         HashMap<String, String> user_sqlite = new HashMap<String, String>();
 

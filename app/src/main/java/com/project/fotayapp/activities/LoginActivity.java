@@ -222,12 +222,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Guardar/mantener datos sesión mediante SharedPreferences
-    private void saveLoginSharedPreferences() {
+    public void saveLoginSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("usu_nombre", nomUsu);
         editor.putString("usu_contrasena", pswd);
-        editor.putBoolean("login", true); //guardar sesión en caso afirmativo //editor.putString("login","true")
+        editor.putBoolean("login", true); //guardar sesión en caso afirmativo de login
         editor.apply(); //guarda todos los cambios
     }
 

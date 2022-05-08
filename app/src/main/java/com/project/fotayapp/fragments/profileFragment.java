@@ -1,28 +1,35 @@
 package com.project.fotayapp.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -59,7 +66,7 @@ public class profileFragment extends Fragment {
     private FloatingActionButton fab_imagen;
     private TextView tv_photo_count, tv_p_username;
 
-    private UserDataSQLite db;
+    public UserDataSQLite db;
 
     private RecyclerView recyclerView;
     private PostPhotoAdapter adapter;
@@ -76,12 +83,6 @@ public class profileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        /*//change the status bar color to transparent
-        Window window = requireActivity().getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.TRANSPARENT);*/
-
         // Cargar los componentes de la vista del Fragment
         iv_profile_pic = view.findViewById(R.id.iv_p_userimage);
         iv_options_profile = view.findViewById(R.id.iv_p_options);
@@ -91,25 +92,24 @@ public class profileFragment extends Fragment {
 
         //Inicializar adaptador
         adapter = new PostPhotoAdapter(getContext(), photoList);
+
         //Inicializar recyclerView encargado de mostrar las fotos
         recyclerView = view.findViewById(R.id.profileRecyclerView);
 
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(getContext());
 
-        // Hashmap para obtener el nombre de usuario desde sqlite y mostrarlo en la vista del fragment
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String profileusername = user_sqlite.get("usu_nombre");
+        //Método para obtener el nombre de usuario desde sqlite y mostrarlo en la vista del fragment
+        getSessionUsername();
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
+
         //Método para obtener la imagen de perfil del usuario desde la base de datos
         loadProfileImg();
 
-        //declarar un StaggeredGridLayoutManager con 2 columnas
+        //declarar un StaggeredGridLayoutManager con 3 columnas
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
-
-        /*GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);*/
 
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -119,11 +119,7 @@ public class profileFragment extends Fragment {
         photoList = new ArrayList<>();
 
         // Setear el nombre de usuario en el TextView
-        tv_p_username.setText(profileusername);
-
-        //counter fotos
-        //int photo_count = db.getPhotoCount();
-        //tv_photo_count.setText(String.valueOf(photo_count));
+        tv_p_username.setText(getSessionUsername());
 
         // Abriendo la actividad de ajustes
         iv_options_profile.setOnClickListener(v -> {
@@ -132,11 +128,49 @@ public class profileFragment extends Fragment {
 
         });
 
+        //Editar el nombre de usuario
+        tv_p_username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Creando un dialogo para confirmar edición del nombre de usuario
+                AlertDialog.Builder nameDialog = new AlertDialog.Builder(requireContext());
+                nameDialog.setCancelable(false);
+                nameDialog.setIcon(R.drawable.ic_user_icon);
+                nameDialog.setTitle("Editar nombre");
+
+                // Creando un EditText para ingresar el nuevo nombre de usuario
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setHint("Nuevo nombre de usuario");
+                input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                nameDialog.setView(input);
+
+                nameDialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Obteniendo el nombre de usuario
+                        String newUsername = input.getText().toString().trim();
+                        tv_p_username.setText(newUsername);
+
+                        // Actualizando el nombre de usuario en la base de datos sqlite
+                        db.updateUserTableUsuarios(newUsername);
+
+                        //Actualizar nombre de usuario en la base de datos mysql [selectData.php]
+                        //updateUserName(newUsername);
+                    }
+                });
+                nameDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                nameDialog.show();
+            }
+        });
+
         //Abir UploadActivity para elegir la imagen a subir a la app:
         fab_imagen.setOnClickListener(v -> {
-            /*Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
-            startActivity(uploadIntent);
-            getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();*/
             //Para acceder a la galería de fotos o la cámara
             ImagePicker.with(this)
                     .crop()//Para recortar la imagen
@@ -145,10 +179,8 @@ public class profileFragment extends Fragment {
                     .start(2);
         });
 
-
         //setOnClickListener para iv_profile_pic
         iv_profile_pic.setOnClickListener(v -> {
-
             //Para acceder a la galería de fotos o la cámara
             ImagePicker.with(this)
                     .crop(8f, 8f)//Para recortar la imagen
@@ -190,7 +222,8 @@ public class profileFragment extends Fragment {
             //Enviar la imagen a la base de datos
             updateProfilePicture();
 
-        }  if (requestCode == 2 && resultCode != getActivity().RESULT_CANCELED) {
+        }
+        if (requestCode == 2 && resultCode != getActivity().RESULT_CANCELED) {
             Toast.makeText(getContext(), "Cargando Imagen...".toUpperCase(Locale.ROOT), Toast.LENGTH_LONG).show();
 
             //Uri de la foto
@@ -234,8 +267,6 @@ public class profileFragment extends Fragment {
 
                                 //Agregar el objeto a la lista de objetos
                                 photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, ""));
-                                //Agregar a sqlite
-                                //db.addUserTableFotos(usu_nombre, foto_fecha, foto_coment, foto_ruta);
 
                                 //RecyclerAdapter
                                 adapter = new PostPhotoAdapter(getContext(), photoList);
@@ -248,8 +279,7 @@ public class profileFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Sin imágenes.", Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Sin imágenes.", Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -259,10 +289,7 @@ public class profileFragment extends Fragment {
 
     // Método para actualizar la imagen del usuario //NO SUBE LA IMAGEN A LA BASE DE DATOS
     private void updateProfilePicture() {
-        // Hashmap para obtener los datos del usuario desde sqlite
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String profileusername = user_sqlite.get("usu_nombre");
-
+        //Url conexion con el webhost
         String url = "https://fotay.000webhostapp.com/profileUpload.php";
         //StringRequest para actualizar la imagen del usuario en la base de datos
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -280,7 +307,7 @@ public class profileFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("usu_nombre", profileusername);
+                params.put("usu_nombre", getSessionUsername());
                 params.put("foto_perfil", getImagePath(bitmap));
                 return params;
             }
@@ -289,11 +316,11 @@ public class profileFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    //Recibe la información de la imagen en bytes y la devuelve en una String para subirlo al servidor
     public String getImagePath(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
-
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
@@ -334,12 +361,30 @@ public class profileFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), String.valueOf(error), Toast.LENGTH_LONG).show();
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nVuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(jsonArrayRequest);
     }
+
+    private void showEditDialog() {
+        // Creando un dialogo para editar el nombre de usuario
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Editar nombre de usuario");
+
+    }
+
+    public String getSessionUsername() {
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre").trim();
+        return nomUsu;
+    }
+
 }
 
 

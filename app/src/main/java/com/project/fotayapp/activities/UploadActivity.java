@@ -64,7 +64,7 @@ public class UploadActivity extends AppCompatActivity {
     private static final String webhostURL = "https://fotay.000webhostapp.com/uploadData.php";
 
     private UserDataSQLite db;
-    public profileFragment pf;
+    public profileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class UploadActivity extends AppCompatActivity {
         // Inicializar base de datos SQLite para almacenar datos de usuario
         db = new UserDataSQLite(getApplicationContext());
 
-        pf = new profileFragment();
+        profileFragment = new profileFragment();
 
         //Inicializar variables en la View
         upload_back = findViewById(R.id.upload_back);
@@ -177,7 +177,7 @@ public class UploadActivity extends AppCompatActivity {
         btn_upload_img.setEnabled(false);
     }
 
-    //Recibe la información de la imagen en bytes y la devuelve en una String
+    //Recibe la información de la imagen en bytes y la devuelve en una String para subirlo al servidor
     public String getImagePath(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -190,17 +190,12 @@ public class UploadActivity extends AppCompatActivity {
     public void uploadImgToServer() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
 
-        // Hashmap para obtener los datos del usuario desde sqlite
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String nomUsu = user_sqlite.get("usu_nombre");
-
         //[Volley API]
         StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(UploadActivity.this, response, Toast.LENGTH_LONG).show();
-
                 progressDialog.setMessage("Subiendo imagen...");
+                progressDialog.setCancelable(false);
                 progressDialog.show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -208,8 +203,8 @@ public class UploadActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         //Actualiza las fotos del usuario
-                        pf.webhosturl();
-                        pf.getUserPosts();
+                        profileFragment.webhosturl();
+                        profileFragment.getUserPosts();
 
                         //Cerrar actividad
                         finish();
@@ -227,7 +222,7 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<String, String>();
-                param.put("usu_nombre", nomUsu);
+                param.put("usu_nombre", getSessionUsername());
                 param.put("foto_coment", photo_description);
                 param.put("foto_ruta", getImagePath(bitmap));
                 return param;
@@ -241,4 +236,11 @@ public class UploadActivity extends AppCompatActivity {
         //Añadir petición a la cola
         requestQueue.add(stringRequest);
     }
+
+    public String getSessionUsername() {
+        HashMap<String, String> user_sqlite = db.getUserName();
+        String nomUsu = user_sqlite.get("usu_nombre").trim();
+        return nomUsu;
+    }
+
 }
