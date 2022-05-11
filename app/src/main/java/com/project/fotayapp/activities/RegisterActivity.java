@@ -31,6 +31,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.project.fotayapp.R;
 import com.project.fotayapp.models.UserDataSQLite;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -55,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     RequestQueue requestQueue;
 
     //Obtener los datos de los campos
-    String nomUsu;
+    String idUsu, nomUsu;
     String pswd;
     String pswd2;
     ProgressDialog progressDialog;
@@ -204,34 +207,59 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                if (response.equalsIgnoreCase("Username already exists.")) {
-                    Toast.makeText(getApplicationContext(), "El usuario ya existe!".toUpperCase(), Toast.LENGTH_LONG).show();
-                } else {
-                    //Diálogo de espera para el usuario.
-                    progressDialog = new ProgressDialog(RegisterActivity.this);
-                    progressDialog.show();
-                    progressDialog.setContentView(R.layout.progress_dialog);
-                    progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    progressDialog.setCancelable(false);
+              try {
+                  //Convertir la respuesta en un objeto JSON
+                  JSONObject jsonObject = new JSONObject(response);
+                  //Obtener los datos del array dentro del objeto JSON que contiene los datos del usuario
+                  JSONArray jsonArray = jsonObject.getJSONArray("register");
+                  //Obtener el string que indica el resultado de la consulta
+                  String success = jsonObject.getString("success");
 
-                    //Anadir los datos del usuario a la base de datos local sqlite
-                    db.addUserTableUsuarios(nomUsu);
+                  if (!jsonArray.isNull(0)) {
+                      Toast.makeText(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                      //Diálogo de espera para el usuario.
+                      progressDialog = new ProgressDialog(RegisterActivity.this);
+                      progressDialog.show();
+                      progressDialog.setContentView(R.layout.progress_dialog);
+                      progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                      progressDialog.setCancelable(false);
+                      progressDialog.setCanceledOnTouchOutside(false);
+                      //Anadir los datos del usuario a la base de datos local sqlite
+                      //db.addUserTableUsuarios(idUsu,nomUsu);
+                      for (int i = 0; i < jsonArray.length(); i++) {
+                          JSONObject object = jsonArray.getJSONObject(i);
 
-                    //Especificar el tiempo de espera del diálogo
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            
-                            //La validación es correcta se inicia la siguiente pantalla terminando la activity anterior
-                            Intent menuIntent = new Intent(RegisterActivity.this, MenuActivity.class);
-                            menuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(menuIntent);
-                            finish();
-                            progressDialog.dismiss();
+                          String usu_id = object.getString("usu_id");
+                          String usu_nombre = object.getString("usu_nombre");
 
-                        }
-                    }, 3000);
-                }
+                          //Guardar los datos del usuario en una sesión
+                          db.addUserTableUsuarios(usu_id, usu_nombre);
+
+                          Toast.makeText(RegisterActivity.this, object.toString(), Toast.LENGTH_LONG).show();
+                      }
+                      //Especificar el tiempo de espera del diálogo
+                      Handler handler = new Handler();
+                      handler.postDelayed(new Runnable() {
+                          public void run() {
+
+                              saveLoginSharedPreferences();
+
+                              //La validación es correcta se inicia la siguiente pantalla terminando la activity anterior
+                              Intent menuIntent = new Intent(RegisterActivity.this, MenuActivity.class);
+                              menuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                              startActivity(menuIntent);
+                              finish();
+                              progressDialog.dismiss();
+
+                          }
+                      }, 3000);
+
+                  } else  {
+                      Toast.makeText(RegisterActivity.this, "Usuario ya existe.", Toast.LENGTH_SHORT).show();
+                  }
+              }catch (Exception e){
+                  Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+              }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -245,7 +273,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Map<String, String> param = new HashMap<String, String>();
                 param.put("usu_nombre", nomUsu);
                 param.put("usu_contrasena", pswd);
-                //param.put("foto_perfil", foto_perfil);
                 return param;
             }
         };
@@ -260,8 +287,18 @@ public class RegisterActivity extends AppCompatActivity {
                 10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
+    //Guardar/mantener datos sesión mediante SharedPreferences
+    public void saveLoginSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("usu_nombre", nomUsu);
+        editor.putString("usu_contrasena", pswd);
+        editor.putBoolean("login", true); //guardar sesión en caso afirmativo de login
+        editor.apply(); //guarda todos los cambios
+    }
+
     //Recuperar valores de SharedPreferences
-    private void getLoginSharedPreferencesFromApp() {
+    public void getLoginSharedPreferencesFromApp() {
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
         tiet_usu.setText(sharedPreferences.getString("usu_nombre", ""));
         tiet_contr.setText(sharedPreferences.getString("usu_contrasena", ""));

@@ -64,18 +64,18 @@ public class UserDataSQLite extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      */
-    public void addUserTableUsuarios(String usu_nombre) {
+    public void addUserTableUsuarios(String usu_id, String usu_nombre) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(SQL_ID, usu_id);
         values.put(SQL_NAME, usu_nombre); // Nombre de usuario
 
-
         // Inserting Row in users table and storing return id of that row
-        long id = db.insert(TABLE_USER, null, values);
+        long row_id = db.insert(TABLE_USER, null, values);
         //db.close(); // Closing database connection
 
-        Log.d(TAG, "New user inserted into sqlite: " + id);
+        Log.d(TAG, "New user inserted into sqlite: " + row_id);
     }
 
     public void updateUserTableUsuarios(String usu_nombre) {
@@ -104,7 +104,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
     }
 
     // Obtener nombe de usuario desde la base de datos SQLite
-    public HashMap<String, String> getUserName() {
+    public HashMap<String, String> getUserInfo() {
         HashMap<String, String> user_sqlite = new HashMap<String, String>();
 
         String selectQuery = "SELECT * FROM " + TABLE_USER;
@@ -116,6 +116,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         // Move to first row
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
+            user_sqlite.put("usu_id", cursor.getInt(0) + "");
             user_sqlite.put("usu_nombre", cursor.getString(1));
         }
         cursor.close();
@@ -157,6 +158,4 @@ public class UserDataSQLite extends SQLiteOpenHelper {
 
         Log.d(TAG, "Deleted all user info from sqlite");
     }
-
-
 }

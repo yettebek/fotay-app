@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 @SuppressWarnings("CommentedOutCode")
@@ -156,7 +157,7 @@ public class homeFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nVuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nIntentelo mas tarde.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -174,8 +175,9 @@ public class homeFragment extends Fragment {
     }
 
     public String getSessionUsername() {
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String nomUsu = user_sqlite.get("usu_nombre").trim();
+        HashMap<String, String> user_sqlite = db.getUserInfo();
+        Integer idUsu = Integer.parseInt(Objects.requireNonNull(user_sqlite.get("usu_id")));
+        String nomUsu = user_sqlite.get("usu_nombre");
         return nomUsu;
     }
 

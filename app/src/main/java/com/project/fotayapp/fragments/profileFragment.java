@@ -1,24 +1,21 @@
 package com.project.fotayapp.fragments;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,7 +64,6 @@ public class profileFragment extends Fragment {
     private TextView tv_photo_count, tv_p_username;
 
     public UserDataSQLite db;
-
     private RecyclerView recyclerView;
     private PostPhotoAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
@@ -76,7 +72,7 @@ public class profileFragment extends Fragment {
 
     private Uri fotayUri;
     private Bitmap bitmap;
-
+    String newUsername;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,9 +95,6 @@ public class profileFragment extends Fragment {
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(getContext());
 
-        //Método para obtener el nombre de usuario desde sqlite y mostrarlo en la vista del fragment
-        getSessionUsername();
-
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
 
@@ -121,6 +114,8 @@ public class profileFragment extends Fragment {
         // Setear el nombre de usuario en el TextView
         tv_p_username.setText(getSessionUsername());
 
+        Toast.makeText(getContext(), "ID usuario: " + getSessionId(), Toast.LENGTH_SHORT).show();
+
         // Abriendo la actividad de ajustes
         iv_options_profile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), OptionsActivity.class);
@@ -129,6 +124,7 @@ public class profileFragment extends Fragment {
         });
 
         //Editar el nombre de usuario
+/*
         tv_p_username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,14 +145,18 @@ public class profileFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Obteniendo el nombre de usuario
-                        String newUsername = input.getText().toString().trim();
+                        newUsername = input.getText().toString();
                         tv_p_username.setText(newUsername);
 
-                        // Actualizando el nombre de usuario en la base de datos sqlite
-                        db.updateUserTableUsuarios(newUsername);
+                        saveLoginSharedPreferences();
 
-                        //Actualizar nombre de usuario en la base de datos mysql [selectData.php]
-                        //updateUserName(newUsername);
+                        db.updateUserTableUsuarios(newUsername);
+                        db.onUpgrade(db.getWritableDatabase(), 1, 2);
+                        db.addUserTableUsuarios(getSessionId(),newUsername);
+
+                        //Actualizar nombre de usuario en la base de datos mysql [updateUsername.php]
+                        updateUserName(newUsername);
+
                     }
                 });
                 nameDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -168,6 +168,7 @@ public class profileFragment extends Fragment {
                 nameDialog.show();
             }
         });
+*/
 
         //Abir UploadActivity para elegir la imagen a subir a la app:
         fab_imagen.setOnClickListener(v -> {
@@ -190,6 +191,40 @@ public class profileFragment extends Fragment {
         });
         return view;
     }
+
+/*
+    private void updateUserName(String newUsername) {
+        String UPDATE_USERNAME_URL = "https://fotay.000webhostapp.com/updateUsername.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_USERNAME_URL, response -> {
+            if (response.equals("Nombre actualizado")) {
+                //Toast.makeText(getContext(), "Nombre actualizado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+            }   else {
+                Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Error al actualizar el nombre", Toast.LENGTH_SHORT).show();
+            }
+        }   , error -> {
+            Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+        }   ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("usu_id", getSessionId());
+                params.put("usu_nombre", newUsername);
+                return params;
+            }
+        };
+        //TimeoutError arreglo
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        //Procesa todas las peticiones de nuestra app
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(stringRequest);
+    }
+*/
 
     // Método para recibir la imagen desde la galería o la cámara
     @Override
@@ -242,7 +277,7 @@ public class profileFragment extends Fragment {
     }
 
     public String webhosturl() {
-        HashMap<String, String> user_sqlite = db.getUserName();
+        HashMap<String, String> user_sqlite = db.getUserInfo();
         String nomUsu = user_sqlite.get("usu_nombre");
         return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre=" + nomUsu;
     }
@@ -325,7 +360,7 @@ public class profileFragment extends Fragment {
     }
 
     public String webhosturl2() {
-        HashMap<String, String> user_sqlite = db.getUserName();
+        HashMap<String, String> user_sqlite = db.getUserInfo();
         String nomUsu = user_sqlite.get("usu_nombre");
         return "https://fotay.000webhostapp.com/profileFetch.php?usu_nombre=" + nomUsu;
     }
@@ -372,17 +407,24 @@ public class profileFragment extends Fragment {
         requestQueue.add(jsonArrayRequest);
     }
 
-    private void showEditDialog() {
-        // Creando un dialogo para editar el nombre de usuario
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Editar nombre de usuario");
-
+    //Método para obtener el nombre de usuario desde sqlite
+    public String getSessionUsername() {
+        HashMap<String, String> user_sqlite = db.getUserInfo();
+        String nomUsu = user_sqlite.get("usu_nombre");
+        return nomUsu;
+    }
+    public String getSessionId() {
+        HashMap<String, String> user_sqlite = db.getUserInfo();
+        String idUsu = user_sqlite.get("usu_id");
+        return idUsu;
     }
 
-    public String getSessionUsername() {
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String nomUsu = user_sqlite.get("usu_nombre").trim();
-        return nomUsu;
+    public void saveLoginSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("usu_nombre", newUsername);
+        editor.putBoolean("update", true); //guardar nuevos datos de sesión en caso afirmativo de login
+        editor.apply(); //guarda todos los cambios
     }
 
 }

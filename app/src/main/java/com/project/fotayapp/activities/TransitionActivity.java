@@ -34,12 +34,13 @@ public class TransitionActivity extends AppCompatActivity {
                 //Muestra un tipo de pantalla basándose en los SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
                 boolean sesionPreference = sharedPreferences.getBoolean("login", false);
+                boolean updatePreference = sharedPreferences.getBoolean("update", false);
                 Intent preferenceIntent;
 
                 //Si el usuario tiene una sesión abierta
-                if (sesionPreference) {
+                if (sesionPreference || updatePreference) {
                     preferenceIntent = new Intent(getApplicationContext(), MenuActivity.class);
-                } else {
+                }  else {
                     preferenceIntent = new Intent(getApplicationContext(), StartActivity.class); //Pantalla de inicio
                 }
                 startActivity(preferenceIntent);

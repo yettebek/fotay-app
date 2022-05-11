@@ -1,6 +1,5 @@
 package com.project.fotayapp.activities;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +29,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.project.fotayapp.R;
 import com.project.fotayapp.models.UserDataSQLite;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -156,44 +159,59 @@ public class LoginActivity extends AppCompatActivity {
     //Enviar los datos al servidor mediante método POST
     private void loginValidation(String nomUsu, String pswd) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
-            @SuppressLint("ResourceType")
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                if (response.equalsIgnoreCase("Usuario encontrado")) {
-                    //Diálogo de espera para el usuario.
-                    progressDialog = new ProgressDialog(LoginActivity.this);
-                    progressDialog.show();
-                    progressDialog.setContentView(R.layout.progress_dialog);
-                    progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    progressDialog.setCancelable(false);
-                    progressDialog.setCanceledOnTouchOutside(false);
+                try {
+                    //Convertir la respuesta en un objeto JSON
+                    JSONObject jsonObject = new JSONObject(response);
+                    //Obtener los datos del array dentro del objeto JSON que contiene los datos del usuario
+                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                    //Obtener el string que indica el resultado de la consulta
+                    String success = jsonObject.getString("success");
 
+                    if (success.equals("1")) {
+                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        //Diálogo de espera para el usuario.
+                        progressDialog = new ProgressDialog(LoginActivity.this);
+                        progressDialog.show();
+                        progressDialog.setContentView(R.layout.progress_dialog);
+                        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        progressDialog.setCancelable(false);
+                        progressDialog.setCanceledOnTouchOutside(false);
 
-                    //Anadir los datos del usuario a la base de datos local sqlite
-                    db.addUserTableUsuarios(nomUsu);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
 
-                    //Especificar el tiempo de espera del diálogo
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            //Guarda los datos de sesión
-                            saveLoginSharedPreferences();
+                            String usu_id = object.getString("usu_id");
+                            String usu_nombre = object.getString("usu_nombre");
 
-                            //La validación es correcta, se inicia la siguiente pantalla termiando la activity anterior
-                            Intent menuIntent = new Intent(LoginActivity.this, MenuActivity.class);
-                            menuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(menuIntent);
-                            finish();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "ERROR Usuario no encontrado", Toast.LENGTH_LONG).show();
+                            //Guardar los datos del usuario en una sesión
+                            db.addUserTableUsuarios(usu_id, usu_nombre);
                         }
 
+                        //Especificar el tiempo de espera del diálogo
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                //Guarda los datos de sesión
+                                saveLoginSharedPreferences();
+
+                                //La validación es correcta, se inicia la siguiente pantalla termiando la activity anterior
+                                Intent menuIntent = new Intent(LoginActivity.this, MenuActivity.class);
+                                menuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(menuIntent);
+                                finish();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -232,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Recuperar valores de SharedPreferences
-    private void getLoginSharedPreferencesFromApp() {
+    public void getLoginSharedPreferencesFromApp() {
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
         tiet_usu.setText(sharedPreferences.getString("usu_nombre", ""));
         tiet_contr.setText(sharedPreferences.getString("usu_contrasena", ""));

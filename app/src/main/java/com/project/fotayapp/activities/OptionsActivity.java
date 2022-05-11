@@ -49,8 +49,10 @@ public class OptionsActivity extends AppCompatActivity {
         // Inicializar base de datos SQLite para eliminar datos de usuario
         db = new UserDataSQLite(getApplicationContext());
 
+        getSessionUsername();
+
         setSupportActionBar(toolbar_back);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Ajustes");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Ajustes de " + getSessionUsername());
         //Flecha de regreso en la barra de herramientas de la actividad
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -93,6 +95,10 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     public void deleteAccount() {
+        //
+        HashMap<String, String> user_sqlite = db.getUserInfo();
+        Integer idUsu = Integer.parseInt(Objects.requireNonNull(user_sqlite.get("usu_id")));
+        String nomUsu = user_sqlite.get("usu_nombre");
         //StringRequest para eliminar los datos del usuario
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_DELETE_ACCOUNT, new Response.Listener<String>() {
             @Override
@@ -116,7 +122,7 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("usu_nombre", getSessionUsername());
+                params.put("usu_nombre", nomUsu);
                 return params;
             }
         };
@@ -127,8 +133,9 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     public String getSessionUsername() {
-        HashMap<String, String> user_sqlite = db.getUserName();
-        String nomUsu = user_sqlite.get("usu_nombre").trim();
+        HashMap<String, String> user_sqlite = db.getUserInfo();
+        Integer idUsu = Integer.parseInt(Objects.requireNonNull(user_sqlite.get("usu_id")));
+        String nomUsu = user_sqlite.get("usu_nombre");
         return nomUsu;
     }
 

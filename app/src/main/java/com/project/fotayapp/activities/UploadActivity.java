@@ -238,7 +238,7 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     public String getSessionUsername() {
-        HashMap<String, String> user_sqlite = db.getUserName();
+        HashMap<String, String> user_sqlite = db.getUserInfo();
         String nomUsu = user_sqlite.get("usu_nombre").trim();
         return nomUsu;
     }
