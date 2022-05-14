@@ -25,125 +25,84 @@ public class UserDataSQLite extends SQLiteOpenHelper {
     private static final String TABLE_PHOTO = "fotos";
 
     // Login Table Columns names
-    private static final String SQL_ID = "usu_id";
-    private static final String SQL_NAME = "usu_nombre";
-    private static final String SQL_PHOTO_ID = "foto_id";
-    private static final String SQL_PHOTO_FECHA = "foto_fecha";
-    private static final String SQL_PHOTO_COMENT = "foto_coment";
-    private static final String SQL_PHOTO_RUTA = "foto_ruta";
+    public static String SQL_ID = "usu_id";
+    public static String SQL_NAME = "usu_nombre";
 
+    //Contexo de la clase para acceder a la base de datos desde otras clases
     public UserDataSQLite(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Creating Tables
+    // Crear tabla usuarios
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + SQL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + SQL_NAME + " TEXT UNIQUE" + ")";
-
-        String CREATE_PHOTO_TABLE = "CREATE TABLE " + TABLE_PHOTO + "("
-                + SQL_PHOTO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + SQL_NAME + " TEXT UNIQUE," + SQL_PHOTO_FECHA + " TEXT," + SQL_PHOTO_COMENT + " TEXT," + SQL_PHOTO_RUTA + " TEXT" + ")";
+                + SQL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + SQL_NAME + " TEXT " + ")";
 
         db.execSQL(CREATE_LOGIN_TABLE);
-        db.execSQL(CREATE_PHOTO_TABLE);
 
         Log.d(TAG, "Database tables created");
     }
 
-    // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
+        // Eliminar tabla anterior si existe
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PHOTO);
-        // Create tables again
+        // Volver a crear la tabla
         onCreate(db);
     }
 
     /**
-     * Storing user details in database
+     * Guardar datos de usuario en la base de datos
      */
     public void addUserTableUsuarios(String usu_id, String usu_nombre) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(SQL_ID, usu_id);
+        values.put(SQL_ID, usu_id); // Id de usuario
         values.put(SQL_NAME, usu_nombre); // Nombre de usuario
 
-        // Inserting Row in users table and storing return id of that row
+        // Insertar la fila en la tabla
         long row_id = db.insert(TABLE_USER, null, values);
-        //db.close(); // Closing database connection
+        db.close(); // Closing database connection
 
         Log.d(TAG, "New user inserted into sqlite: " + row_id);
     }
 
-    public void updateUserTableUsuarios(String usu_nombre) {
+    //Actualizar nombre de usuario en la base de datos SQLite
+    public void updateUserTableUsuarios(String newUsername, String usu_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQL_NAME, usu_nombre); // Nombre de usuario
-        db.update(TABLE_USER, values, SQL_NAME + " = ?", new String[]{usu_nombre});
+
+        values.put(SQL_NAME, newUsername); // Nombre de usuario
+        String[] args = {usu_id};
+        db.update(TABLE_USER, values, SQL_ID + "=?", args);
         db.close();
     }
 
-    public void addUserTableFotos(String usu_nombre, String foto_fecha, String foto_coment, String foto_ruta) {
-        // NEED TO LOOP THROUGH THE ARRAYLIST AND INSERT INTO THE DATABASE
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(SQL_NAME, usu_nombre); // Nombre de usuario
-        values.put(SQL_PHOTO_FECHA, foto_fecha); // Fecha de la foto
-        values.put(SQL_PHOTO_COMENT, foto_coment); // Comentario de la foto
-        values.put(SQL_PHOTO_RUTA, foto_ruta); // Ruta de la foto
-
-        // Inserting Row in users table and storing return id of that row
-        long id = db.insert(TABLE_PHOTO, null, values);
-        //db.close(); // Closing database connection
-
-        Log.d(TAG, "New user inserted into sqlite: " + id);
-    }
-
-    // Obtener nombe de usuario desde la base de datos SQLite
+    // Obtener nombe de usuario desde la base de datos SQLite para las clases que lo necesiten
     public HashMap<String, String> getUserInfo() {
         HashMap<String, String> user_sqlite = new HashMap<String, String>();
 
-        String selectQuery = "SELECT * FROM " + TABLE_USER;
+        String selectQuery = "SELECT " + SQL_ID + "," + SQL_NAME + " FROM " + TABLE_USER;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // Move to first row
-        cursor.moveToFirst();
-        if (cursor.getCount() > 0) {
+        // Asegurarse de que el cursor tiene al menos una fila de datos
+        if (cursor != null && cursor.moveToFirst()) {
             user_sqlite.put("usu_id", cursor.getInt(0) + "");
             user_sqlite.put("usu_nombre", cursor.getString(1));
         }
+        assert cursor != null;
         cursor.close();
         db.close();
 
-        // return user
+        //Log los datos del usuario
         Log.d(TAG, "Fetching user from Sqlite: " + user_sqlite.toString());
 
         return user_sqlite;
-    }
-
-    public int getPhotoCount() {
-        int count = 0;
-        String selectQuery = "SELECT COUNT(*) FROM " + TABLE_PHOTO + " WHERE usu_nombre  = '" + SQL_NAME + "'";
-        //String selectQuery = "SELECT * FROM " + TABLE_PHOTO;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            count = cursor.getInt(0);
-        }
-        cursor.close();
-        db.close();
-
-        return count;
     }
 
     /**

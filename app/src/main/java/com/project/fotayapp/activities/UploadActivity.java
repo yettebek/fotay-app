@@ -77,7 +77,9 @@ public class UploadActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         // Inicializar base de datos SQLite para almacenar datos de usuario
-        db = new UserDataSQLite(getApplicationContext());
+        db = new UserDataSQLite(this);
+
+        //Toast.makeText(getApplicationContext(), "Usuario: " + getSessionUsername() + "\nId: " + getSessionId(), Toast.LENGTH_SHORT).show();
 
         profileFragment = new profileFragment();
 
@@ -103,6 +105,9 @@ public class UploadActivity extends AppCompatActivity {
             }
         });
 
+        //Método que recoge la imagen proveniente del fragment a través del ImagePicker y mostrarla en el ImageView
+        getImageFromFragment();
+
         //botón Subir foto al servidor
         btn_upload_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +118,7 @@ public class UploadActivity extends AppCompatActivity {
                 uploadImgToServer();
             }
         });
-        //Método que recoge la imagen proveniente del fragment a través del ImagePicker y mostrarla en el ImageView
-        getImageFromFragment();
+
     }
 
     //Recoger la imagen proveniente del ImagePicker y mostrarla en el ImageView
@@ -203,7 +207,7 @@ public class UploadActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         //Actualiza las fotos del usuario
-                        profileFragment.webhosturl();
+                        //profileFragment.webhosturl();
                         profileFragment.getUserPosts();
 
                         //Cerrar actividad
@@ -222,6 +226,7 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<String, String>();
+                param.put("usu_id", getSessionId());
                 param.put("usu_nombre", getSessionUsername());
                 param.put("foto_coment", photo_description);
                 param.put("foto_ruta", getImagePath(bitmap));
@@ -239,8 +244,13 @@ public class UploadActivity extends AppCompatActivity {
 
     public String getSessionUsername() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
-        String nomUsu = user_sqlite.get("usu_nombre").trim();
+        String nomUsu = Objects.requireNonNull(user_sqlite.get("usu_nombre"));
         return nomUsu;
     }
 
+    public String getSessionId() {
+        HashMap<String, String> user_sqlite = db.getUserInfo();
+        String idUsu = user_sqlite.get("usu_id");
+        return idUsu;
+    }
 }

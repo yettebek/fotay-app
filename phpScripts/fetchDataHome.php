@@ -2,7 +2,7 @@
 
 require_once('db.php');
 
-$select_photos_query = "SELECT foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil FROM fotos ORDER BY foto_fecha DESC";
+$select_photos_query = "SELECT f.foto_id, f.usu_nombre, f.foto_fecha, f.foto_coment, f.foto_ruta, u.foto_perfil FROM fotos as f JOIN usuarios u ON f.usu_id = u.usu_id ORDER BY foto_fecha DESC;";
 
 $result_select = $mysql->query($select_photos_query);
 
@@ -19,10 +19,7 @@ if ($result_select) {
         ));
     }
 
-    echo json_encode(array('posts' => $u_posts), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-
+    echo json_encode(array('home_posts' => $u_posts), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 } else {
     echo json_encode(array('error' => 'No se pudo obtener los datos de la BBDD'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }
-

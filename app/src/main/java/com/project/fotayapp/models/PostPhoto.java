@@ -1,6 +1,8 @@
 package com.project.fotayapp.models;
 
-public class PostPhoto {
+import java.io.Serializable;
+
+public class PostPhoto implements Serializable { //Serializable para poder pasar los datos entre las clases
     private String usu_nombre;
     private String foto_fecha;
     private String foto_coment;

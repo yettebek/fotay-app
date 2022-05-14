@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
     //Enviar los datos al servidor mediante método POST
     private void loginValidation(String nomUsu, String pswd) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                     String success = jsonObject.getString("success");
 
                     if (success.equals("1")) {
-                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Bienvenido de nuevo \n " + nomUsu, Toast.LENGTH_SHORT).show();
                         //Diálogo de espera para el usuario.
                         progressDialog = new ProgressDialog(LoginActivity.this);
                         progressDialog.show();
@@ -206,10 +206,10 @@ public class LoginActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             }
                         }, 3000);
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Usuario y/o contraseña \nintroducidos no son correctos", Toast.LENGTH_SHORT).show();
                     }
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

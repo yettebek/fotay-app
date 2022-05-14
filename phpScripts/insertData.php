@@ -48,9 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return false;
             $mysql->close();
         }
-
-
-    } else{
+    } else {
         $result['success'] = "0";
         $result['message'] = "User already exists";
 

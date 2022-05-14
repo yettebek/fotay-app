@@ -1,27 +1,33 @@
 package com.project.fotayapp.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,8 +41,9 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.fotayapp.R;
 import com.project.fotayapp.activities.OptionsActivity;
+import com.project.fotayapp.activities.PostActivity;
 import com.project.fotayapp.activities.UploadActivity;
-import com.project.fotayapp.adapters.PostPhotoAdapter;
+import com.project.fotayapp.adapters.PostProfileAdapter;
 import com.project.fotayapp.models.PostPhoto;
 import com.project.fotayapp.models.UserDataSQLite;
 import com.squareup.picasso.Picasso;
@@ -65,14 +72,22 @@ public class profileFragment extends Fragment {
 
     public UserDataSQLite db;
     private RecyclerView recyclerView;
-    private PostPhotoAdapter adapter;
+    private PostProfileAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
+    public PostProfileAdapter.OnItemClickListener listener;
 
     private static final int NUM_COLUMNS = 3;
 
     private Uri fotayUri;
     private Bitmap bitmap;
     String newUsername;
+
+    //Nombres de las constantes para el intent
+    public static final String EXTRA_PROFILE_PICTURE = "profilepic";
+    public static final String EXTRA_USERNAME = "username";
+    public static final String EXTRA_DATE = "date";
+    public static final String EXTRA_PHOTO = "photo";
+    public static final String EXTRA_DESCRIPTION = "description";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,14 +101,22 @@ public class profileFragment extends Fragment {
         tv_photo_count = view.findViewById(R.id.tv_photo_counter);
         tv_p_username = view.findViewById(R.id.tv_p_username);
 
-        //Inicializar adaptador
-        adapter = new PostPhotoAdapter(getContext(), photoList);
+        //Inicializar adaptador, llamar al método setOnClickListener para que se ejecute la interfaz OnItemClickListener de la clase PostProfileAdapter
+        adapter = new PostProfileAdapter(getContext(), photoList, new PostProfileAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PostPhoto post) {
+                //Go to PostActivity method
+                goToPostActivity(post);
+            }
+        });
 
         //Inicializar recyclerView encargado de mostrar las fotos
         recyclerView = view.findViewById(R.id.profileRecyclerView);
 
         // Inicializar base de datos sqlite
-        db = new UserDataSQLite(getContext());
+        db = new UserDataSQLite(requireContext());
+
+        //Toast.makeText(getContext(), "Usuario: " + getSessionUsername() + "\nId: " + getSessionId(), Toast.LENGTH_SHORT).show();
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
@@ -114,7 +137,7 @@ public class profileFragment extends Fragment {
         // Setear el nombre de usuario en el TextView
         tv_p_username.setText(getSessionUsername());
 
-        Toast.makeText(getContext(), "ID usuario: " + getSessionId(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "ID usuario: " + getSessionId(), Toast.LENGTH_SHORT).show();
 
         // Abriendo la actividad de ajustes
         iv_options_profile.setOnClickListener(v -> {
@@ -124,7 +147,6 @@ public class profileFragment extends Fragment {
         });
 
         //Editar el nombre de usuario
-/*
         tv_p_username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,9 +172,11 @@ public class profileFragment extends Fragment {
 
                         saveLoginSharedPreferences();
 
-                        db.updateUserTableUsuarios(newUsername);
-                        db.onUpgrade(db.getWritableDatabase(), 1, 2);
-                        db.addUserTableUsuarios(getSessionId(),newUsername);
+                        db.updateUserTableUsuarios(newUsername, getSessionId());
+                        Toast.makeText(getContext(), "Nuevo nombre de usuario: " + newUsername, Toast.LENGTH_SHORT).show();
+                        //db.getUserInfoUpdated();
+                        //db.onUpgrade(db.getWritableDatabase(), 1, 2);
+                        //db.addUserTableUsuarios(getSessionId(),newUsername);
 
                         //Actualizar nombre de usuario en la base de datos mysql [updateUsername.php]
                         updateUserName(newUsername);
@@ -168,7 +192,6 @@ public class profileFragment extends Fragment {
                 nameDialog.show();
             }
         });
-*/
 
         //Abir UploadActivity para elegir la imagen a subir a la app:
         fab_imagen.setOnClickListener(v -> {
@@ -192,21 +215,27 @@ public class profileFragment extends Fragment {
         return view;
     }
 
-/*
+    //Método para ir al post de un usuario al hacer click en la foto
+    public void goToPostActivity(PostPhoto post) {
+        Intent intent = new Intent(getContext(), PostActivity.class);
+        intent.putExtra("post", post);
+        startActivity(intent);
+    }
+
     private void updateUserName(String newUsername) {
         String UPDATE_USERNAME_URL = "https://fotay.000webhostapp.com/updateUsername.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_USERNAME_URL, response -> {
             if (response.equals("Nombre actualizado")) {
-                //Toast.makeText(getContext(), "Nombre actualizado", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
-            }   else {
+                Toast.makeText(getContext(), "Nombre actualizado", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+            } else {
                 Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                 //Toast.makeText(getContext(), "Error al actualizar el nombre", Toast.LENGTH_SHORT).show();
             }
-        }   , error -> {
+        }, error -> {
             Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
-        }   ) {
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -224,7 +253,6 @@ public class profileFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(stringRequest);
     }
-*/
 
     // Método para recibir la imagen desde la galería o la cámara
     @Override
@@ -278,6 +306,7 @@ public class profileFragment extends Fragment {
 
     public String webhosturl() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
+        String id = user_sqlite.get("usu_id");
         String nomUsu = user_sqlite.get("usu_nombre");
         return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre=" + nomUsu;
     }
@@ -299,14 +328,16 @@ public class profileFragment extends Fragment {
                                 String foto_fecha = jsonObject.getString("foto_fecha");
                                 String foto_coment = jsonObject.getString("foto_coment");
                                 String foto_ruta = jsonObject.getString("foto_ruta");
+                                String foto_perfil = jsonObject.getString("foto_perfil");
 
                                 //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, ""));
-
-                                //RecyclerAdapter
-                                adapter = new PostPhotoAdapter(getContext(), photoList);
-                                recyclerView.setAdapter(adapter);
+                                photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
                             }
+                            //RecyclerAdapter
+                            adapter = new PostProfileAdapter(getContext(), photoList, listener);
+                            //Pasar la lista de objetos a la vista del RecyclerView
+                            recyclerView.setAdapter(adapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -342,6 +373,7 @@ public class profileFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("usu_id", getSessionId());
                 params.put("usu_nombre", getSessionUsername());
                 params.put("foto_perfil", getImagePath(bitmap));
                 return params;
@@ -413,6 +445,7 @@ public class profileFragment extends Fragment {
         String nomUsu = user_sqlite.get("usu_nombre");
         return nomUsu;
     }
+
     public String getSessionId() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
         String idUsu = user_sqlite.get("usu_id");

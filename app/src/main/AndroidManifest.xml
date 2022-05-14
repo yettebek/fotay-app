@@ -18,8 +18,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
-
-    <!-- INCLUIR LOS PERMISOS PARA ACCEDER AL ALMACENAMIENTO (requestLegacyExternalStorage) -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,8 +27,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FotayApp"
         android:usesCleartextTraffic="true">
-
-
+        <activity
+            android:name=".activities.PostActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.UploadActivity"
             android:screenOrientation="portrait" />
@@ -55,6 +54,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.media.action.IMAGE_CAPTURE" />

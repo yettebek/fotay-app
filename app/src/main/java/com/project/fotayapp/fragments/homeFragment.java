@@ -121,7 +121,7 @@ public class homeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("posts");
+                            JSONArray jsonArray = response.getJSONArray("home_posts");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject post = jsonArray.getJSONObject(i);
@@ -138,12 +138,11 @@ public class homeFragment extends Fragment {
                                     //Agregar el objeto a la lista de objetos
                                     photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
                                 }
-                                //Agregar a sqlite
-                                //db.addUserTableFotos(usu_nombre, foto_fecha, foto_coment, foto_ruta);
                             }
                             Toast.makeText(getContext(), "Cargando " + photoList.size() + " posts...", Toast.LENGTH_SHORT).show();
                             //RecyclerAdapter
                             adapter = new HomeAdapter(getContext(), photoList);
+                            //Pasar la lista de objetos a la vista del RecyclerView
                             recyclerView.setAdapter(adapter);
 
                         } catch (JSONException e) {
@@ -159,7 +158,7 @@ public class homeFragment extends Fragment {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getContext(), "Se ha perdido la conexion.\nIntentelo mas tarde.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }

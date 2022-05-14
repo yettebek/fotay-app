@@ -16,24 +16,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result['login'] = array();
 
     if ($count > 0) {
-       while ($row = $response->fetch_assoc()) {
+        while ($row = $response->fetch_assoc()) {
 
-               $column['usu_id'] = $row['usu_id'];
-               $column['usu_nombre'] = $row['usu_nombre'];
+            $column['usu_id'] = $row['usu_id'];
+            $column['usu_nombre'] = $row['usu_nombre'];
 
-               $result['success'] = "1";
-               $result['message'] = "success";
+            $result['success'] = "1";
+            $result['message'] = "success";
 
             array_push($result['login'], $column);
             echo json_encode($result);
-       }
-
+        }
     } else {
         $result['success'] = "0";
         $result['message'] = "error";
 
         echo json_encode($result);
-
     }
-
 }
