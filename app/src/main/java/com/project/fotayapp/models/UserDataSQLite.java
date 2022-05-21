@@ -21,8 +21,6 @@ public class UserDataSQLite extends SQLiteOpenHelper {
     // Tabla usuarios
     private static final String TABLE_USER = "usuarios";
 
-    //Tabla fotos
-    private static final String TABLE_PHOTO = "fotos";
 
     // Login Table Columns names
     public static String SQL_ID = "usu_id";
@@ -89,15 +87,15 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
-
+        assert cursor != null;
         // Asegurarse de que el cursor tiene al menos una fila de datos
         if (cursor != null && cursor.moveToFirst()) {
             user_sqlite.put("usu_id", cursor.getInt(0) + "");
             user_sqlite.put("usu_nombre", cursor.getString(1));
         }
-        assert cursor != null;
+
         cursor.close();
-        db.close();
+        //db.close();
 
         //Log los datos del usuario
         Log.d(TAG, "Fetching user from Sqlite: " + user_sqlite.toString());
@@ -112,9 +110,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
         db.delete(TABLE_USER, null, null);
-        db.delete(TABLE_PHOTO, null, null);
         db.close();
-
         Log.d(TAG, "Deleted all user info from sqlite");
     }
 }

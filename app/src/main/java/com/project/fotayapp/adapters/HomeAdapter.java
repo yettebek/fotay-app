@@ -61,15 +61,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.tv_post_date.setText(date);
         holder.tv_post_description.setText(description);
 
-        //OnClickListener en iv_like cambiar el icono de like a like_fill
-        holder.iv_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Cambiar el icono de like a like_fill
-                holder.iv_like.setImageResource(R.drawable.ic_like_fill);
-            }
-        });
-
     }
 
     @Override
@@ -80,8 +71,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         //Variables
-        public ImageView iv_profile_pic, iv_post_photo, iv_like, iv_comment, iv_more;
-        public TextView tv_username, tv_post_date, tv_post_likes, tv_post_comments;
+        public ImageView iv_profile_pic, iv_post_photo, iv_comment, iv_more;
+        public TextView tv_username, tv_post_date, tv_post_comments;
         public SocialTextView tv_post_description;
 
         public ViewHolder(View itemView) {
@@ -91,11 +82,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             this.iv_profile_pic = itemView.findViewById(R.id.home_profile_image);
             this.iv_post_photo = itemView.findViewById(R.id.home_photo);
             this.iv_more = itemView.findViewById(R.id.iv_more);
-            this.iv_like = itemView.findViewById(R.id.iv_like);
+            //this.iv_like = itemView.findViewById(R.id.iv_like);
             this.iv_comment = itemView.findViewById(R.id.iv_comment);
             this.tv_username = itemView.findViewById(R.id.home_username);
             this.tv_post_date = itemView.findViewById(R.id.home_date);
-            this.tv_post_likes = itemView.findViewById(R.id.tv_likes);
+            //this.tv_post_likes = itemView.findViewById(R.id.tv_likes);
             this.tv_post_comments = itemView.findViewById(R.id.tv_comments);
             this.tv_post_description = itemView.findViewById(R.id.description);
         }

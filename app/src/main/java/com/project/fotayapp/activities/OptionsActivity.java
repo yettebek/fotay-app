@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.project.fotayapp.R;
+import com.project.fotayapp.fragments.profileFragment;
 import com.project.fotayapp.models.UserDataSQLite;
 
 import java.util.HashMap;
@@ -52,9 +54,11 @@ public class OptionsActivity extends AppCompatActivity {
         getSessionUsername();
 
         setSupportActionBar(toolbar_back);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Ajustes de " + getSessionUsername());
+        //Objects.requireNonNull(getSupportActionBar()).setTitle("Ajustes de " + getSessionUsername());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(Html.fromHtml("<font color='#ffffff'>Ajustes de " + getSessionUsername() + "</font>"));
         //Flecha de regreso en la barra de herramientas de la actividad
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar_back.setNavigationOnClickListener(v -> {
             finish();
@@ -148,6 +152,8 @@ public class OptionsActivity extends AppCompatActivity {
         startActivity(new Intent(OptionsActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         //Eliminando datos de usuario de la base de datos
         db.deleteUsers();
+
+        profileFragment.clearPostIds();
         //Cerrando la actividad actual
         finish();
     }

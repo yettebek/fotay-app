@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                                 finish();
                                 progressDialog.dismiss();
                             }
-                        }, 3000);
+                        }, 4000);
                     } else {
                         Toast.makeText(LoginActivity.this, "Usuario y/o contraseña \nintroducidos no son correctos", Toast.LENGTH_SHORT).show();
                     }

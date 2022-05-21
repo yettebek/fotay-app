@@ -36,7 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 
 @SuppressWarnings("CommentedOutCode")
@@ -126,6 +125,7 @@ public class homeFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject post = jsonArray.getJSONObject(i);
                                 //recuperar los datos de la tabla fotos
+                                int foto_id = post.getInt("foto_id");
                                 String usu_nombre = post.getString("usu_nombre");
                                 String foto_fecha = post.getString("foto_fecha");
                                 String foto_coment = post.getString("foto_coment");
@@ -136,7 +136,7 @@ public class homeFragment extends Fragment {
 
                                 if (!usu_nombre.equalsIgnoreCase(getSessionUsername())) {
                                     //Agregar el objeto a la lista de objetos
-                                    photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                    photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
                                 }
                             }
                             Toast.makeText(getContext(), "Cargando " + photoList.size() + " posts...", Toast.LENGTH_SHORT).show();
@@ -175,7 +175,7 @@ public class homeFragment extends Fragment {
 
     public String getSessionUsername() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
-        Integer idUsu = Integer.parseInt(Objects.requireNonNull(user_sqlite.get("usu_id")));
+        //Integer idUsu = Integer.parseInt(Objects.requireNonNull(user_sqlite.get("usu_id")));
         String nomUsu = user_sqlite.get("usu_nombre");
         return nomUsu;
     }

@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -35,13 +36,13 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.fotayapp.R;
 import com.project.fotayapp.activities.OptionsActivity;
-import com.project.fotayapp.activities.PostActivity;
 import com.project.fotayapp.activities.UploadActivity;
 import com.project.fotayapp.adapters.PostProfileAdapter;
 import com.project.fotayapp.models.PostPhoto;
@@ -73,7 +74,8 @@ public class profileFragment extends Fragment {
     public UserDataSQLite db;
     private RecyclerView recyclerView;
     private PostProfileAdapter adapter;
-    private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
+    private SwipeRefreshLayout swipeRefreshLayout;
+    public static ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
     public PostProfileAdapter.OnItemClickListener listener;
 
     private static final int NUM_COLUMNS = 3;
@@ -81,7 +83,7 @@ public class profileFragment extends Fragment {
     private Uri fotayUri;
     private Bitmap bitmap;
     String newUsername;
-
+    public static ArrayList<Integer> post_ids = new ArrayList<>();
     //Nombres de las constantes para el intent
     public static final String EXTRA_PROFILE_PICTURE = "profilepic";
     public static final String EXTRA_USERNAME = "username";
@@ -100,15 +102,11 @@ public class profileFragment extends Fragment {
         fab_imagen = view.findViewById(R.id.fab_imagen);
         tv_photo_count = view.findViewById(R.id.tv_photo_counter);
         tv_p_username = view.findViewById(R.id.tv_p_username);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         //Inicializar adaptador, llamar al método setOnClickListener para que se ejecute la interfaz OnItemClickListener de la clase PostProfileAdapter
-        adapter = new PostProfileAdapter(getContext(), photoList, new PostProfileAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(PostPhoto post) {
-                //Go to PostActivity method
-                goToPostActivity(post);
-            }
-        });
+        adapter = new PostProfileAdapter(getContext(), photoList, listener);
+
 
         //Inicializar recyclerView encargado de mostrar las fotos
         recyclerView = view.findViewById(R.id.profileRecyclerView);
@@ -116,7 +114,7 @@ public class profileFragment extends Fragment {
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(requireContext());
 
-        //Toast.makeText(getContext(), "Usuario: " + getSessionUsername() + "\nId: " + getSessionId(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Usuario: " + getSessionUsername()  + "\nId: " + getSessionId(), Toast.LENGTH_SHORT).show();
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
@@ -138,6 +136,23 @@ public class profileFragment extends Fragment {
         tv_p_username.setText(getSessionUsername());
 
         //Toast.makeText(getContext(), "ID usuario: " + getSessionId(), Toast.LENGTH_SHORT).show();
+
+        //Actualizar la lista de fotos al actualizar la vista
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Actualizar la lista de posts
+                photoList.clear();
+                getUserPosts();
+                clearPostIds();
+                swipeRefreshLayout.setRefreshing(false);
+                /*getUserPosts();
+                adapter.notifyDataSetChanged();
+                adapter.notifyItemChanged(4);
+                adapter.notifyItemInserted(4);
+                swipeRefreshLayout.setRefreshing(false);*/
+            }
+        });
 
         // Abriendo la actividad de ajustes
         iv_options_profile.setOnClickListener(v -> {
@@ -166,21 +181,24 @@ public class profileFragment extends Fragment {
                 nameDialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Obteniendo el nombre de usuario
-                        newUsername = input.getText().toString();
-                        tv_p_username.setText(newUsername);
+                        if (input.getText().toString().isEmpty() || input.getText().toString().equals("") || input.getText().toString().length() < 4) {
+                            Toast.makeText(getContext(), "Nombre NO válido.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Obteniendo el nombre de usuario
+                            newUsername = input.getText().toString();
+                            tv_p_username.setText(newUsername);
 
-                        saveLoginSharedPreferences();
+                            saveLoginSharedPreferences();
 
-                        db.updateUserTableUsuarios(newUsername, getSessionId());
-                        Toast.makeText(getContext(), "Nuevo nombre de usuario: " + newUsername, Toast.LENGTH_SHORT).show();
-                        //db.getUserInfoUpdated();
-                        //db.onUpgrade(db.getWritableDatabase(), 1, 2);
-                        //db.addUserTableUsuarios(getSessionId(),newUsername);
+                            db.updateUserTableUsuarios(newUsername, getSessionId());
+                            Toast.makeText(getContext(), "Nuevo nombre de usuario: " + newUsername, Toast.LENGTH_SHORT).show();
+                            //db.getUserInfoUpdated();
+                            //db.onUpgrade(db.getWritableDatabase(), 1, 2);
+                            //db.addUserTableUsuarios(getSessionId(),newUsername);
 
-                        //Actualizar nombre de usuario en la base de datos mysql [updateUsername.php]
-                        updateUserName(newUsername);
-
+                            //Actualizar nombre de usuario en la base de datos mysql [updateUsername.php]
+                            updateUserName(newUsername);
+                        }
                     }
                 });
                 nameDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -213,13 +231,6 @@ public class profileFragment extends Fragment {
                     .start(1); //1 para la imagen de perfil, 2 para la imagen de post
         });
         return view;
-    }
-
-    //Método para ir al post de un usuario al hacer click en la foto
-    public void goToPostActivity(PostPhoto post) {
-        Intent intent = new Intent(getContext(), PostActivity.class);
-        intent.putExtra("post", post);
-        startActivity(intent);
     }
 
     private void updateUserName(String newUsername) {
@@ -306,7 +317,6 @@ public class profileFragment extends Fragment {
 
     public String webhosturl() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
-        String id = user_sqlite.get("usu_id");
         String nomUsu = user_sqlite.get("usu_nombre");
         return "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre=" + nomUsu;
     }
@@ -314,29 +324,41 @@ public class profileFragment extends Fragment {
     //Método para obtener los posts del usuario desde la base de datos
     public void getUserPosts() {
         //[Volley API]
-        JsonArrayRequest JSONRequest = new JsonArrayRequest(webhosturl(),
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhosturl(), null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        tv_photo_count.setText(String.valueOf(response.length()));
+                    public void onResponse(JSONObject response) {
+
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            JSONArray jsonArray = response.getJSONArray("profile_posts");
+                            Toast.makeText(getContext(), jsonArray.length() + " fotos".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
+                            tv_photo_count.setText(String.valueOf(jsonArray.length()));
+                            for (int i = 0; i < jsonArray.length(); i++) {
 
-                                JSONObject jsonObject = (JSONObject) response.get(i);
-
-                                String usu_nombre = jsonObject.getString("usu_nombre");
-                                String foto_fecha = jsonObject.getString("foto_fecha");
-                                String foto_coment = jsonObject.getString("foto_coment");
-                                String foto_ruta = jsonObject.getString("foto_ruta");
-                                String foto_perfil = jsonObject.getString("foto_perfil");
+                                JSONObject profile_posts = jsonArray.getJSONObject(i);
+                                int foto_id = profile_posts.getInt("foto_id");
+                                String usu_nombre = profile_posts.getString("usu_nombre");
+                                String foto_fecha = profile_posts.getString("foto_fecha");
+                                String foto_coment = profile_posts.getString("foto_coment");
+                                String foto_ruta = profile_posts.getString("foto_ruta");
+                                String foto_perfil = profile_posts.getString("foto_perfil");
 
                                 //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                //Guardar foto_id en un array
+                                //Toast.makeText(getContext(), "Foto ID: " + foto_id, Toast.LENGTH_SHORT).show();
+                                post_ids.add(foto_id);
                             }
+                            //Toast.makeText(getContext(), "Foto ID nº 1: " + getPhotoId(0), Toast.LENGTH_SHORT).show();
                             //RecyclerAdapter
                             adapter = new PostProfileAdapter(getContext(), photoList, listener);
+                            //
+                            adapter.notifyItemInserted(photoList.size() - 1);
                             //Pasar la lista de objetos a la vista del RecyclerView
                             recyclerView.setAdapter(adapter);
+
+                            int size = photoList.size();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -451,6 +473,15 @@ public class profileFragment extends Fragment {
         String idUsu = user_sqlite.get("usu_id");
         return idUsu;
     }
+
+    public static int getPhotoId(int position) {
+        return post_ids.get(position);
+    }
+
+    public static void clearPostIds() {
+        post_ids.clear();
+    }
+
 
     public void saveLoginSharedPreferences() {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);

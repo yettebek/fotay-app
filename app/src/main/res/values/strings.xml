@@ -22,7 +22,7 @@
     <string name="description">Añade una descripción</string>
     <string name="publicar_imagen">Publicar imagen</string>
     <string name="sin_imagen">Sin imagen</string>
-    <string name="options_menu_logout">Cerrar sesión</string>
+    <string name="options_menu_delete">Eliminar foto</string>
     <string name="username">Nombre de usuario</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

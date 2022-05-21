@@ -100,7 +100,6 @@ public class UploadActivity extends AppCompatActivity {
         upload_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(UploadActivity.this, MenuActivity.class));
                 finish();
             }
         });
