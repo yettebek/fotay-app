@@ -51,6 +51,7 @@ public class homeFragment extends Fragment {
     private HomeAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
     public UserDataSQLite db;
+    public static ArrayList<Integer> home_ids = new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,6 +138,8 @@ public class homeFragment extends Fragment {
                                 if (!usu_nombre.equalsIgnoreCase(getSessionUsername())) {
                                     //Agregar el objeto a la lista de objetos
                                     photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                    home_ids.add(foto_id);
+                                    
                                 }
                                 //Toast.makeText(getContext(), "foto_ids: " + foto_id, Toast.LENGTH_SHORT).show();
                             }
@@ -181,4 +184,7 @@ public class homeFragment extends Fragment {
         return nomUsu;
     }
 
+    public static int getPhotoHomeId(int position) {
+        return home_ids.get(position);
+    }
 }

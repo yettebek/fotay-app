@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +25,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private final Context hContext;
     private ArrayList<PostPhoto> hAdapterList = new ArrayList<PostPhoto>();
     public static final String HOME_ADAPTER = "HomeAdapter";
+
     //Constructor
     public HomeAdapter(Context homeContext, ArrayList<PostPhoto> homePhotosAdapterList) {
         this.hContext = homeContext;
@@ -43,7 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         //Obtenemos la posición de cada objeto en la lista
         PostPhoto postPhoto = hAdapterList.get(position);
-        int id_photo = holder.getAbsoluteAdapterPosition();
+
 
         //Si no hay imagen de perfil, se carga la imagen por defecto
         if (postPhoto.getFoto_perfil().equalsIgnoreCase("null")) {
@@ -69,15 +69,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.iv_post_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(hContext, "id_photo: " + id_photo, Toast.LENGTH_SHORT).show();
             }
         });
         holder.tv_post_comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int id_photo = holder.getAbsoluteAdapterPosition();
                 Intent intent = new Intent(hContext, CommentsActivity.class);
-                intent.putExtra(HOME_ADAPTER, "HomeAdapter");
-                intent.putExtra("id_photo", id_photo);
+                intent.putExtra("Class", "HomeAdapter");
+                intent.putExtra(HOME_ADAPTER, id_photo);
+                intent.setClass(hContext, CommentsActivity.class);
                 hContext.startActivity(intent);
             }
         });

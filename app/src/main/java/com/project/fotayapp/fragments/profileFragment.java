@@ -345,8 +345,7 @@ public class profileFragment extends Fragment {
 
                                 //Agregar el objeto a la lista de objetos
                                 photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
-                                //Guardar foto_id en un array
-                                //Toast.makeText(getContext(), "Foto ID: " + foto_id, Toast.LENGTH_SHORT).show();
+                                //Guardar foto_id en una lista
                                 post_ids.add(foto_id);
                             }
                             //Toast.makeText(getContext(), "Foto ID nº 1: " + getPhotoId(0), Toast.LENGTH_SHORT).show();

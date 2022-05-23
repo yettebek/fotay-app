@@ -27,8 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hendraanggrian.appcompat.widget.SocialTextView;
@@ -38,10 +36,6 @@ import com.project.fotayapp.fragments.profileFragment;
 import com.project.fotayapp.models.PostPhoto;
 import com.project.fotayapp.models.UserDataSQLite;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,8 +113,9 @@ public class PostActivity extends AppCompatActivity {
         tv_comments.setOnClickListener(v -> {
             //Abrir actividad de comentarios
             Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
-            intent.putExtra(POST_ACTIVITY, "PostActivity");
+            intent.putExtra("Class", "PostActivity");
             intent.putExtra(EXTRA_ID_PHOTO, photoList.get(position).getFoto_id());
+            intent.setClass(getApplicationContext(), CommentsActivity.class);
             startActivity(intent);
         });
 
@@ -185,55 +180,6 @@ public class PostActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
 
-    //Método para actualizar las fotos en el fragment
-    public void updatePhotos() {
-        String GET_PHOTOS_URL = "https://fotay.000webhostapp.com/fetchDataProfile.php?usu_nombre=" + getSessionUsername();
-        //[Volley API]
-        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, GET_PHOTOS_URL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("profile_posts");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-
-                                JSONObject profile_posts = jsonArray.getJSONObject(i);
-                                int foto_id = profile_posts.getInt("foto_id");
-                                String usu_nombre = profile_posts.getString("usu_nombre");
-                                String foto_fecha = profile_posts.getString("foto_fecha");
-                                String foto_coment = profile_posts.getString("foto_coment");
-                                String foto_ruta = profile_posts.getString("foto_ruta");
-                                String foto_perfil = profile_posts.getString("foto_perfil");
-
-                                //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
-                            }
-                            //Toast.makeText(getContext(), "Foto ID nº 1: " + getPhotoId(0), Toast.LENGTH_SHORT).show();
-                            //RecyclerAdapter
-                            adapter = new PostProfileAdapter(PostActivity.this, photoList, listener);
-                            //
-                            //Pasar la lista de objetos a la vista del RecyclerView
-                            recyclerView.setAdapter(adapter);
-
-                            int size = photoList.size();
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getContext(), "Sin imágenes.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        );
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(JSONRequest);
-    }
 
     public String getSessionUsername() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
