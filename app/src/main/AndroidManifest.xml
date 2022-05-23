@@ -28,10 +28,15 @@
         android:theme="@style/Theme.FotayApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.FullScreenImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CommentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.PostActivity"
-            android:screenOrientation="portrait"
             android:exported="false"
-           />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.UploadActivity"
             android:screenOrientation="portrait" />
@@ -49,8 +54,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.OptionsActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TransitionActivity"
             android:exported="true"

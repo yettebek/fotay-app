@@ -1,17 +1,20 @@
 package com.project.fotayapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
+import com.project.fotayapp.activities.CommentsActivity;
 import com.project.fotayapp.models.PostPhoto;
 import com.squareup.picasso.Picasso;
 
@@ -22,7 +25,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     //Variables
     private final Context hContext;
     private ArrayList<PostPhoto> hAdapterList = new ArrayList<PostPhoto>();
-
+    public static final String HOME_ADAPTER = "HomeAdapter";
     //Constructor
     public HomeAdapter(Context homeContext, ArrayList<PostPhoto> homePhotosAdapterList) {
         this.hContext = homeContext;
@@ -40,6 +43,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         //Obtenemos la posición de cada objeto en la lista
         PostPhoto postPhoto = hAdapterList.get(position);
+        int id_photo = holder.getAbsoluteAdapterPosition();
+
         //Si no hay imagen de perfil, se carga la imagen por defecto
         if (postPhoto.getFoto_perfil().equalsIgnoreCase("null")) {
             //Imagen de perfil por defecto
@@ -61,6 +66,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.tv_post_date.setText(date);
         holder.tv_post_description.setText(description);
 
+        holder.iv_post_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(hContext, "id_photo: " + id_photo, Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.tv_post_comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(hContext, CommentsActivity.class);
+                intent.putExtra(HOME_ADAPTER, "HomeAdapter");
+                intent.putExtra("id_photo", id_photo);
+                hContext.startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -81,7 +103,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             //Inicializar las variables
             this.iv_profile_pic = itemView.findViewById(R.id.home_profile_image);
             this.iv_post_photo = itemView.findViewById(R.id.home_photo);
-            this.iv_more = itemView.findViewById(R.id.iv_more);
             //this.iv_like = itemView.findViewById(R.id.iv_like);
             this.iv_comment = itemView.findViewById(R.id.iv_comment);
             this.tv_username = itemView.findViewById(R.id.home_username);

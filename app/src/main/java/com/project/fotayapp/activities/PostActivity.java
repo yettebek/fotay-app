@@ -1,11 +1,14 @@
 package com.project.fotayapp.activities;
 
+import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_DATE;
+import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_DESCRIPTION;
 import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_ID_PHOTO;
 import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_PHOTO;
+import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_PROFILE_PHOTO;
+import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_USERNAME;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -47,11 +51,10 @@ public class PostActivity extends AppCompatActivity {
 
     //private static String DELETE_PHOTO_URL = "";
     //Variables
-    private ImageView iv_profile_pic, iv_post_photo, iv_more;
-    private TextView tv_username, tv_post_date;
+    private ImageView iv_profile_pic, iv_comments;
+    private TextView tv_username, tv_post_date, tv_comments;
     private SocialTextView tv_post_description;
     private Toolbar toolbar_back;
-    ImageView iv_post;
     private RecyclerView recyclerView;
     private PostProfileAdapter adapter;
     private PostProfileAdapter.OnItemClickListener listener;
@@ -59,6 +62,10 @@ public class PostActivity extends AppCompatActivity {
     public UserDataSQLite db;
     public profileFragment profileFragment;
     public static int position;
+    public ImageView iv_post_photo;
+    private NestedScrollView nestedScrollView;
+    public static int id_photo;
+    public static final String POST_ACTIVITY = "PostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,13 @@ public class PostActivity extends AppCompatActivity {
         //Inicializar variables
         toolbar_back = findViewById(R.id.post_toolbar);
         iv_post_photo = findViewById(R.id.post_image);
+        iv_profile_pic = findViewById(R.id.post_profile_image);
+        tv_username = findViewById(R.id.post_username);
+        tv_post_date = findViewById(R.id.post_date);
+        iv_comments = findViewById(R.id.iv_comment);
+        tv_comments = findViewById(R.id.tv_comments);
+        tv_post_description = findViewById(R.id.description);
+
 
         // Inicializar base de datos SQLite para mostrar nombre de usuario según sesión
         db = new UserDataSQLite(getApplicationContext());
@@ -76,13 +90,13 @@ public class PostActivity extends AppCompatActivity {
 
         // Inicializar lista
         photoList = profileFragment.photoList;
-/*        int size = photoList.size();
+        /*int size = photoList.size();
         Toast.makeText(getApplicationContext(), "Tamaño de la lista: " + size, Toast.LENGTH_SHORT).show();*/
 
         getSessionUsername();
 
         setSupportActionBar(toolbar_back);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(Html.fromHtml("<font color='#ffffff'>" + getSessionUsername() + "</font>"));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(Html.fromHtml("<font color='#ffffff'>" + "Foto" + "</font>"));
         //Flecha de regreso en la barra de herramientas de la actividad
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_back);
@@ -97,7 +111,20 @@ public class PostActivity extends AppCompatActivity {
 
         iv_post_photo.setOnClickListener(v -> {
             //Abrir la imagen a pantalla completa
+            Intent intent = new Intent(getApplicationContext(), FullScreenImageActivity.class);
+            intent.putExtra(EXTRA_PHOTO, photoList.get(position).getFoto_ruta());
+            startActivity(intent);
         });
+
+        tv_comments.setOnClickListener(v -> {
+            //Abrir actividad de comentarios
+            Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
+            intent.putExtra(POST_ACTIVITY, "PostActivity");
+            intent.putExtra(EXTRA_ID_PHOTO, photoList.get(position).getFoto_id());
+            startActivity(intent);
+        });
+
+        id_photo = profileFragment.getPhotoId(position);
     }
 
     //Options menu en la barra de herramientas
@@ -118,13 +145,8 @@ public class PostActivity extends AppCompatActivity {
                 builder.setMessage("¿Estás seguro de eliminar esta foto?")
                         .setCancelable(false)
                         .setPositiveButton("Eliminar", (dialog, which) -> {
-
-                            new Handler().postDelayed(() -> {
-                                deletePicture();
-
-                            }, 1000);
-
-
+                            //Método para eliminar foto seleccionada de la base de datos
+                            deletePicture();
                         }).setNegativeButton("Cancelar", (dialog, which) -> {
 
                     Toast.makeText(getApplicationContext(), getSessionId(), Toast.LENGTH_SHORT).show();
@@ -147,7 +169,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("Foto eliminada.")) {
-                    Toast.makeText(getApplicationContext(), "Foto eliminada.\nActualiza la página", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Foto eliminada, desliza \nhacia abajo para actualizar.", Toast.LENGTH_LONG).show();
 
                     //profileFragment.reloadFragment();
                     finish();
@@ -227,13 +249,25 @@ public class PostActivity extends AppCompatActivity {
 
     public void getFromIntent() {
         Intent intent = getIntent();
-        String photo = intent.getStringExtra(EXTRA_PHOTO);
-        Picasso.get().load(photo).fit().centerInside().into(iv_post_photo);
+
+        String profile_photo = intent.getStringExtra(EXTRA_PROFILE_PHOTO);
+        Picasso.get().load(profile_photo).fit().centerInside().into(iv_profile_pic);
+
+        String username = intent.getStringExtra(EXTRA_USERNAME);
+
+        String post_date = intent.getStringExtra(EXTRA_DATE);
 
         position = intent.getIntExtra(EXTRA_ID_PHOTO, 0);
 
+        String photo = intent.getStringExtra(EXTRA_PHOTO);
+        Picasso.get().load(photo).fit().centerInside().into(iv_post_photo);
+
+        String post_comment = intent.getStringExtra(EXTRA_DESCRIPTION);
+
+        tv_username.setText(username);
+        tv_post_date.setText(post_date);
+        tv_post_description.setText(post_comment);
+
         Toast.makeText(this, "foto_id nº: " + profileFragment.getPhotoId(position), Toast.LENGTH_SHORT).show();
-
-
     }
 }

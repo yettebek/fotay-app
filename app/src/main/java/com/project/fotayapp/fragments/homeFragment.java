@@ -138,6 +138,7 @@ public class homeFragment extends Fragment {
                                     //Agregar el objeto a la lista de objetos
                                     photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
                                 }
+                                //Toast.makeText(getContext(), "foto_ids: " + foto_id, Toast.LENGTH_SHORT).show();
                             }
                             Toast.makeText(getContext(), "Cargando " + photoList.size() + " posts...", Toast.LENGTH_SHORT).show();
                             //RecyclerAdapter
