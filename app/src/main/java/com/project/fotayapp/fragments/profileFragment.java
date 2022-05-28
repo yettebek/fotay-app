@@ -144,6 +144,7 @@ public class profileFragment extends Fragment {
                 //Actualizar la lista de posts
                 photoList.clear();
                 getUserPosts();
+                loadProfileImg();
                 clearPostIds();
                 swipeRefreshLayout.setRefreshing(false);
                 /*getUserPosts();
@@ -424,22 +425,17 @@ public class profileFragment extends Fragment {
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(webhosturl2(), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                //Toast.makeText(getContext(), String.valueOf(response), Toast.LENGTH_LONG).show();
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = (JSONObject) response.get(i);
                         String foto_perfil = jsonObject.getString("foto_perfil");
-                        //Toast.makeText(getContext(), String.valueOf(response), Toast.LENGTH_LONG).show();
 
                         //Si no hay imagen de perfil, se carga la imagen por defecto
                         if (foto_perfil.equalsIgnoreCase("") || foto_perfil.equalsIgnoreCase("null")) {
-                            //iv_profile_pic.setImageResource(R.drawable.ic_no_profile_picture);
                             Picasso.get().load(foto_perfil).placeholder(R.drawable.ic_no_profile_picture).into(iv_profile_pic);
-                            //Toast.makeText(getContext(), "Sin imagen de perfil.", Toast.LENGTH_SHORT).show();
                         } else {
                             //Cargar la imagen de perfil del usuario en el ImageView
                             Picasso.get().load(foto_perfil).fit().centerInside().into(iv_profile_pic);
-                            //Toast.makeText(getContext(), "Imagen de usuario cargada.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (JSONException e) {

@@ -197,6 +197,7 @@ public class UploadActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                btn_upload_img.setEnabled(false);
                 progressDialog.setMessage("Subiendo imagen...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();

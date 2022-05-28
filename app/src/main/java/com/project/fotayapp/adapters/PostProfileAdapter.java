@@ -66,24 +66,8 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
         final ViewHolder viewHolder = new ViewHolder(view);
 
 
-        //Listener para el click de cada foto de post
-        viewHolder.iv_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = viewHolder.getAbsoluteAdapterPosition();
 
-                Intent intent = new Intent(adapterContext, PostActivity.class);
-                post = postPhotoAdapterList.get(viewHolder.getAbsoluteAdapterPosition());
-                intent.putExtra(EXTRA_PROFILE_PHOTO, post.getFoto_perfil());
-                intent.putExtra(EXTRA_USERNAME, post.getUsu_nombre());
-                intent.putExtra(EXTRA_DATE, post.getFoto_fecha());
-                intent.putExtra(EXTRA_ID_PHOTO, position);
-                intent.putExtra(EXTRA_PHOTO, post.getFoto_ruta());
-                intent.putExtra(EXTRA_DESCRIPTION, post.getFoto_coment());
-                adapterContext.startActivity(intent);
 
-            }
-        });
         return viewHolder;
     }
 
@@ -102,6 +86,24 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
         Picasso.get().load(post.getFoto_ruta()).fit().centerInside().into(viewHolder.iv_photo);
         //Cargar descripción de la foto en el adapter
         //viewHolder.tv_post_comment.setText(post.getFoto_fecha());
+        //Listener para el click de cada foto de post
+        viewHolder.iv_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getAbsoluteAdapterPosition();
+
+                Intent intent = new Intent(adapterContext, PostActivity.class);
+                post = postPhotoAdapterList.get(viewHolder.getAbsoluteAdapterPosition());
+                intent.putExtra(EXTRA_PROFILE_PHOTO, post.getFoto_perfil());
+                intent.putExtra(EXTRA_USERNAME, post.getUsu_nombre());
+                intent.putExtra(EXTRA_DATE, post.getFoto_fecha());
+                intent.putExtra(EXTRA_ID_PHOTO, position);
+                intent.putExtra(EXTRA_PHOTO, post.getFoto_ruta());
+                intent.putExtra(EXTRA_DESCRIPTION, post.getFoto_coment());
+                adapterContext.startActivity(intent);
+
+            }
+        });
     }
 
     //Método para obtener el número de elementos de la lista

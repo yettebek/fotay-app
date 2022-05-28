@@ -187,4 +187,8 @@ public class homeFragment extends Fragment {
     public static int getPhotoHomeId(int position) {
         return home_ids.get(position);
     }
+
+    public static void clearPostIds() {
+        home_ids.clear();
+    }
 }

@@ -26,39 +26,24 @@ public class PostPhoto implements Serializable { //Serializable para poder pasar
         return usu_nombre;
     }
 
-    public void setUsu_nombre(String usu_nombre) {
-        this.usu_nombre = usu_nombre;
-    }
 
     public String getFoto_fecha() {
         return foto_fecha;
     }
 
-    public void setFoto_fecha(String foto_fecha) {
-        this.foto_fecha = foto_fecha;
-    }
 
     public String getFoto_coment() {
         return foto_coment;
     }
 
-    public void setFoto_coment(String foto_coment) {
-        this.foto_coment = foto_coment;
-    }
 
     public String getFoto_ruta() {
         return foto_ruta;
     }
 
-    public void setFoto_ruta(String foto_ruta) {
-        this.foto_ruta = foto_ruta;
-    }
 
     public String getFoto_perfil() {
         return foto_perfil;
     }
 
-    public void setFoto_perfil(String foto_perfil) {
-        this.foto_perfil = foto_perfil;
-    }
 }

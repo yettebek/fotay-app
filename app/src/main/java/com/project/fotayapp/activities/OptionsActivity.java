@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.project.fotayapp.R;
+import com.project.fotayapp.fragments.homeFragment;
 import com.project.fotayapp.fragments.profileFragment;
 import com.project.fotayapp.models.UserDataSQLite;
 
@@ -154,6 +155,7 @@ public class OptionsActivity extends AppCompatActivity {
         db.deleteUsers();
 
         profileFragment.clearPostIds();
+        homeFragment.clearPostIds();
         //Cerrando la actividad actual
         finish();
     }

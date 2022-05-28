@@ -115,6 +115,7 @@ public class PostActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
             intent.putExtra("Class", "PostActivity");
             intent.putExtra(EXTRA_ID_PHOTO, photoList.get(position).getFoto_id());
+            intent.putExtra(EXTRA_PHOTO, photoList.get(position).getFoto_ruta());
             intent.setClass(getApplicationContext(), CommentsActivity.class);
             startActivity(intent);
         });
@@ -166,7 +167,10 @@ public class PostActivity extends AppCompatActivity {
                 if (response.equalsIgnoreCase("Foto eliminada.")) {
                     Toast.makeText(getApplicationContext(), "Foto eliminada, desliza \nhacia abajo para actualizar.", Toast.LENGTH_LONG).show();
 
-                    //profileFragment.reloadFragment();
+                    //Eliminar foto de la lista
+                    photoList.remove(position);
+                    adapter.notifyDataSetChanged();
+
                     finish();
 
                 } else {
@@ -214,6 +218,6 @@ public class PostActivity extends AppCompatActivity {
         tv_post_date.setText(post_date);
         tv_post_description.setText(post_comment);
 
-        Toast.makeText(this, "foto_id nº: " + profileFragment.getPhotoId(position), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "foto_id nº: " + profileFragment.getPhotoId(position), Toast.LENGTH_SHORT).show();
     }
 }

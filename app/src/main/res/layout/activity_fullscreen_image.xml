@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ic_launcher_background"
     tools:context=".activities.FullScreenImageActivity">
 
     <com.ortiz.touchview.TouchImageView
@@ -10,6 +11,6 @@
         android:layout_height="match_parent"
         android:id="@+id/image"
         android:src="@drawable/logo"
-        android:scaleType="centerCrop" />
+        android:scaleType="matrix" />
 
 </RelativeLayout>

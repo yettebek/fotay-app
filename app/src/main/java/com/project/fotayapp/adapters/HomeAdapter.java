@@ -1,5 +1,8 @@
 package com.project.fotayapp.adapters;
 
+import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_PHOTO;
+import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_PROFILE_PHOTO;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
 import com.project.fotayapp.activities.CommentsActivity;
+import com.project.fotayapp.activities.FullScreenImageActivity;
 import com.project.fotayapp.models.PostPhoto;
 import com.squareup.picasso.Picasso;
 
@@ -66,11 +70,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.tv_post_date.setText(date);
         holder.tv_post_description.setText(description);
 
+        //Acceder a la imagen en pantalla completa
         holder.iv_post_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(hContext, FullScreenImageActivity.class);
+                intent.putExtra(EXTRA_PHOTO, postPhoto.getFoto_ruta());
+                hContext.startActivity(intent);
             }
         });
+        //Acceder a la actividad de comentarios
         holder.tv_post_comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,12 +87,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 Intent intent = new Intent(hContext, CommentsActivity.class);
                 intent.putExtra("Class", "HomeAdapter");
                 intent.putExtra(HOME_ADAPTER, id_photo);
+                intent.putExtra(EXTRA_PROFILE_PHOTO, postPhoto.getFoto_perfil());
+                intent.putExtra(EXTRA_PHOTO, postPhoto.getFoto_ruta());
                 intent.setClass(hContext, CommentsActivity.class);
                 hContext.startActivity(intent);
             }
         });
-
-
     }
 
     @Override

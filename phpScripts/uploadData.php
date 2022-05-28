@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $WEBHOST_URL = "https://fotay.000webhostapp.com/$photo_name";
 
     #insercción de la imágen en la BBDD
-    $insert_image_query = "INSERT INTO fotos (usu_id, usu_nombre, foto_fecha, foto_coment, foto_ruta) VALUES('$usu_id','$usu_nombre',NOW(),'$photo_comment','$WEBHOST_URL')";
+    $insert_image_query = "INSERT INTO fotos (usu_id, usu_nombre, foto_fecha, foto_coment, foto_ruta) VALUES('$usu_id','$usu_nombre',DATE_FORMAT(NOW() + INTERVAL 2 HOUR, '%d/%m/%Y %H:%i'),'$photo_comment','$WEBHOST_URL')";
 
     #ver si se han insertado los datos en la BBDD
     $result_insert = $mysql->query($insert_image_query);
@@ -34,3 +34,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mysql->close();
 
 }
+?>

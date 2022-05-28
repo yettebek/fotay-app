@@ -13,8 +13,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.project.fotayapp.R;
 import com.project.fotayapp.adapters.ViewPagerAdapter;
+import com.project.fotayapp.fragments.chatFragment;
 import com.project.fotayapp.fragments.homeFragment;
-import com.project.fotayapp.fragments.notificationFragment;
 import com.project.fotayapp.fragments.profileFragment;
 
 //MenuActivity gestiona la BottomNavigationView y sus fragments
@@ -24,7 +24,7 @@ public class MenuActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     private Fragment homeFragment;
-    private Fragment notificationFragment;
+    private Fragment chatFragment;
     private Fragment profileFragment;
 
     private ViewPager2 viewPager2;
@@ -50,7 +50,7 @@ public class MenuActivity extends AppCompatActivity {
                     case R.id.nav_home:
                         viewPager2.setCurrentItem(0, true);
                         break;
-                    case R.id.nav_notif:
+                    case R.id.nav_chat:
                         viewPager2.setCurrentItem(1, true);
                         break;
                     case R.id.nav_prof:
@@ -72,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
                         bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         break;
                     case 1:
-                        bottomNavigationView.getMenu().findItem(R.id.nav_notif).setChecked(true);
+                        bottomNavigationView.getMenu().findItem(R.id.nav_chat).setChecked(true);
                         break;
                     case 2:
                         bottomNavigationView.getMenu().findItem(R.id.nav_prof).setChecked(true);
@@ -89,12 +89,12 @@ public class MenuActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
 
         homeFragment = new homeFragment();
-        notificationFragment = new notificationFragment();
+        chatFragment = new chatFragment();
         profileFragment = new profileFragment();
 
         //Añadir los fragments al adapter
         adapter.addFragment(homeFragment);
-        adapter.addFragment(notificationFragment);
+        adapter.addFragment(chatFragment);
         adapter.addFragment(profileFragment);
 
           //Desactivar el swipe
