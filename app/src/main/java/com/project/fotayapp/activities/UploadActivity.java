@@ -207,7 +207,7 @@ public class UploadActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         //Actualiza las fotos del usuario
-                        //profileFragment.webhosturl();
+                        profileFragment.webhosturl();
                         profileFragment.getUserPosts();
 
                         //Cerrar actividad

@@ -114,13 +114,11 @@ public class profileFragment extends Fragment {
         // Inicializar base de datos sqlite
         db = new UserDataSQLite(requireContext());
 
-        //Toast.makeText(getContext(), "Usuario: " + getSessionUsername()  + "\nId: " + getSessionId(), Toast.LENGTH_SHORT).show();
+        //Metodo para obtener la imagen de perfil del usuario desde la base de datos
+        loadProfileImg();
 
         //Método para obtener los posts del usuario desde la base de datos
         getUserPosts();
-
-        //Método para obtener la imagen de perfil del usuario desde la base de datos
-        loadProfileImg();
 
         //declarar un StaggeredGridLayoutManager con 3 columnas
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
@@ -143,15 +141,11 @@ public class profileFragment extends Fragment {
             public void onRefresh() {
                 //Actualizar la lista de posts
                 photoList.clear();
-                getUserPosts();
                 loadProfileImg();
+                getUserPosts();
                 clearPostIds();
                 swipeRefreshLayout.setRefreshing(false);
-                /*getUserPosts();
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemChanged(4);
-                adapter.notifyItemInserted(4);
-                swipeRefreshLayout.setRefreshing(false);*/
+
             }
         });
 
@@ -193,9 +187,6 @@ public class profileFragment extends Fragment {
 
                             db.updateUserTableUsuarios(newUsername, getSessionId());
                             Toast.makeText(getContext(), "Nuevo nombre de usuario: " + newUsername, Toast.LENGTH_SHORT).show();
-                            //db.getUserInfoUpdated();
-                            //db.onUpgrade(db.getWritableDatabase(), 1, 2);
-                            //db.addUserTableUsuarios(getSessionId(),newUsername);
 
                             //Actualizar nombre de usuario en la base de datos mysql [updateUsername.php]
                             updateUserName(newUsername);
@@ -240,10 +231,8 @@ public class profileFragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_USERNAME_URL, response -> {
             if (response.equals("Nombre actualizado")) {
                 Toast.makeText(getContext(), "Nombre actualizado", Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
-                //Toast.makeText(getContext(), "Error al actualizar el nombre", Toast.LENGTH_SHORT).show();
             }
         }, error -> {
             Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
@@ -332,7 +321,7 @@ public class profileFragment extends Fragment {
 
                         try {
                             JSONArray jsonArray = response.getJSONArray("profile_posts");
-                            Toast.makeText(getContext(), jsonArray.length() + " fotos".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), jsonArray.length() + " fotos".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
                             tv_photo_count.setText(String.valueOf(jsonArray.length()));
                             for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -344,12 +333,11 @@ public class profileFragment extends Fragment {
                                 String foto_ruta = profile_posts.getString("foto_ruta");
                                 String foto_perfil = profile_posts.getString("foto_perfil");
 
-                                //Agregar el objeto a la lista de objetos
+//Agregar el objeto a la lista de objetos
                                 photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
                                 //Guardar foto_id en una lista
                                 post_ids.add(foto_id);
                             }
-                            //Toast.makeText(getContext(), "Foto ID nº 1: " + getPhotoId(0), Toast.LENGTH_SHORT).show();
                             //RecyclerAdapter
                             adapter = new PostProfileAdapter(getContext(), photoList, listener);
                             //
@@ -433,9 +421,11 @@ public class profileFragment extends Fragment {
                         //Si no hay imagen de perfil, se carga la imagen por defecto
                         if (foto_perfil.equalsIgnoreCase("") || foto_perfil.equalsIgnoreCase("null")) {
                             Picasso.get().load(foto_perfil).placeholder(R.drawable.ic_no_profile_picture).into(iv_profile_pic);
+
                         } else {
                             //Cargar la imagen de perfil del usuario en el ImageView
                             Picasso.get().load(foto_perfil).fit().centerInside().into(iv_profile_pic);
+
                         }
                     }
                 } catch (JSONException e) {

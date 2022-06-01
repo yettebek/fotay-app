@@ -84,8 +84,8 @@ public class PostActivity extends AppCompatActivity {
 
         // Inicializar lista
         photoList = profileFragment.photoList;
-        /*int size = photoList.size();
-        Toast.makeText(getApplicationContext(), "Tamaño de la lista: " + size, Toast.LENGTH_SHORT).show();*/
+
+        adapter = new PostProfileAdapter(this, photoList, listener);
 
         getSessionUsername();
 

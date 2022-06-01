@@ -12,12 +12,10 @@ import android.text.Html;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,8 +59,6 @@ public class CommentsActivity extends AppCompatActivity {
     private ImageView iv_send;
     private EditText et_comment;
     public static int position;
-    private NestedScrollView nsv_comments;
-    private LinearLayout ll_comment;
 
     private RecyclerView commentRecyclerView;
     private CommentAdapter commentAdapter;
@@ -242,9 +238,8 @@ public class CommentsActivity extends AppCompatActivity {
 
                                 //Agregar el objeto a la lista de objetos
                                 commentList.add(new Comment(foto_perfil, usu_nombre, fecha_coment, txt_coment));
-
-
                             }
+
                             if (commentList.size() == 0) {
                                 Toast.makeText(CommentsActivity.this, "No hay comentarios", Toast.LENGTH_SHORT).show();
                             }
@@ -282,7 +277,7 @@ public class CommentsActivity extends AppCompatActivity {
         if (classIntent.equals("PostActivity")) {
             position = getIntent().getIntExtra(POST_ACTIVITY, 0);
             int IDPhotoPost = postActivity.id_photo;
-            Toast.makeText(this, "IDPhotoPost: " + IDPhotoPost, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "IDPhotoPost: " + IDPhotoPost, Toast.LENGTH_SHORT).show();
 
             //Método que muestra los comentarios de una foto en PostActivity
             String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoPost;
@@ -291,7 +286,7 @@ public class CommentsActivity extends AppCompatActivity {
         } else if (classIntent.equals("HomeAdapter")) {
             position = getIntent().getIntExtra(HOME_ADAPTER, 0);
             int IDPhotoHome = homeFragment.getPhotoHomeId(position);
-            Toast.makeText(this, "IDPhotoHome: " + IDPhotoHome, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "IDPhotoHome: " + IDPhotoHome, Toast.LENGTH_SHORT).show();
 
             //Método que muestra los comentarios de una foto en HomeAdapter
             String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoHome;

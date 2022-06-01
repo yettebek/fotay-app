@@ -66,8 +66,6 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
         final ViewHolder viewHolder = new ViewHolder(view);
 
 
-
-
         return viewHolder;
     }
 
@@ -76,17 +74,10 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         //Obtener posición del elemento
         post = postPhotoAdapterList.get(position);
-//        //Cargar foto de perfil en el adapter
-//        Picasso.get().load(post.getFoto_perfil()).fit().centerInside().into(viewHolder.iv_profile_pic);
-//        //Cargar nomnbre de usuario en el adapter
-//        viewHolder.tv_username.setText(post.getUsu_nombre());
-//        //Cargar fecha de publicación en el adapter
-//        viewHolder.tv_post_date.setText(post.getFoto_fecha());
-//        //Cargar la imagen en el ImageView con Picasso
+
+        //Cargar la imagen en el ImageView con Picasso
         Picasso.get().load(post.getFoto_ruta()).fit().centerInside().into(viewHolder.iv_photo);
-        //Cargar descripción de la foto en el adapter
-        //viewHolder.tv_post_comment.setText(post.getFoto_fecha());
-        //Listener para el click de cada foto de post
+
         viewHolder.iv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

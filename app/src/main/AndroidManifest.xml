@@ -28,6 +28,9 @@
         android:theme="@style/Theme.FotayApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.FullScreenImageActivity"
             android:exported="false" />
         <activity

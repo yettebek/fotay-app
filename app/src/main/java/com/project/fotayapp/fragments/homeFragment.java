@@ -162,7 +162,7 @@ public class homeFragment extends Fragment {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getContext(), "Se ha perdido la conexion.\nIntentelo mas tarde.", Toast.LENGTH_SHORT).show();
                 } else {
-                    //Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
