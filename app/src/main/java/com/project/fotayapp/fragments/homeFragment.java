@@ -1,5 +1,7 @@
 package com.project.fotayapp.fragments;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
 import com.project.fotayapp.adapters.HomeAdapter;
@@ -52,6 +55,7 @@ public class homeFragment extends Fragment {
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
     public UserDataSQLite db;
     public static ArrayList<Integer> home_ids = new ArrayList<Integer>();
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +69,7 @@ public class homeFragment extends Fragment {
         tv_post_description = view.findViewById(R.id.description);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         fab_up = view.findViewById(R.id.fab_up);
+        //loadingProgressBar = view.findViewById(R.id.home_progressBar);
 
         //Inicializar adaptador
         adapter = new HomeAdapter(getContext(), photoList);
@@ -90,14 +95,10 @@ public class homeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 //Actualizar la lista de posts
-                photoList.clear();
-                getUserPosts();
+                //photoList.clear();
+                //getUserPosts();
                 swipeRefreshLayout.setRefreshing(false);
-                /*getUserPosts();
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemChanged(4);
-                adapter.notifyItemInserted(4);
-                swipeRefreshLayout.setRefreshing(false);*/
+
             }
         });
 
@@ -114,6 +115,13 @@ public class homeFragment extends Fragment {
     }
 
     public void getUserPosts() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Cargando posts...");
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+        //Detectar si hay conexión a internet
+
+
         //[Volley API]
         String webhostURL = "https://fotay.000webhostapp.com/fetchDataHome.php";
         JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null,
@@ -131,23 +139,24 @@ public class homeFragment extends Fragment {
                                 String foto_fecha = post.getString("foto_fecha");
                                 String foto_coment = post.getString("foto_coment");
                                 String foto_ruta = post.getString("foto_ruta");
+                                int total_comentarios = post.getInt("total_comentarios");
 
                                 //recuperar imagen de perfil de la tabla usuarios
                                 String foto_perfil = post.getString("foto_perfil");
 
                                 if (!usu_nombre.equalsIgnoreCase(getSessionUsername())) {
                                     //Agregar el objeto a la lista de objetos
-                                    photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                    photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil, total_comentarios));
                                     home_ids.add(foto_id);
-                                    
                                 }
-                                //Toast.makeText(getContext(), "foto_ids: " + foto_id, Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(getContext(), "Cargando " + photoList.size() + " posts...", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), "Cargando " + photoList.size() + " posts...", Toast.LENGTH_SHORT).show();
                             //RecyclerAdapter
                             adapter = new HomeAdapter(getContext(), photoList);
                             //Pasar la lista de objetos a la vista del RecyclerView
                             recyclerView.setAdapter(adapter);
+
+                            progressDialog.dismiss();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -155,12 +164,33 @@ public class homeFragment extends Fragment {
                                     "Error: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
+                        //loadingProgressBar.setVisibility(View.GONE);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nIntentelo mas tarde.", Toast.LENGTH_SHORT).show();
+                    //progressDialog.dismiss();
+
+                    Snackbar snackbar = Snackbar
+                            .make(requireView(), "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_INDEFINITE);
+                    progressDialog.dismiss();
+
+                    snackbar.setAction("REINTENTAR", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (view != null) {
+                                getUserPosts();
+                            }else   {
+                                Snackbar snackbar1 = Snackbar.make(view, "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_SHORT);
+                                snackbar1.show();
+                            }
+
+                        }
+                    }).setTextColor(Color.RED);
+                    snackbar.show();
+
                 } else {
                     Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }

@@ -2,7 +2,7 @@
 
 require_once('db.php');
 
-$select_photos_query = "SELECT foto_perfil, usu_nombre FROM usuarios";
+$select_photos_query = "SELECT usu_id, usu_nombre, foto_perfil FROM usuarios";
 
 $result_select = $mysql->query($select_photos_query);
 
@@ -10,6 +10,7 @@ if ($result_select) {
     $a_users = array();
     while ($row = $result_select->fetch_assoc()) {
         array_push($a_users, array(
+            'usu_id' => $row['usu_id'],
             'foto_perfil' => $row['foto_perfil'],
             'usu_nombre' => $row['usu_nombre'],
 

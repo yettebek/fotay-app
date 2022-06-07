@@ -26,9 +26,18 @@ public class UserDataSQLite extends SQLiteOpenHelper {
     public static String SQL_ID = "usu_id";
     public static String SQL_NAME = "usu_nombre";
 
+    //Instancia de la clase para poder usarla en toda la aplicación
+    private static UserDataSQLite uInstance;
+
+    //Constructor de la instancia
+    public static synchronized UserDataSQLite getInstance() {
+        return uInstance;
+    }
+
     //Contexo de la clase para acceder a la base de datos desde otras clases
     public UserDataSQLite(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        uInstance = this;
     }
 
     // Crear tabla usuarios
@@ -38,7 +47,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
                 + SQL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + SQL_NAME + " TEXT " + ")";
 
         db.execSQL(CREATE_LOGIN_TABLE);
-
+        uInstance = this;
         Log.d(TAG, "Database tables created");
     }
 
@@ -101,6 +110,29 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         Log.d(TAG, "Fetching user from Sqlite: " + user_sqlite.toString());
 
         return user_sqlite;
+    }
+
+    public HashMap<String, Integer> getUserId() {
+        HashMap<String, Integer> id_sqlite = new HashMap<String, Integer>();
+
+        String selectQuery = "SELECT " + SQL_ID + " FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        assert cursor != null;
+        // Asegurarse de que el cursor tiene al menos una fila de datos
+        if (cursor != null && cursor.moveToFirst()) {
+            id_sqlite.put("usu_id", cursor.getInt(0));
+        }
+
+        cursor.close();
+        //db.close();
+
+        //Log los datos del usuario
+        Log.d(TAG, "ID usuario Sqlite: " + id_sqlite.toString());
+
+        return id_sqlite;
     }
 
     /**

@@ -52,7 +52,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         //Si no hay imagen de perfil, se carga la imagen por defecto
         if (postPhoto.getFoto_perfil().equalsIgnoreCase("null")) {
             //Imagen de perfil por defecto
-            //holder.iv_profile_pic.setImageResource(R.drawable.ic_no_profile_picture);
             Picasso.get().load(postPhoto.getFoto_perfil()).placeholder(R.drawable.ic_no_profile_picture).into(holder.iv_profile_pic);
         } else {
             Picasso.get().load(postPhoto.getFoto_perfil()).fit().centerInside().into(holder.iv_profile_pic);
@@ -63,12 +62,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         String date = postPhoto.getFoto_fecha();
         //Cargar la imagen en el ImageView con Picasso
         Picasso.get().load(postPhoto.getFoto_ruta()).fit().centerInside().into(holder.iv_post_photo);
+        //Cargar el número de comentarios
+        int numComments = postPhoto.getTotal_comentarios();
         //Cargar la descripción
         String description = postPhoto.getFoto_coment();
 
         holder.tv_username.setText(userName);
         holder.tv_post_date.setText(date);
         holder.tv_post_description.setText(description);
+        holder.tv_comment_count.setText(String.valueOf(numComments));
 
         //Acceder a la imagen en pantalla completa
         holder.iv_post_photo.setOnClickListener(new View.OnClickListener() {
@@ -83,10 +85,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.tv_post_comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id_photo = holder.getAbsoluteAdapterPosition();
+                //int id_photo = holder.getAbsoluteAdapterPosition();
                 Intent intent = new Intent(hContext, CommentsActivity.class);
                 intent.putExtra("Class", "HomeAdapter");
-                intent.putExtra(HOME_ADAPTER, id_photo);
+                intent.putExtra(HOME_ADAPTER, postPhoto.getFoto_id());
                 intent.putExtra(EXTRA_PROFILE_PHOTO, postPhoto.getFoto_perfil());
                 intent.putExtra(EXTRA_PHOTO, postPhoto.getFoto_ruta());
                 intent.setClass(hContext, CommentsActivity.class);
@@ -103,8 +105,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         //Variables
-        public ImageView iv_profile_pic, iv_post_photo, iv_comment, iv_more;
-        public TextView tv_username, tv_post_date, tv_post_comments;
+        public ImageView iv_profile_pic, iv_post_photo, iv_comment;
+        public TextView tv_username, tv_post_date, tv_post_comments, tv_comment_count;
         public SocialTextView tv_post_description;
 
         public ViewHolder(View itemView) {
@@ -119,7 +121,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             this.tv_post_date = itemView.findViewById(R.id.home_date);
             //this.tv_post_likes = itemView.findViewById(R.id.tv_likes);
             this.tv_post_comments = itemView.findViewById(R.id.tv_comments);
+            this.tv_comment_count = itemView.findViewById(R.id.tv_count_comments);
             this.tv_post_description = itemView.findViewById(R.id.description);
         }
     }
+
+
 }

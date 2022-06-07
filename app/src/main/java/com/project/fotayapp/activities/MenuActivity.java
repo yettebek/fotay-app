@@ -28,7 +28,6 @@ public class MenuActivity extends AppCompatActivity {
     private Fragment profileFragment;
 
     private ViewPager2 viewPager2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,27 +41,25 @@ public class MenuActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
         viewPager2 = findViewById(R.id.viewpager2);
 
-        //Cambiar el fragment al pulsar en uno de los iconos del bottomNavigationView
+        //Cambiar el fragment al pulsar en uno de los iconos del bottomNavigationView, false para no mostrar las animaciones de transición entre fragments
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_home:
-                        viewPager2.setCurrentItem(0, true);
+                        viewPager2.setCurrentItem(0, false);
                         break;
                     case R.id.nav_chat:
-                        viewPager2.setCurrentItem(1, true);
+                        viewPager2.setCurrentItem(1, false);
                         break;
                     case R.id.nav_prof:
-                        viewPager2.setCurrentItem(2, true);
+                        viewPager2.setCurrentItem(2, false);
                         break;
 
                 }
                 return false;
             }
         });
-        //Iniciar por defecto el homeFragment()
-        //getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new homeFragment()).commit();
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -103,5 +100,9 @@ public class MenuActivity extends AppCompatActivity {
 
         //Asignar el adapter al viewPager2
         viewPager2.setAdapter(adapter);
+
+        //Abrir el fragment de perfil al iniciar la app
+        viewPager2.setCurrentItem(0,false);
+
     }
 }

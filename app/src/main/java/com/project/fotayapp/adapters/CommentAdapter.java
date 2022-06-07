@@ -21,7 +21,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     //Variables
     private final Context comContext;
     private ArrayList<Comment> commentAdapterList = new ArrayList<Comment>();
+    private static CommentAdapter cInstance;
 
+    //Interfaz para comunicar con el fragment
+    public interface AdapterCallback {
+        public void onChangeCommentCount();
+        //public void onChangeCommentCount(int position);
+    }
     public CommentAdapter(Context comContext, ArrayList<Comment> commentList) {
         this.comContext = comContext;
         this.commentAdapterList = commentList;
@@ -31,7 +37,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View commentView = LayoutInflater.from(comContext).inflate(R.layout.comment_card, parent, false);
+        cInstance = this;
         return new ViewHolder(commentView);
+    }
+
+    public static synchronized CommentAdapter getInstance() {
+        return cInstance;
     }
 
     @Override
@@ -39,19 +50,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         //Obtenemos la posición de cada objeto en la lista
         Comment comment = commentAdapterList.get(position);
 
-        //Cargamos los datos en el ViewHolder
-        Picasso.get().load(comment.getCommentPhoto()).fit().centerInside().into(holder.commentPhoto);
+        if (!comment.getCommentPhoto().equalsIgnoreCase("null")) {
+            //Imagen de perfil del usuario
+            Picasso.get().load(comment.getCommentPhoto()).fit().centerInside().into(holder.commentPhoto);
+        }
+        //Si no hay imagen de perfil, se carga la imagen por defecto
+        Picasso.get().load(comment.getCommentPhoto()).placeholder(R.drawable.ic_no_profile_picture).into(holder.commentPhoto);
+
+        //Toast.makeText(comContext, "Nº de comentarios: " + getItemCount(), Toast.LENGTH_SHORT).show();
+
         holder.commentUser.setText(comment.getCommentUser());
         holder.commentDate.setText(comment.getCommentDate());
         holder.commentText.setText(comment.getCommentText());
+
     }
 
 
     @Override
     public int getItemCount() {
-
-        return commentAdapterList.size();
+        if (commentAdapterList != null) {
+            return commentAdapterList.size();
+        }
+        return 0;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

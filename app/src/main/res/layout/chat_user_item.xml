@@ -33,9 +33,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="78dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="10dp"
+                android:text="James Mkaz"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chat_last_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chat_username"
+                android:layout_marginStart="81dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="39dp"
+                android:maxLines="1"
+                android:text="Hola, ¿qué tal el día?"
+                android:textColor="#ACACAC"
+                android:textSize="17sp" />
+
+
+            <TextView
+                android:id="@+id/chat_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="355dp"
                 android:layout_marginTop="22dp"
-                android:text="James May"
+                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="23sp"
                 android:textStyle="bold" />

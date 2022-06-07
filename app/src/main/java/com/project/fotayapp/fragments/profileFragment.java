@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -41,6 +42,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.project.fotayapp.R;
 import com.project.fotayapp.activities.OptionsActivity;
 import com.project.fotayapp.activities.UploadActivity;
@@ -61,22 +63,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-public class profileFragment extends Fragment {
+public class profileFragment extends Fragment implements PostProfileAdapter.AdapterCallback{
 
     //Declarar variables
     private ImageView iv_profile_pic, iv_options_profile;
     private FloatingActionButton fab_imagen;
-    private TextView tv_photo_count, tv_p_username;
+    public static TextView tv_photo_count;
+    private TextView tv_p_username;
 
     public UserDataSQLite db;
     private RecyclerView recyclerView;
     private PostProfileAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     public static ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
-    public PostProfileAdapter.OnItemClickListener listener;
 
     private static final int NUM_COLUMNS = 3;
 
@@ -84,12 +85,8 @@ public class profileFragment extends Fragment {
     private Bitmap bitmap;
     String newUsername;
     public static ArrayList<Integer> post_ids = new ArrayList<>();
-    //Nombres de las constantes para el intent
-    public static final String EXTRA_PROFILE_PICTURE = "profilepic";
-    public static final String EXTRA_USERNAME = "username";
-    public static final String EXTRA_DATE = "date";
-    public static final String EXTRA_PHOTO = "photo";
-    public static final String EXTRA_DESCRIPTION = "description";
+    public static final String EXTRA_PROFILE_PHOTO_P = "profile_photo";
+    PostProfileAdapter.AdapterCallback callback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,9 +101,12 @@ public class profileFragment extends Fragment {
         tv_p_username = view.findViewById(R.id.tv_p_username);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
-        //Inicializar adaptador, llamar al método setOnClickListener para que se ejecute la interfaz OnItemClickListener de la clase PostProfileAdapter
-        adapter = new PostProfileAdapter(getContext(), photoList, listener);
+        //Toast profileFragment
+        Toast.makeText(getContext(), "Profile Fragment", Toast.LENGTH_SHORT).show();
 
+
+        //Inicializar adaptador, llamar al método setOnClickListener para que se ejecute la interfaz OnItemClickListener de la clase PostProfileAdapter
+        adapter = new PostProfileAdapter(getContext(), photoList, callback);
 
         //Inicializar recyclerView encargado de mostrar las fotos
         recyclerView = view.findViewById(R.id.profileRecyclerView);
@@ -140,10 +140,10 @@ public class profileFragment extends Fragment {
             @Override
             public void onRefresh() {
                 //Actualizar la lista de posts
-                photoList.clear();
+                /*photoList.clear();
                 loadProfileImg();
                 getUserPosts();
-                clearPostIds();
+                clearPostIds();*/
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -153,7 +153,6 @@ public class profileFragment extends Fragment {
         iv_options_profile.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), OptionsActivity.class);
             startActivity(intent);
-
         });
 
         //Editar el nombre de usuario
@@ -211,6 +210,7 @@ public class profileFragment extends Fragment {
                     .compress(1024) //comprimir la imagen a un tamaño de 2MB
                     .maxResultSize(1080, 1920)    //La resolución máxima permitida
                     .start(2);
+
         });
 
         //setOnClickListener para iv_profile_pic
@@ -222,6 +222,8 @@ public class profileFragment extends Fragment {
                     .maxResultSize(600, 600)    //La resolución máxima permitida será 600 x 600 pixeles
                     .start(1); //1 para la imagen de perfil, 2 para la imagen de post
         });
+
+        //Toast.makeText(requireContext(), "ID: " + getUserId() ,Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -288,20 +290,26 @@ public class profileFragment extends Fragment {
 
         }
         if (requestCode == 2 && resultCode != getActivity().RESULT_CANCELED) {
-            Toast.makeText(getContext(), "Cargando Imagen...".toUpperCase(Locale.ROOT), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Cargando imagen...", Toast.LENGTH_SHORT).show();
 
             //Uri de la foto
             fotayUri = data.getData();
+
+            //detach fragment
+            //getActivity().getSupportFragmentManager().beginTransaction().remove(this).attach(this).commit();
+            //getActivity().getSupportFragmentManager().beginTransaction().detach(this).commit();
 
             //Enviar la imagen a la otra actividad por medio de un intent
             Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
             uploadIntent.putExtra("fotayUri", fotayUri.toString());
             startActivity(uploadIntent);
 
-            getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            //getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
 
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -313,12 +321,12 @@ public class profileFragment extends Fragment {
 
     //Método para obtener los posts del usuario desde la base de datos
     public void getUserPosts() {
+
         //[Volley API]
         JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhosturl(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         try {
                             JSONArray jsonArray = response.getJSONArray("profile_posts");
                             //Toast.makeText(getContext(), jsonArray.length() + " fotos".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
@@ -332,20 +340,23 @@ public class profileFragment extends Fragment {
                                 String foto_coment = profile_posts.getString("foto_coment");
                                 String foto_ruta = profile_posts.getString("foto_ruta");
                                 String foto_perfil = profile_posts.getString("foto_perfil");
+                                int total_comentarios = profile_posts.getInt("total_comentarios");
 
 //Agregar el objeto a la lista de objetos
-                                photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil));
+                                photoList.add(new PostPhoto(foto_id, usu_nombre, foto_fecha, foto_coment, foto_ruta, foto_perfil, total_comentarios));
                                 //Guardar foto_id en una lista
                                 post_ids.add(foto_id);
                             }
                             //RecyclerAdapter
-                            adapter = new PostProfileAdapter(getContext(), photoList, listener);
+                            adapter = new PostProfileAdapter(getContext(), photoList,callback);
+                            adapter.notifyDataSetChanged();
                             //
-                            adapter.notifyItemInserted(photoList.size() - 1);
+                            //adapter.notifyItemInserted(photoList.size() - 1);
                             //Pasar la lista de objetos a la vista del RecyclerView
                             recyclerView.setAdapter(adapter);
 
                             int size = photoList.size();
+                            //tv_photo_count.setText(String.valueOf(size));
 
 
                         } catch (JSONException e) {
@@ -355,7 +366,27 @@ public class profileFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getContext(), "Sin imágenes.", Toast.LENGTH_SHORT).show();
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Snackbar snackbar = Snackbar
+                            .make(requireView(), "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("REINTENTAR", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (view != null) {
+                                //Actualizar la lista de posts
+                                photoList.clear();
+                                loadProfileImg();
+                                getUserPosts();
+                                clearPostIds();
+                            } else {
+                                Snackbar snackbar1 = Snackbar.make(view, "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_SHORT);
+                                snackbar1.show();
+                            }
+
+                        }
+                    }).setTextColor(Color.RED);
+                    snackbar.show();
+                }
             }
         }
         );
@@ -427,6 +458,8 @@ public class profileFragment extends Fragment {
                             Picasso.get().load(foto_perfil).fit().centerInside().into(iv_profile_pic);
 
                         }
+                        //Enviar a CommentsActivity la foto de perfil del usuario
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -436,7 +469,19 @@ public class profileFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nVuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                            .make(requireView(), "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("REINTENTAR", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Actualizar la lista de posts
+                            photoList.clear();
+                            loadProfileImg();
+                            getUserPosts();
+                            clearPostIds();
+                        }
+                    }).setTextColor(Color.RED);
+                    snackbar.show();
                 } else {
                     Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -459,6 +504,12 @@ public class profileFragment extends Fragment {
         return idUsu;
     }
 
+    public int getUserId() {
+        HashMap<String, Integer> id_sqlite = db.getUserId();
+        int idUsu = id_sqlite.get("usu_id");
+        return idUsu;
+    }
+
     public static int getPhotoId(int position) {
         return post_ids.get(position);
     }
@@ -476,6 +527,10 @@ public class profileFragment extends Fragment {
         editor.apply(); //guarda todos los cambios
     }
 
+    @Override
+    public void onChangeCommentCount(int position, int commentCount) {
+
+    }
 }
 
 

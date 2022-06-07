@@ -9,13 +9,16 @@ public class PostPhoto implements Serializable { //Serializable para poder pasar
     private String foto_coment;
     private String foto_ruta;
     private String foto_perfil;
+    private int total_comentarios;
 
-    public PostPhoto(int foto_id, String usu_nombre, String foto_fecha, String foto_coment, String foto_ruta, String foto_perfil) {
+    public PostPhoto(int foto_id, String usu_nombre, String foto_fecha, String foto_coment, String foto_ruta, String foto_perfil, int total_comentarios) {
+        this.foto_id = foto_id;
         this.usu_nombre = usu_nombre;
         this.foto_fecha = foto_fecha;
         this.foto_coment = foto_coment;
         this.foto_ruta = foto_ruta;
         this.foto_perfil = foto_perfil;
+        this.total_comentarios = total_comentarios;
     }
 
     public int getFoto_id() {
@@ -44,6 +47,10 @@ public class PostPhoto implements Serializable { //Serializable para poder pasar
 
     public String getFoto_perfil() {
         return foto_perfil;
+    }
+
+    public int getTotal_comentarios() {
+        return total_comentarios;
     }
 
 }

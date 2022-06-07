@@ -1,5 +1,7 @@
 package com.project.fotayapp.fragments;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,9 +21,12 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.project.fotayapp.R;
+import com.project.fotayapp.activities.ChatActivity;
 import com.project.fotayapp.adapters.UserChatAdapter;
-import com.project.fotayapp.models.Comment;
+import com.project.fotayapp.models.Chat;
+import com.project.fotayapp.models.ChatUser;
 import com.project.fotayapp.models.UserDataSQLite;
 
 import org.json.JSONArray;
@@ -38,7 +42,7 @@ public class chatFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private UserChatAdapter userChatAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<Comment> chatUsersList = new ArrayList<>();
+    private ArrayList<ChatUser> chatUsersList = new ArrayList<>();
     public UserDataSQLite db;
 
 
@@ -47,20 +51,42 @@ public class chatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        // Inicializar base de datos sqlite
-        db = new UserDataSQLite(getContext());
-
-        //Inicializar adaptador
-        userChatAdapter = new UserChatAdapter(getContext(), chatUsersList);
-
         //Inicializar variables
         recyclerView = view.findViewById(R.id.chat_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.chat_swipe_refresh);
 
+        // Inicializar base de datos sqlite
+        db = new UserDataSQLite(getContext());
+
+        // Inicializar lista de usuarios
+        chatUsersList = new ArrayList<>();
+
+        //Inicializar adaptador
+        userChatAdapter = new UserChatAdapter(getContext(), chatUsersList);
+
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(userChatAdapter);
+
+        //Dirigirse al chat de la persona seleccionada
+        recyclerView.addOnItemTouchListener(new UserChatAdapter.RecyclerTouchListener(getContext(), recyclerView, new UserChatAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                ChatUser chatUser = chatUsersList.get(position);
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("ChatUserProfilePhoto", chatUser.getUserPhoto());
+                intent.putExtra("ChatUserName", chatUser.getUserName());
+                intent.putExtra("ChatUserId", chatUser.getUserChatId());
+                startActivity(intent);
+                Toast.makeText(getActivity(), chatUser.getUserName() + " is selected!\nID receptor: " + chatUser.getUserChatId(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
         //Inicializar lista de usuarios
         chatUsersList = new ArrayList<>();
@@ -71,17 +97,35 @@ public class chatFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Toast.makeText(requireContext(), "Actualizando...", Toast.LENGTH_SHORT).show();
                 chatUsersList.clear();
                 getUsersInfo();
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(requireContext(), "Actualizado", Toast.LENGTH_SHORT).show();
-            }   //Fin onRefresh
-        });
 
+            }
+        });
 
 
         return view;
     }
+
+    //Método par actualizar el contador de mensajes y el último mensaje
+    public void updateChatUserContent(String userId, Chat chat) {
+
+        for (ChatUser chatUser : chatUsersList) {
+            if (chatUser.getUserChatId().equals(userId)) {
+                int index = chatUsersList.indexOf(chatUser);
+                chatUser.setLastMessage(chat.getMensaje());
+                chatUser.setCountMessages(chatUser.getCountMessages() + 1);
+                chatUsersList.remove(index);
+                chatUsersList.add(index, chatUser);
+                break;
+            }
+        }
+        userChatAdapter.notifyDataSetChanged();
+
+    }
+
 
     private void getUsersInfo() {
         String webhostURL = "https://fotay.000webhostapp.com/showUsers.php";
@@ -95,12 +139,13 @@ public class chatFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject post = jsonArray.getJSONObject(i);
 
+                                String userChatId = post.getString("usu_id");
                                 String foto_perfil = post.getString("foto_perfil");
                                 String usu_nombre = post.getString("usu_nombre");
 
                                 if (!usu_nombre.equalsIgnoreCase(getSessionUsername())) {
                                     //Agregar el objeto a la lista de objetos
-                                    chatUsersList.add(new Comment(foto_perfil, usu_nombre, "", ""));
+                                    chatUsersList.add(new ChatUser(userChatId, foto_perfil, usu_nombre, "", 0));
                                 }
                             }
                             //RecyclerAdapter
@@ -114,14 +159,24 @@ public class chatFragment extends Fragment {
                                     "Error: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
+                        userChatAdapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(getContext(), "Se ha perdido la conexion.\nIntentelo mas tarde.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                            .make(requireView(), "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("REINTENTAR", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            chatUsersList.clear();
+                            getUsersInfo();
+                        }
+                    }).setTextColor(Color.RED);
+                    snackbar.show();
                 } else {
-                    //Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    getUsersInfo();
                 }
             }
         }

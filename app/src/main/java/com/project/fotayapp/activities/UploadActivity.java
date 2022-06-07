@@ -1,14 +1,18 @@
 package com.project.fotayapp.activities;
 
+import static com.project.fotayapp.fragments.profileFragment.tv_photo_count;
+
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -29,9 +34,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.hendraanggrian.appcompat.widget.SocialAutoCompleteTextView;
 import com.project.fotayapp.R;
+import com.project.fotayapp.adapters.PostProfileAdapter;
 import com.project.fotayapp.fragments.profileFragment;
+import com.project.fotayapp.models.PostPhoto;
 import com.project.fotayapp.models.UserDataSQLite;
 
 import java.io.ByteArrayOutputStream;
@@ -39,14 +47,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class UploadActivity extends AppCompatActivity {
 
-    private ImageView upload_back;
-    private ImageView upload_img;
+    private ImageView upload_back, upload_img;
 
     private Button btn_upload_img;
 
@@ -66,6 +74,9 @@ public class UploadActivity extends AppCompatActivity {
     private UserDataSQLite db;
     public profileFragment profileFragment;
 
+    ArrayList<PostPhoto> photoList;
+    CoordinatorLayout coordinatorLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,9 +90,11 @@ public class UploadActivity extends AppCompatActivity {
         // Inicializar base de datos SQLite para almacenar datos de usuario
         db = new UserDataSQLite(this);
 
-        //Toast.makeText(getApplicationContext(), "Usuario: " + getSessionUsername() + "\nId: " + getSessionId(), Toast.LENGTH_SHORT).show();
-
         profileFragment = new profileFragment();
+
+        // Inicializar lista de fotos
+        photoList = new ArrayList<>();
+        photoList = profileFragment.photoList;
 
         //Inicializar variables en la View
         upload_back = findViewById(R.id.upload_back);
@@ -89,7 +102,7 @@ public class UploadActivity extends AppCompatActivity {
         btn_upload_img = findViewById(R.id.btn_upload_img);
         upload_description = findViewById(R.id.upload_description);
         progressBar = findViewById(R.id.progress_circular);
-
+        coordinatorLayout = findViewById(R.id.upload_layout);
         // Declara RequestQueue para gestionar las peticiones al servidor
         requestQueue = Volley.newRequestQueue(this);
 
@@ -115,6 +128,12 @@ public class UploadActivity extends AppCompatActivity {
                 photo_description = upload_description.getText().toString().trim();
 
                 uploadImgToServer();
+
+                //Desactivar botón de subida de imagen al servidor al subir la imagen
+                btn_upload_img.setBackgroundColor(getResources().getColor(R.color.btn_no_upload_img));
+                btn_upload_img.setEnabled(false);
+
+
             }
         });
 
@@ -192,33 +211,52 @@ public class UploadActivity extends AppCompatActivity {
     //Subir imagen al servidor remoto
     public void uploadImgToServer() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
-
         //[Volley API]
         StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 btn_upload_img.setEnabled(false);
-                progressDialog.setMessage("Subiendo imagen...");
+                //progressDialog.setMessage("Subiendo imagen...");
+
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.dismiss();
+                tv_photo_count.setText(String.valueOf(PostProfileAdapter.getInstance().getItemCount()));
 
-                        //Actualiza las fotos del usuario
-                        profileFragment.webhosturl();
-                        profileFragment.getUserPosts();
-
-                        //Cerrar actividad
-                        finish();
+                //Muestra el progreso de la subida de la imagen por 5 segundos
+                new CountDownTimer(5000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        progressDialog.setMessage("Subiendo imagen...  (" + millisUntilFinished / 1000 + " s)");
                     }
-                }, 6000);
+
+                    public void onFinish() {
+                        progressDialog.dismiss();
+                        Toast.makeText(UploadActivity.this, "Imagen añadida.", Toast.LENGTH_SHORT).show();
+                        //Salir de UploadActivity
+                        Intent intent = new Intent(UploadActivity.this, MenuActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }.start();
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(R.id.upload_layout), "Error al subir la imagen.", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("REINTENTAR", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (view != null) {
+                            //Volver a intentar subir la imagen
+                            uploadImgToServer();
+                        } else {
+                            Snackbar snackbar1 = Snackbar.make(view, "Error de conexión, inténtalo de nuevo", Snackbar.LENGTH_SHORT);
+                            snackbar1.show();
+                        }
+
+                    }
+                }).setTextColor(Color.RED);
+                snackbar.show();
             }
         }
         ) {

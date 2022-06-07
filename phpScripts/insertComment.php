@@ -12,9 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $insert_coment_query = "INSERT INTO comentarios (foto_id, usu_id, usu_nombre, fecha_coment, txt_coment) VALUES ('$foto_id', '$usu_id', '$usu_nombre', '$fecha_coment', '$txt_coment')";
 
-    $insert_coment_result = mysqli_query($mysql, $insert_coment_query);
+    $update_total_query = "UPDATE fotos SET total_comentarios = total_comentarios + 1 WHERE foto_id = '$foto_id'";
 
-    if ($insert_coment_result === true) {
+    $insert_coment_result = mysqli_query($mysql, $insert_coment_query);
+    $update_total_result = mysqli_query($mysql, $update_total_query);
+
+    if ($insert_coment_result && $update_total_result) {
         echo "Exito";
     } else {
         echo "Error";

@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/ic_launcher_background"
     android:fitsSystemWindows="true">
 
@@ -23,117 +23,136 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/post_scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="45dp"
-        android:orientation="vertical"
-        android:layout_below="@id/post_appbar">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/post_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical">
+            android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/post_profile_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_no_profile_picture"
-                app:civ_circle_background_color="@color/black" />
-
-            <TextView
-                android:id="@+id/post_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginStart="58dp"
-                android:layout_marginTop="9dp"
-                android:text="usuario_123"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/post_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="58dp"
-                android:layout_marginTop="35dp"
-                android:maxLines="1"
-                android:text="2022-04-17 10:00:00"
-                android:textColor="#B8B8B8"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </RelativeLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/post_image"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="3:4"
-                tools:ignore="MissingConstraints"
-                android:src="@drawable/logo" />
+                android:layout_height="match_parent"
+                android:layout_below="@id/post_appbar"
+                android:layout_marginTop="45dp"
+                android:orientation="vertical">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/post_profile_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_no_profile_picture"
+                        app:civ_circle_background_color="@color/black" />
+
+                    <TextView
+                        android:id="@+id/post_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginStart="58dp"
+                        android:layout_marginTop="9dp"
+                        android:text="usuario_123"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/post_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="58dp"
+                        android:layout_marginTop="35dp"
+                        android:maxLines="1"
+                        android:text="2022-04-17 10:00:00"
+                        android:textColor="#B8B8B8"
+                        android:textSize="13sp"
+                        android:textStyle="normal" />
+
+                </RelativeLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/post_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/logo"
+                        app:layout_constraintDimensionRatio="3:4"
+                        tools:ignore="MissingConstraints" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
-            <ImageView
-                android:id="@+id/iv_comment"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_comment" />
+                    <ImageView
+                        android:id="@+id/iv_comment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_comment" />
 
-            <TextView
-                android:id="@+id/tv_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="38dp"
-                android:layout_marginTop="2dp"
-                android:text="0 Comentarios"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/tv_count_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toEndOf="@+id/iv_comment"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toEndOf="@+id/tv_count_comments"
+                        android:text="Comentarios"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="normal" />
 
-        <com.hendraanggrian.appcompat.widget.SocialTextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="55dp"
-            android:maxLines="2"
-            android:text="Descripción de la foto"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:textStyle="normal" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+                </RelativeLayout>
 
-
-
+                <com.hendraanggrian.appcompat.widget.SocialTextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="55dp"
+                    android:maxLines="2"
+                    android:text="Descripción de la foto"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

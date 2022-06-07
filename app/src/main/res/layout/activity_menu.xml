@@ -38,9 +38,9 @@
             android:layout_height="wrap_content"
             android:background="@color/ic_launcher_background"
             android:elevation="8dp"
+            android:fitsSystemWindows="true"
             app:itemIconTint="@color/select_nav_btn"
             app:itemTextColor="@color/select_nav_btn"
-            android:fitsSystemWindows="true"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu_items" />
     </com.google.android.material.appbar.AppBarLayout>

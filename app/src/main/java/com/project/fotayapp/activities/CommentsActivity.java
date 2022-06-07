@@ -2,8 +2,8 @@ package com.project.fotayapp.activities;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
 import static com.project.fotayapp.activities.PostActivity.POST_ACTIVITY;
+import static com.project.fotayapp.activities.PostActivity.tv_count_comments;
 import static com.project.fotayapp.adapters.HomeAdapter.HOME_ADAPTER;
-import static com.project.fotayapp.adapters.PostProfileAdapter.EXTRA_PROFILE_PHOTO;
 
 import android.content.Context;
 import android.content.Intent;
@@ -58,11 +58,14 @@ public class CommentsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView iv_send;
     private EditText et_comment;
-    public static int position;
-
+    public static int id_photo, default_profile_photo, position;
+    public static int comment_count;
+    public static String profilePhoto;
     private RecyclerView commentRecyclerView;
     private CommentAdapter commentAdapter;
-    private ArrayList<Comment> commentList = new ArrayList<>();
+    public static ArrayList<Comment> commentList = new ArrayList<>();
+    public static String foto_perfil;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +76,13 @@ public class CommentsActivity extends AppCompatActivity {
         et_comment = findViewById(R.id.comment_edit);
         iv_send = findViewById(R.id.comment_send);
         commentRecyclerView = findViewById(R.id.comment_recyclerView);
+        commentList = new ArrayList<>();
 
         commentAdapter = new CommentAdapter(getApplicationContext(), commentList);
 
         commentRecyclerView.setHasFixedSize(true);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //commentRecyclerView.setItemAnimator(new DefaultItemAnimator());
         commentRecyclerView.setAdapter(commentAdapter);
-        //ll_comment = findViewById(R.id.comments_linear_layout);
-        //nsv_comments = findViewById(R.id.comment_scroll_view);
 
         //Colocar el editText por encima del teclado s
         CommentsActivity.this.getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE);
@@ -97,6 +98,7 @@ public class CommentsActivity extends AppCompatActivity {
         homeFragment = new homeFragment();
         postActivity = new PostActivity();
         db = new UserDataSQLite(this);
+
 
         //Método que muestra los comentarios de una foto en HomeAdapter
         showCommentsFromIntent();
@@ -124,6 +126,8 @@ public class CommentsActivity extends AppCompatActivity {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0);
 
+                //tv_count_comments.setText(String.valueOf(commentList.size()));
+
 
             } else {
                 Toast.makeText(this, "No puedes enviar un comentario vacío", Toast.LENGTH_SHORT).show();
@@ -132,8 +136,12 @@ public class CommentsActivity extends AppCompatActivity {
 
         //Boton de cerra la actividad y regresa a la actividad anterior
         toolbar.setNavigationOnClickListener(v -> {
-            finish();
+            //finish();
+            Intent intent = new Intent(CommentsActivity.this, MenuActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         });
+
+
     }
 
     public void getFotoIdFromIntent(String userId, String userName, String dateComment, String userComment) {
@@ -141,14 +149,14 @@ public class CommentsActivity extends AppCompatActivity {
 
         if (classIntent.equals("PostActivity")) {
             position = getIntent().getIntExtra(POST_ACTIVITY, 0);
-            int IDPhotoPost = postActivity.id_photo;
+            int IDPhotoPost = postActivity.id;
 
             //Método que añaade los comentarios a la base de datos
             addCommentToDB(IDPhotoPost, userId, userName, dateComment, userComment);
 
         } else if (classIntent.equals("HomeAdapter")) {
-            position = getIntent().getIntExtra(HOME_ADAPTER, 0);
-            int IDPhotoHome = homeFragment.getPhotoHomeId(position);
+            id_photo = getIntent().getIntExtra(HOME_ADAPTER, 0);
+            int IDPhotoHome = id_photo;
 
             //Método que añaade los comentarios a la base de datos
             addCommentToDB(IDPhotoHome, userId, userName, dateComment, userComment);
@@ -165,16 +173,22 @@ public class CommentsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Comentario añadido", Toast.LENGTH_SHORT).show();
 
                     //Cargar la imagen de perfil del usuario en el comentario
-                    Intent intent = getIntent();
-                    String profile_photo = intent.getStringExtra(EXTRA_PROFILE_PHOTO);
+                    default_profile_photo = R.drawable.ic_no_profile_picture;
 
                     //Actualizar la lista de comentarios al añadir uno nuevo en la base de datos
-                    commentList.add(new Comment(profile_photo, userName, dateComment, userComment));
+                    commentList.add(new Comment(String.valueOf(default_profile_photo), userName, dateComment, userComment));
+                    commentAdapter.notifyItemInserted(commentList.size());
                     commentAdapter.notifyDataSetChanged();
 
                     //Scroll hacia abajo de la vista de comentarios para ver el nuevo comentario
                     commentRecyclerView.fling(0, 1000);
                     commentRecyclerView.smoothScrollToPosition(commentList.size() - 1);
+
+                    //Actualizar el contador de comentarios
+                    //Actualizar contador de comentarios en el PostActivity
+
+                        tv_count_comments.setText(String.valueOf(commentList.size()));
+
 
                 } else if (response.equals("Error")) {
                     Toast.makeText(getApplicationContext(), "Error al añadir comentario", Toast.LENGTH_SHORT).show();
@@ -217,7 +231,31 @@ public class CommentsActivity extends AppCompatActivity {
         return idUsu;
     }
 
-    private void showComments(String SHOW_COMMENTS_URL) {
+
+    public void showCommentsFromIntent() {
+        String classIntent = getIntent().getStringExtra("Class");
+
+        if (classIntent.equals("PostActivity")) {
+            //position = getIntent().getIntExtra(POST_ACTIVITY, 0);
+            int IDPhotoPost = PostActivity.id;
+            Toast.makeText(this, "IDPhotoPost: " + IDPhotoPost, Toast.LENGTH_SHORT).show();
+
+            //Método que muestra los comentarios de una foto en PostActivity
+            String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoPost;
+            showComments(SHOW_COMMENTS_URL);
+
+        } else if (classIntent.equals("HomeAdapter")) {
+            id_photo = getIntent().getIntExtra(HOME_ADAPTER, 0);
+            int IDPhotoHome = id_photo;
+            Toast.makeText(this, "IDPhotoHome: " + IDPhotoHome, Toast.LENGTH_SHORT).show();
+
+            //Método que muestra los comentarios de una foto en HomeAdapter
+            String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoHome;
+            showComments(SHOW_COMMENTS_URL);
+        }
+    }
+
+    public void showComments(String SHOW_COMMENTS_URL) {
         //Voley api
         JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, SHOW_COMMENTS_URL, null,
                 new Response.Listener<JSONObject>() {
@@ -225,13 +263,13 @@ public class CommentsActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.getJSONArray("comments");
-                            //Contador que muesra el número de comentarios
-                            Toast.makeText(CommentsActivity.this, jsonArray.length() + " comentarios", Toast.LENGTH_SHORT).show();
+                            //Contador que muestra el número de comentarios
+                            comment_count = jsonArray.length();
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject post = jsonArray.getJSONObject(i);
                                 //recuperar los datos de la tabla fotos
-                                String foto_perfil = post.getString("foto_perfil");
+                                foto_perfil = post.getString("foto_perfil");
                                 String usu_nombre = post.getString("usu_nombre");
                                 String fecha_coment = post.getString("fecha_coment");
                                 String txt_coment = post.getString("txt_coment");
@@ -240,9 +278,6 @@ public class CommentsActivity extends AppCompatActivity {
                                 commentList.add(new Comment(foto_perfil, usu_nombre, fecha_coment, txt_coment));
                             }
 
-                            if (commentList.size() == 0) {
-                                Toast.makeText(CommentsActivity.this, "No hay comentarios", Toast.LENGTH_SHORT).show();
-                            }
                             //RecyclerAdapter
                             commentAdapter = new CommentAdapter(getApplicationContext(), commentList);
                             //Pasar la lista de objetos a la vista del RecyclerView
@@ -269,28 +304,5 @@ public class CommentsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(JSONRequest);
 
-    }
-
-    private void showCommentsFromIntent() {
-        String classIntent = getIntent().getStringExtra("Class");
-
-        if (classIntent.equals("PostActivity")) {
-            position = getIntent().getIntExtra(POST_ACTIVITY, 0);
-            int IDPhotoPost = postActivity.id_photo;
-            //Toast.makeText(this, "IDPhotoPost: " + IDPhotoPost, Toast.LENGTH_SHORT).show();
-
-            //Método que muestra los comentarios de una foto en PostActivity
-            String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoPost;
-            showComments(SHOW_COMMENTS_URL);
-
-        } else if (classIntent.equals("HomeAdapter")) {
-            position = getIntent().getIntExtra(HOME_ADAPTER, 0);
-            int IDPhotoHome = homeFragment.getPhotoHomeId(position);
-            //Toast.makeText(this, "IDPhotoHome: " + IDPhotoHome, Toast.LENGTH_SHORT).show();
-
-            //Método que muestra los comentarios de una foto en HomeAdapter
-            String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoHome;
-            showComments(SHOW_COMMENTS_URL);
-        }
     }
 }
