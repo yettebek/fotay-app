@@ -69,7 +69,7 @@ public class chatFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userChatAdapter);
 
-        //Dirigirse al chat de la persona seleccionada
+        //Dirigirse al chat de la persona seleccionada (ChatActivity)
         recyclerView.addOnItemTouchListener(new UserChatAdapter.RecyclerTouchListener(getContext(), recyclerView, new UserChatAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -128,8 +128,8 @@ public class chatFragment extends Fragment {
 
 
     private void getUsersInfo() {
-        String webhostURL = "https://fotay.000webhostapp.com/showUsers.php";
-        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null,
+        String SHOW_USERS_URL = "https://fotay.000webhostapp.com/showUsers.php";
+        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, SHOW_USERS_URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

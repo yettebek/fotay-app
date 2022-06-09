@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.fotayapp.R;
@@ -42,12 +40,14 @@ public class ChatConversationAdapter extends RecyclerView.Adapter<ChatConversati
 
 
     @Override
-    public ChatConversationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChatConversationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View chatView;
         if (viewType == sender) {
-            chatView = LayoutInflater.from(context).inflate(R.layout.chat_sender_item, parent, false);
+            chatView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.chat_sender_item, parent, false);
         } else {
-            chatView = LayoutInflater.from(context).inflate(R.layout.chat_receiver_item, parent, false);
+            chatView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.chat_receiver_item, parent, false);
         }
         return new ViewHolder(chatView);
     }
@@ -56,20 +56,19 @@ public class ChatConversationAdapter extends RecyclerView.Adapter<ChatConversati
     @Override
     public int getItemViewType(int position) {
         Chat chat = chatList.get(position);
-        if (chat.getUsu_id() == userId) {
-            return sender;
+        if (chat.getUsu_id() == userId) { //getusu_id() es el id del usuario que recibe el mensaje no quien lo envia CORREGIRLO
+            return sender; //muestra el viewtype VERDE
         }
-        return position;
+        return position; //muestra el viewtype AZUL
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatConversationAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder( ChatConversationAdapter.ViewHolder holder, int position) {
         //Anadir mensaje a la vista
         Chat chat = chatList.get(position);
-        holder.tvMessage.setText(chat.getMensaje());
-        holder.tvDate.setText(chat.getFecha());
-        Toast.makeText(context, "id USUARIO SENDER : " + chat.getUsu_id(), Toast.LENGTH_SHORT).show();
-
+        ((ViewHolder)holder).tvMessage.setText(chat.getMensaje());
+        ((ViewHolder)holder).tvDate.setText(chat.getFecha());
     }
 
     @Override

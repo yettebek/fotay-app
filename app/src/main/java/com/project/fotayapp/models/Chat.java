@@ -1,6 +1,8 @@
 package com.project.fotayapp.models;
 
-public class Chat {
+import java.io.Serializable;
+
+public class Chat implements Serializable {
     //Variables usu_id, emisor, receptor, mensaje
 
     private int usu_id;

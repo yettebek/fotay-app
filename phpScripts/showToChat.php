@@ -1,11 +1,15 @@
 <?php
     require_once("db.php");
-    session_start();
     //real_escape_string: para prevenir la inyección por SQL
     $emisor = mysqli_real_escape_string($mysql, $_REQUEST["emisor"]);
     $receptor = mysqli_real_escape_string($mysql, $_REQUEST["receptor"]);
 
-$select_message_query = "SELECT id_mensaje, usu_id, emisor, receptor,fecha_mensaje, mensaje FROM chat WHERE emisor = '$emisor' AND receptor = '$receptor' ORDER BY fecha_mensaje ASC";
+$select_message_query = "SELECT chat.id_mensaje, chat.usu_id, chat.emisor, chat.receptor, chat.fecha_mensaje, chat.mensaje
+     FROM chat
+     LEFT JOIN usuarios ON usuarios.usu_nombre = chat.receptor
+     WHERE (emisor = '$emisor' AND receptor = '$receptor')
+     OR (emisor = '$receptor' AND receptor = '$emisor')
+     ORDER BY fecha_mensaje ASC;";
 
     $select_message_query_result = mysqli_query($mysql, $select_message_query);
 
