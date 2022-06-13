@@ -79,7 +79,7 @@ public class chatFragment extends Fragment {
                 intent.putExtra("ChatUserName", chatUser.getUserName());
                 intent.putExtra("ChatUserId", chatUser.getUserChatId());
                 startActivity(intent);
-                Toast.makeText(getActivity(), chatUser.getUserName() + " is selected!\nID receptor: " + chatUser.getUserChatId(), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

@@ -69,12 +69,12 @@ public class ChatConversationAdapter extends RecyclerView.Adapter<ChatConversati
         Chat chat = chatList.get(position);
         ((ViewHolder)holder).tvMessage.setText(chat.getMensaje());
         ((ViewHolder)holder).tvDate.setText(chat.getFecha());
+
     }
 
     @Override
     public int getItemCount() {
         return chatList.size();
     }
-
 
 }

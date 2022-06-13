@@ -65,7 +65,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class profileFragment extends Fragment implements PostProfileAdapter.AdapterCallback{
+public class profileFragment extends Fragment{
 
     //Declarar variables
     private ImageView iv_profile_pic, iv_options_profile;
@@ -85,8 +85,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
     private Bitmap bitmap;
     String newUsername;
     public static ArrayList<Integer> post_ids = new ArrayList<>();
-    public static final String EXTRA_PROFILE_PHOTO_P = "profile_photo";
-    PostProfileAdapter.AdapterCallback callback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,12 +99,9 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
         tv_p_username = view.findViewById(R.id.tv_p_username);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
-        //Toast profileFragment
-        Toast.makeText(getContext(), "Profile Fragment", Toast.LENGTH_SHORT).show();
-
 
         //Inicializar adaptador, llamar al método setOnClickListener para que se ejecute la interfaz OnItemClickListener de la clase PostProfileAdapter
-        adapter = new PostProfileAdapter(getContext(), photoList, callback);
+        adapter = new PostProfileAdapter(getContext(), photoList);
 
         //Inicializar recyclerView encargado de mostrar las fotos
         recyclerView = view.findViewById(R.id.profileRecyclerView);
@@ -133,17 +128,15 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
         // Setear el nombre de usuario en el TextView
         tv_p_username.setText(getSessionUsername());
 
-        //Toast.makeText(getContext(), "ID usuario: " + getSessionId(), Toast.LENGTH_SHORT).show();
-
         //Actualizar la lista de fotos al actualizar la vista
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 //Actualizar la lista de posts
-                /*photoList.clear();
+                photoList.clear();
                 loadProfileImg();
                 getUserPosts();
-                clearPostIds();*/
+                clearPostIds();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -185,7 +178,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
                             saveLoginSharedPreferences();
 
                             db.updateUserTableUsuarios(newUsername, getSessionId());
-                            Toast.makeText(getContext(), "Nuevo nombre de usuario: " + newUsername, Toast.LENGTH_SHORT).show();
 
                             //Actualizar nombre de usuario en la base de datos mysql [updateUsername.php]
                             updateUserName(newUsername);
@@ -206,8 +198,8 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
         fab_imagen.setOnClickListener(v -> {
             //Para acceder a la galería de fotos o la cámara
             ImagePicker.with(this)
-                    .crop()//Para recortar la imagen
-                    .compress(1024) //comprimir la imagen a un tamaño de 2MB
+                    .crop()
+                    .compress(2048) //comprimir la imagen a un tamaño de 2MB
                     .maxResultSize(1080, 1920)    //La resolución máxima permitida
                     .start(2);
 
@@ -223,7 +215,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
                     .start(1); //1 para la imagen de perfil, 2 para la imagen de post
         });
 
-        //Toast.makeText(requireContext(), "ID: " + getUserId() ,Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -247,9 +238,9 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
                 return params;
             }
         };
-        //TimeoutError arreglo
+        //TimeoutError para evitar que la app se cierre al intentar conectar con el servidor
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         //Procesa todas las peticiones de nuestra app
         stringRequest.setShouldCache(false);
@@ -264,7 +255,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
 
         // Comprobar si el resultado es correcto
         if (requestCode == 1 && resultCode != getActivity().RESULT_CANCELED) {
-            Toast.makeText(getContext(), "requestCode 1", Toast.LENGTH_SHORT).show();
             assert data != null;
             // Obtener la imagen de la galería
             fotayUri = data.getData();
@@ -295,17 +285,10 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
             //Uri de la foto
             fotayUri = data.getData();
 
-            //detach fragment
-            //getActivity().getSupportFragmentManager().beginTransaction().remove(this).attach(this).commit();
-            //getActivity().getSupportFragmentManager().beginTransaction().detach(this).commit();
-
             //Enviar la imagen a la otra actividad por medio de un intent
             Intent uploadIntent = new Intent(getActivity(), UploadActivity.class);
             uploadIntent.putExtra("fotayUri", fotayUri.toString());
             startActivity(uploadIntent);
-
-            //getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
-
 
         } else if (resultCode == getActivity().RESULT_CANCELED) {
             Toast.makeText(getContext(), "No se obtuvo la imagen.", Toast.LENGTH_SHORT).show();
@@ -329,7 +312,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.getJSONArray("profile_posts");
-                            //Toast.makeText(getContext(), jsonArray.length() + " fotos".toUpperCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
                             tv_photo_count.setText(String.valueOf(jsonArray.length()));
                             for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -348,15 +330,10 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
                                 post_ids.add(foto_id);
                             }
                             //RecyclerAdapter
-                            adapter = new PostProfileAdapter(getContext(), photoList,callback);
+                            adapter = new PostProfileAdapter(getContext(), photoList);
                             adapter.notifyDataSetChanged();
-                            //
-                            //adapter.notifyItemInserted(photoList.size() - 1);
                             //Pasar la lista de objetos a la vista del RecyclerView
                             recyclerView.setAdapter(adapter);
-
-                            int size = photoList.size();
-                            //tv_photo_count.setText(String.valueOf(size));
 
 
                         } catch (JSONException e) {
@@ -458,8 +435,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
                             Picasso.get().load(foto_perfil).fit().centerInside().into(iv_profile_pic);
 
                         }
-                        //Enviar a CommentsActivity la foto de perfil del usuario
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -510,10 +485,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
         return idUsu;
     }
 
-    public static int getPhotoId(int position) {
-        return post_ids.get(position);
-    }
-
     public static void clearPostIds() {
         post_ids.clear();
     }
@@ -527,10 +498,6 @@ public class profileFragment extends Fragment implements PostProfileAdapter.Adap
         editor.apply(); //guarda todos los cambios
     }
 
-    @Override
-    public void onChangeCommentCount(int position, int commentCount) {
-
-    }
 }
 
 

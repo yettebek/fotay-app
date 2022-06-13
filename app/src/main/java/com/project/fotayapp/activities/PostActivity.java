@@ -24,8 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
@@ -35,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hendraanggrian.appcompat.widget.SocialTextView;
 import com.project.fotayapp.R;
+import com.project.fotayapp.adapters.CommentAdapter;
 import com.project.fotayapp.adapters.PostProfileAdapter;
 import com.project.fotayapp.fragments.profileFragment;
 import com.project.fotayapp.models.Comment;
@@ -43,10 +42,9 @@ import com.project.fotayapp.models.UserDataSQLite;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
-public class PostActivity extends AppCompatActivity implements PostProfileAdapter.AdapterCallback {
+public class PostActivity extends AppCompatActivity {
 
     //private static String DELETE_PHOTO_URL = "";
     //Variables
@@ -55,7 +53,6 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
     public static TextView tv_count_comments;
     private SocialTextView tv_post_description;
     private Toolbar toolbar_back;
-    private RecyclerView recyclerView;
     private PostProfileAdapter adapter;
     private ArrayList<PostPhoto> photoList = new ArrayList<PostPhoto>();
     public static ArrayList<Comment> commentList = new ArrayList<Comment>();
@@ -63,10 +60,8 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
     public profileFragment profileFragment;
     public static int position;
     public ImageView iv_post_photo;
-    private NestedScrollView nestedScrollView;
     public static int id;
     public static final String POST_ACTIVITY = "PostActivity";
-    private PostProfileAdapter.AdapterCallback callback;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -95,9 +90,8 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
         photoList = profileFragment.photoList;
         commentList = CommentsActivity.commentList;
 
-        adapter = new PostProfileAdapter(this, photoList, callback);
+        adapter = new PostProfileAdapter(this, photoList);
 
-        getSessionUsername();
 
         setSupportActionBar(toolbar_back);
         Objects.requireNonNull(getSupportActionBar()).setTitle(Html.fromHtml("<font color='#ffffff'>" + "Foto" + "</font>"));
@@ -111,8 +105,6 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
 
         toolbar_back.setNavigationOnClickListener(v -> {
             finish();
-            /*Intent intent = new Intent(PostActivity.this, MenuActivity.class);
-            startActivity(intent);*/
         });
 
         iv_post_photo.setOnClickListener(v -> {
@@ -133,16 +125,11 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            /*Toast.makeText(PostActivity.this, "Actualizando comentarios...", Toast.LENGTH_SHORT).show();
-            //PostProfileAdapter.getInstance().getItemCount();
+            Toast.makeText(PostActivity.this, "Actualizando comentarios...", Toast.LENGTH_SHORT).show();
             tv_count_comments.setText(String.valueOf(CommentAdapter.getInstance().getItemCount()));
-            swipeRefreshLayout.setRefreshing(false);*/
             swipeRefreshLayout.setRefreshing(false);
 
         });
-        //Toast.makeText(this, "ID POST " + id, Toast.LENGTH_SHORT).show();
-
-        //id_photo = profileFragment.getPhotoId(position);
     }
 
     //Options menu en la barra de herramientas
@@ -173,7 +160,6 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
 
                         }).setNegativeButton("Cancelar", (dialog, which) -> {
 
-                    //Toast.makeText(getApplicationContext(), " "+ position, Toast.LENGTH_SHORT).show();
 
                     dialog.dismiss();
                 }).show();
@@ -207,19 +193,6 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
         requestQueue.add(request);
     }
 
-
-    public String getSessionUsername() {
-        HashMap<String, String> user_sqlite = db.getUserInfo();
-        String nomUsu = user_sqlite.get("usu_nombre");
-        return nomUsu;
-    }
-
-    public String getSessionId() {
-        HashMap<String, String> user_sqlite = db.getUserInfo();
-        String idUsu = user_sqlite.get("usu_id");
-        return idUsu;
-    }
-
     //Datos de la foto seleccionada obtenidos desde el adaptador PostProfileAdapter
     public void getFromIntent() {
         Intent intent = getIntent();
@@ -246,13 +219,5 @@ public class PostActivity extends AppCompatActivity implements PostProfileAdapte
         tv_count_comments.setText(String.valueOf(count_comments));
         tv_post_description.setText(post_comment);
 
-        //Toast.makeText(this, "Nº comentarios: " + PostProfileAdapter.getInstance().getCommentCount(position), Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    @Override
-    public void onChangeCommentCount(int position, int commentCount) {
-        //tv_count_comments.setText(String.valueOf(count_comments + 1));
     }
 }

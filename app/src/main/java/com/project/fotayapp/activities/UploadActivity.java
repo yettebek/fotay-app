@@ -172,12 +172,12 @@ public class UploadActivity extends AppCompatActivity {
                 Objects.requireNonNull(out);
 
             } catch (FileNotFoundException e) {
-                Toast.makeText(this, "NO imagen en galería.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "No se encuentra la imagen en galería.", Toast.LENGTH_SHORT).show();
             }
             //Botón de subida de imagen al servidor activado
             publishBtnTrue();
         } else {
-            Toast.makeText(this, "NO imagen en galería.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No se encuentra la imagen en galería.", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

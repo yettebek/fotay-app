@@ -11,10 +11,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="6dp"
         app:cardBackgroundColor="#0C2B89"
         app:cardCornerRadius="22dp"
-        app:cardElevation="30dp">
+        app:cardElevation="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,10 +25,13 @@
                 android:id="@+id/chat_tv_sender_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:layout_gravity="left"
+                android:padding="4dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:text="OK. I'm fine. Thanks! :)"
                 android:textColor="@color/white"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:textStyle="bold">
 
 
@@ -40,13 +43,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="17dp"
-                android:layout_marginEnd="17dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="3dp"
                 android:gravity="end"
                 android:text="2022-06-03 17:00:14"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold">
+                android:textSize="11sp"
+                android:textStyle="normal">
 
             </TextView>
         </LinearLayout>

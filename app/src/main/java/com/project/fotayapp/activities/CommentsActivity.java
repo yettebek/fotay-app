@@ -60,7 +60,6 @@ public class CommentsActivity extends AppCompatActivity {
     private EditText et_comment;
     public static int id_photo, default_profile_photo, position;
     public static int comment_count;
-    public static String profilePhoto;
     private RecyclerView commentRecyclerView;
     private CommentAdapter commentAdapter;
     public static ArrayList<Comment> commentList = new ArrayList<>();
@@ -126,9 +125,6 @@ public class CommentsActivity extends AppCompatActivity {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0);
 
-                //tv_count_comments.setText(String.valueOf(commentList.size()));
-
-
             } else {
                 Toast.makeText(this, "No puedes enviar un comentario vacío", Toast.LENGTH_SHORT).show();
             }
@@ -136,12 +132,9 @@ public class CommentsActivity extends AppCompatActivity {
 
         //Boton de cerra la actividad y regresa a la actividad anterior
         toolbar.setNavigationOnClickListener(v -> {
-            //finish();
             Intent intent = new Intent(CommentsActivity.this, MenuActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
-
-
     }
 
     public void getFotoIdFromIntent(String userId, String userName, String dateComment, String userComment) {
@@ -164,7 +157,6 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void addCommentToDB(int idPhoto, String userId, String userName, String dateComment, String userComment) {
-        //Toast.makeText(this, "Comentario enviado.", Toast.LENGTH_SHORT).show();
         String INSERT_COMMENT_URL = "https://fotay.000webhostapp.com/insertComment.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, INSERT_COMMENT_URL, new Response.Listener<String>() {
             @Override
@@ -184,10 +176,9 @@ public class CommentsActivity extends AppCompatActivity {
                     commentRecyclerView.fling(0, 1000);
                     commentRecyclerView.smoothScrollToPosition(commentList.size() - 1);
 
-                    //Actualizar el contador de comentarios
                     //Actualizar contador de comentarios en el PostActivity
 
-                        tv_count_comments.setText(String.valueOf(commentList.size()));
+                    tv_count_comments.setText(String.valueOf(commentList.size()));
 
 
                 } else if (response.equals("Error")) {
@@ -238,7 +229,6 @@ public class CommentsActivity extends AppCompatActivity {
         if (classIntent.equals("PostActivity")) {
             //position = getIntent().getIntExtra(POST_ACTIVITY, 0);
             int IDPhotoPost = PostActivity.id;
-            Toast.makeText(this, "IDPhotoPost: " + IDPhotoPost, Toast.LENGTH_SHORT).show();
 
             //Método que muestra los comentarios de una foto en PostActivity
             String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoPost;
@@ -247,7 +237,6 @@ public class CommentsActivity extends AppCompatActivity {
         } else if (classIntent.equals("HomeAdapter")) {
             id_photo = getIntent().getIntExtra(HOME_ADAPTER, 0);
             int IDPhotoHome = id_photo;
-            Toast.makeText(this, "IDPhotoHome: " + IDPhotoHome, Toast.LENGTH_SHORT).show();
 
             //Método que muestra los comentarios de una foto en HomeAdapter
             String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoHome;
@@ -295,8 +284,6 @@ public class CommentsActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(), "Se ha perdido la conexion.\nIntentelo mas tarde.", Toast.LENGTH_SHORT).show();
-                } else {
-                    //Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }

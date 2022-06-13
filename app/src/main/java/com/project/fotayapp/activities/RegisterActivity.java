@@ -212,11 +212,10 @@ public class RegisterActivity extends AppCompatActivity {
                   JSONObject jsonObject = new JSONObject(response);
                   //Obtener los datos del array dentro del objeto JSON que contiene los datos del usuario
                   JSONArray jsonArray = jsonObject.getJSONArray("register");
-                  //Obtener el string que indica el resultado de la consulta
-                  String success = jsonObject.getString("success");
+
 
                   if (!jsonArray.isNull(0)) {
-                      Toast.makeText(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                      Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                       //Diálogo de espera para el usuario.
                       progressDialog = new ProgressDialog(RegisterActivity.this);
                       progressDialog.show();
@@ -235,7 +234,6 @@ public class RegisterActivity extends AppCompatActivity {
                           //Guardar los datos del usuario en una sesión
                           db.addUserTableUsuarios(usu_id, usu_nombre);
 
-                          Toast.makeText(RegisterActivity.this, object.toString(), Toast.LENGTH_LONG).show();
                       }
                       //Especificar el tiempo de espera del diálogo
                       Handler handler = new Handler();
@@ -255,7 +253,7 @@ public class RegisterActivity extends AppCompatActivity {
                       }, 3000);
 
                   } else  {
-                      Toast.makeText(RegisterActivity.this, "Usuario ya existe.", Toast.LENGTH_SHORT).show();
+                      Toast.makeText(RegisterActivity.this, "El usuario ya existe.", Toast.LENGTH_SHORT).show();
                   }
               }catch (Exception e){
                   Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -1,28 +1,37 @@
 package com.project.fotayapp.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.project.fotayapp.R;
 import com.project.fotayapp.adapters.ChatConversationAdapter;
 import com.project.fotayapp.models.Chat;
@@ -53,9 +62,10 @@ public class ChatActivity extends AppCompatActivity {
     public UserDataSQLite db;
     private ArrayList<Chat> chatList;
     private ChatConversationAdapter chatAdapter;
-    private String receiverName, receiverId, senderId,senderName;
-
-
+    private String receiverName, receiverId, senderId, senderName;
+    RelativeLayout relativeLayout;
+    public final Handler handler = new Handler();
+    public boolean stopThread = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         chatToolbar = findViewById(R.id.chat_toolbar);
         et_chat_message = findViewById(R.id.chat_edit);
         iv_chat_btn_send = findViewById(R.id.chat_send);
-
+        relativeLayout = findViewById(R.id.relativeLayout);
         db = new UserDataSQLite(getApplicationContext());
         //db = new UserDataSQLite(this);
 
@@ -102,18 +112,20 @@ public class ChatActivity extends AppCompatActivity {
         chatList = new ArrayList<>();
 
         //Id del emisor
-         senderId = getSessionId();
+        senderId = getSessionId();
         //Nombre del emisor
-         senderName = getSessionUsername();
-
-        Toast.makeText(getApplicationContext(), "Id del emisor: " + senderId + "\nNombre del emisor: " + senderName, Toast.LENGTH_SHORT).show();
+        senderName = getSessionUsername();
 
         chatAdapter = new ChatConversationAdapter(this, chatList, Integer.parseInt(senderId));
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rv_chat.setLayoutManager(linearLayoutManager);
-        rv_chat.setItemAnimator(new DefaultItemAnimator());
-        rv_chat.setAdapter(chatAdapter);
+        try {
+            rv_chat.setLayoutManager(new WrapContentLinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            rv_chat.setItemAnimator(null);
+            rv_chat.setAdapter(chatAdapter);
+        }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
 
         //Enviar mensaje al receptor
         iv_chat_btn_send.setOnClickListener(v -> {
@@ -123,22 +135,51 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         chatToolbar.setNavigationOnClickListener(v -> {
+            stopThread = true;
             finish();
         });
 
-        //Obtener conversacion del receptor
+
+
+        //Obtener conversacion del receptor periodicamente
         showMessagesFromChat();
+
+    }
+    //Detectar si se presiona la tecla atras y detener el hilo
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            stopThread = true;
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    //Actualizar la lista de mensajes del chat
+    private void refreshMessages() {
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() throws IndexOutOfBoundsException{
+                chatList.clear();
+                showMessagesFromChat();
+            }
+        };
+        handler.postDelayed(runnable, 6000);
+
+        if (stopThread) {
+            handler.removeCallbacks(runnable);
+        }
     }
 
 
-
     private void addMessageToChat() {
+        //Asignar mensajes a otra lista
+
         //Mensaje del emisor
         final String senderMessage = et_chat_message.getText().toString();
         if (!senderMessage.isEmpty()) {
             //Obtener la fecha actual
             Date date = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             String dateComment = simpleDateFormat.format(date);
 
             //Borrar el contenido del editText despues de enviar el comentario
@@ -150,26 +191,24 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     if (response.equals("Exito")) {
-                        Toast.makeText(getApplicationContext(), "Comentario añadido", Toast.LENGTH_SHORT).show();
 
                         //Actualizar la lista de comentarios al añadir uno nuevo en la base de datos
-                        Chat chat = new Chat(Integer.parseInt(senderId), senderName, receiverName, dateComment,senderMessage);
-                        chatList.add(chat);
-                        //chatAdapter.notifyItemInserted(chatList.size());
-                        chatAdapter.notifyDataSetChanged();
+                        Chat chat = new Chat(Integer.parseInt(senderId), senderName, receiverName, dateComment, senderMessage);
 
+                        chatList.add(chat);
+
+                        //Actualizar el recyclerView
+                        chatAdapter.notifyItemInserted(chatList.size() - 1);
+
+                        //Scroll hacia abajo de la vista de comentarios para ver el nuevo comentario
                         if (chatAdapter.getItemCount() > 1) {
                             rv_chat.getLayoutManager().smoothScrollToPosition(rv_chat, null, chatAdapter.getItemCount() - 1);
-                            //Scroll hacia abajo de la vista de comentarios para ver el nuevo comentario
-                            //rv_chat.fling(0, 1000);
-                            //rv_chat.smoothScrollToPosition(chatList.size() - 1);
+                            chatAdapter.notifyItemInserted(chatList.size() - 1);
                         }
 
                         //Cerrar teclado virtual al enviar comentario
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(et_chat_message.getWindowToken(), 0);
-
-                        Toast.makeText(ChatActivity.this, senderMessage, Toast.LENGTH_SHORT).show();
 
                     } else if (response.equals("Error")) {
                         Toast.makeText(getApplicationContext(), "Error al añadir comentario", Toast.LENGTH_SHORT).show();
@@ -197,11 +236,8 @@ public class ChatActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
 
-
         } else {
             Toast.makeText(this, "No puedes enviar un comentario vacío", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, senderId, Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, senderName, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -222,15 +258,16 @@ public class ChatActivity extends AppCompatActivity {
 
                         Chat chat = new Chat(usu_id, sender, receiver, date, message);
 
+                        //chatList.add(chat);
                         chatList.add(chat);
+                        chatAdapter.notifyItemChanged(chatAdapter.getItemCount(), chatList.size());
 
                     }
-                    chatAdapter.notifyDataSetChanged();
+                    /*chatAdapter.notifyItemRangeRemoved(0, chatList.size());
+                    chatAdapter.notifyItemRangeInserted(chatAdapter.getItemCount(), chatList.size());*/
+                    //chatAdapter.notifyDataSetChanged();
                     if (chatAdapter.getItemCount() > 1) {
                         rv_chat.getLayoutManager().smoothScrollToPosition(rv_chat, null, chatAdapter.getItemCount() - 1);
-                        //Scroll hacia abajo de la vista de comentarios para ver el nuevo comentario
-                        //rv_chat.fling(0, 1000);
-                        //rv_chat.smoothScrollToPosition(chatList.size() - 1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -239,16 +276,56 @@ public class ChatActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Snackbar snackbar = Snackbar
+                            .make(findViewById(R.id.relativeLayout), "Error de conexión", Snackbar.LENGTH_LONG);
+                    snackbar.setAction("REINTENTAR", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showMessagesFromChat();
+                        }
+                    }).setTextColor(Color.RED);
+                    snackbar.show();
+                } else {
+                    showMessagesFromChat();
+                }
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
 
+        refreshMessages();
+        //refreshStop();
+
     }
 
+    public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+        public WrapContentLinearLayoutManager(Context context) {
+            super(context);
+        }
 
+        //...other constructors
+        public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+        public WrapContentLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                Log.e("IOOE", "IndexOutOfBoundsException");
+            }
+        }
+
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+    }
 
     public String getSessionUsername() {
         HashMap<String, String> user_sqlite = db.getUserInfo();

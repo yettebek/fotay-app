@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                     String success = jsonObject.getString("success");
 
                     if (success.equals("1")) {
-                        Toast.makeText(LoginActivity.this, "Bienvenido de nuevo \n " + nomUsu, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Bienvenid@ de nuevo \n " + nomUsu, Toast.LENGTH_SHORT).show();
                         //Diálogo de espera para el usuario.
                         progressDialog = new ProgressDialog(LoginActivity.this);
                         progressDialog.show();
@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }, 4000);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usuario y/o contraseña \nintroducidos no son correctos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Usuario y/o contraseña \nintroducidos no son correctos", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         }) { //Parámetros que solicitamos para generar una respuesta del servidor
             @Override

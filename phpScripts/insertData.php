@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //crear una sessión para el usuario
     $_SESSION['usu_nombre'] = $usu_nombre;
 
-    $check_duplicate_username = "SELECT usu_id, usu_nombre FROM usuarios WHERE usu_nombre = '$usu_nombre' ";
+    $check_duplicate_username = "SELECT usu_id, usu_nombre FROM usuarios WHERE usu_nombre = '$usu_nombre'";
 
     $response = $mysql->query($check_duplicate_username);
 

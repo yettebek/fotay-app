@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,19 +35,11 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
     public static final String EXTRA_PHOTO = "com.project.fotayapp.extra.PHOTO";
     public static final String EXTRA_DESCRIPTION = "com.project.fotayapp.extra.DESCRIPTION";
     public static final String EXTRA_COMMENT_COUNT = "com.project.fotayapp.extra.COMMENT_COUNT";
-    private PostProfileAdapter.AdapterCallback callback;
-
-    //Interfaz para comunicar con el fragment
-    public interface AdapterCallback {
-        //public void onChangeCommentCount();
-        public void onChangeCommentCount(int position, int commentCount);
-    }
 
     //Constructor
-    public PostProfileAdapter(Context adapterContext, ArrayList<PostPhoto> item, PostProfileAdapter.AdapterCallback callback) {
+    public PostProfileAdapter(Context adapterContext, ArrayList<PostPhoto> item) {
         this.adapterContext = adapterContext;
         this.postPhotoAdapterList = item;
-        this.callback = callback;
     }
 
     //Infla el layout del item de la lista
@@ -89,9 +80,6 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
                 intent.putExtra(EXTRA_COMMENT_COUNT, post.getTotal_comentarios());
                 intent.putExtra(EXTRA_DESCRIPTION, post.getFoto_coment());
                 adapterContext.startActivity(intent);
-                //Toast que muestra la posición del elemento
-                //Toast.makeText(adapterContext, "Foto nº: " + position, Toast.LENGTH_SHORT).show();
-                Toast.makeText(adapterContext, "ID Foto: " + post.getFoto_id(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -108,14 +96,6 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
     @Override
     public int getItemCount() {
         return postPhotoAdapterList.size();
-    }
-
-    //Método para obtener el número de comentarios de una foto de post
-    public int getCommentCount(int position) {
-        notifyDataSetChanged();
-        //Update the comment count
-        //callback.onChangeCommentCount(position);
-        return (postPhotoAdapterList.get(position).getTotal_comentarios());
     }
 
     //Clase ViewHolder para el RecyclerView
