@@ -1,23 +1,53 @@
-*.iml
+# Gradle files
 .gradle
 gradle/
 .gradle/
-/local.properties
+*.gradle
+
+# Local configuration file
+local.properties
+
+# Log files
+*.log
+
+# Intellij
+*.iml
 .idea/
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/dictionaries
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Android Studio
+/*/local.properties
+/*/out
+/*/*/build
 /build
+/*/*/production
+
+#Java class files
+*.class
+
+.DS_Store
+
+# Android Studio captures folder
 /captures
+captures/
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+
 .externalNativeBuild
 .cxx
-local.properties
-*.gradle
-*.class
 *.properties
 /phpScripts/db.php
+phpScripts/db.php
+
 
