@@ -24,6 +24,7 @@
     </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- INCLUIR LOS PERMISOS PARA ACCEDER A LA CAMARA -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -31,7 +32,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
-    <!-- INCLUIR LOS PERMISOS PARA ACCEDER AL ALMACENAMIENTO (requestLegacyExternalStorage) -->
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -46,6 +46,19 @@
         android:theme="@style/Theme.FotayApp"
         android:usesCleartextTraffic="true" >
         <activity
+            android:name="com.project.fotayapp.activities.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.project.fotayapp.activities.FullScreenImageActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.project.fotayapp.activities.CommentsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.project.fotayapp.activities.PostActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.project.fotayapp.activities.UploadActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -59,6 +72,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.project.fotayapp.activities.StartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.project.fotayapp.activities.OptionsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.project.fotayapp.activities.TransitionActivity"

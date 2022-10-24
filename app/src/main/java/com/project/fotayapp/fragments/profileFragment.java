@@ -219,9 +219,9 @@ public class profileFragment extends Fragment{
     }
 
     private void updateUserName(String newUsername) {
-        String UPDATE_USERNAME_URL = "https://fotay.000webhostapp.com/updateUsername.php";
+        String webhostURL = "https://fotay.000webhostapp.com/updateUsername.php";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_USERNAME_URL, response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, response -> {
             if (response.equals("Nombre actualizado")) {
                 Toast.makeText(getContext(), "Nombre actualizado", Toast.LENGTH_SHORT).show();
             } else {
@@ -374,9 +374,9 @@ public class profileFragment extends Fragment{
     // Método para actualizar la imagen del usuario //NO SUBE LA IMAGEN A LA BASE DE DATOS
     private void updateProfilePicture() {
         //Url conexion con el webhost
-        String url = "https://fotay.000webhostapp.com/profileUpload.php";
+        String webhostURL = "https://fotay.000webhostapp.com/profilePhotoUpload.php";
         //StringRequest para actualizar la imagen del usuario en la base de datos
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -412,7 +412,7 @@ public class profileFragment extends Fragment{
     public String webhosturl2() {
         HashMap<String, String> user_sqlite = db.getUserInfo();
         String nomUsu = user_sqlite.get("usu_nombre");
-        return "https://fotay.000webhostapp.com/profileFetch.php?usu_nombre=" + nomUsu;
+        return "https://fotay.000webhostapp.com/fetchProfilePhoto.php?usu_nombre=" + nomUsu;
     }
 
     // Método para cargar la imagen de perfil del usuario

@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     //URL del servidor
-    private static final String webhostURL = "https://fotay.000webhostapp.com/insertData.php";
+    private static final String webhostURL = "https://fotay.000webhostapp.com/insertDataNewUser.php";
 
     //Validación de los campos
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(
@@ -212,9 +212,10 @@ public class RegisterActivity extends AppCompatActivity {
                   JSONObject jsonObject = new JSONObject(response);
                   //Obtener los datos del array dentro del objeto JSON que contiene los datos del usuario
                   JSONArray jsonArray = jsonObject.getJSONArray("register");
+                  //Obtener el string que indica el resultado de la consulta
+                  String success = jsonObject.getString("success");
 
-
-                  if (!jsonArray.isNull(0)) {
+                  if (success.equals("1")) {
                       Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                       //Diálogo de espera para el usuario.
                       progressDialog = new ProgressDialog(RegisterActivity.this);

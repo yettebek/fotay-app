@@ -60,7 +60,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
     }
 
     /**
-     * Guardar datos de usuario en la base de datos
+     * Guardar datos de usuario en la base de datos local SQLite
      */
     public void addUserTableUsuarios(String usu_id, String usu_nombre) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -73,7 +73,7 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         long row_id = db.insert(TABLE_USER, null, values);
         db.close(); // Closing database connection
 
-        Log.d(TAG, "New user inserted into sqlite: " + row_id);
+        Log.d(TAG, "Nuevo usuario insertado: " + row_id);
     }
 
     //Actualizar nombre de usuario en la base de datos SQLite
@@ -104,10 +104,9 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        //db.close();
 
         //Log los datos del usuario
-        Log.d(TAG, "Fetching user from Sqlite: " + user_sqlite.toString());
+        Log.d(TAG, "Usuario desde sQLite: " + user_sqlite.toString());
 
         return user_sqlite;
     }
@@ -127,7 +126,6 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        //db.close();
 
         //Log los datos del usuario
         Log.d(TAG, "ID usuario Sqlite: " + id_sqlite.toString());
@@ -143,6 +141,6 @@ public class UserDataSQLite extends SQLiteOpenHelper {
         // Delete All Rows
         db.delete(TABLE_USER, null, null);
         db.close();
-        Log.d(TAG, "Deleted all user info from sqlite");
+        Log.d(TAG, "Borrado de la base de datos");
     }
 }

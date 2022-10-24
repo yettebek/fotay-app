@@ -95,7 +95,11 @@ public class PostProfileAdapter extends RecyclerView.Adapter<PostProfileAdapter.
     //Método para obtener el número de elementos de la lista
     @Override
     public int getItemCount() {
-        return postPhotoAdapterList.size();
+        if (postPhotoAdapterList != null) {
+            return postPhotoAdapterList.size();
+        } else {
+            return 0;
+        }
     }
 
     //Clase ViewHolder para el RecyclerView

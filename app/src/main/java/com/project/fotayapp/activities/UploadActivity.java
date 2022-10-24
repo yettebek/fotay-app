@@ -69,7 +69,7 @@ public class UploadActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     //URL del servidor
-    private static final String webhostURL = "https://fotay.000webhostapp.com/uploadData.php";
+    private static final String webhostURL = "https://fotay.000webhostapp.com/uploadPhoto.php";
 
     private UserDataSQLite db;
     public profileFragment profileFragment;
@@ -259,7 +259,7 @@ public class UploadActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
-        ) {
+        ) { //Parametros que se envian al servidor al subir la imagen
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {

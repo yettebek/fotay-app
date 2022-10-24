@@ -87,35 +87,6 @@ public class UserChatAdapter extends RecyclerView.Adapter<UserChatAdapter.ViewHo
         } else {
             holder.tv_count_messages.setVisibility(View.GONE);
         }
-
-        /*//Abrir la actividad del chat
-        holder.iv_user_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Abrir la actividad del chat
-                Toast.makeText(chatContext, userName, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(chatContext, ChatActivity.class);
-                intent.putExtra(EXTRA_PROFILE_PHOTO_U, chatUser.getUserPhoto());
-                intent.putExtra(EXTRA_USER_NAME_U, userName);
-                //poner el id del usuario
-                chatContext.startActivity(intent);
-            }
-        });
-
-        holder.tv_user_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Abrir la actividad del chat
-                Toast.makeText(chatContext, userName, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(chatContext, ChatActivity.class);
-                intent.putExtra(EXTRA_PROFILE_PHOTO_U, chatUser.getUserPhoto());
-                intent.putExtra(EXTRA_USER_NAME_U, userName);
-                //poner el id del usuario
-
-                chatContext.startActivity(intent);
-            }
-        });
-*/
     }
 
     @Override

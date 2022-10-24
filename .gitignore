@@ -19,3 +19,5 @@ local.properties
 *.gradle
 *.class
 *.properties
+/phpScripts/db.php
+

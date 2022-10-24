@@ -58,7 +58,6 @@ public class ChatActivity extends AppCompatActivity {
     private Toolbar chatToolbar;
     private RecyclerView rv_chat;
     private RecyclerView.LayoutManager layoutManager;
-    //private RecyclerView.Adapter chatAdapter;
     public UserDataSQLite db;
     private ArrayList<Chat> chatList;
     private ChatConversationAdapter chatAdapter;
@@ -79,7 +78,6 @@ public class ChatActivity extends AppCompatActivity {
         iv_chat_btn_send = findViewById(R.id.chat_send);
         relativeLayout = findViewById(R.id.relativeLayout);
         db = new UserDataSQLite(getApplicationContext());
-        //db = new UserDataSQLite(this);
 
         //Recibir datos del intent proveniente de chatFragment
         Bundle bundle = getIntent().getExtras();
@@ -172,8 +170,6 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private void addMessageToChat() {
-        //Asignar mensajes a otra lista
-
         //Mensaje del emisor
         final String senderMessage = et_chat_message.getText().toString();
         if (!senderMessage.isEmpty()) {
@@ -186,8 +182,8 @@ public class ChatActivity extends AppCompatActivity {
             et_chat_message.setText("");
             et_chat_message.clearFocus();
 
-            String INSERT_CHAT_URL = "https://fotay.000webhostapp.com/insertToChat.php";
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, INSERT_CHAT_URL, new Response.Listener<String>() {
+            String webhostURL = "https://fotay.000webhostapp.com/insertToChat.php";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (response.equals("Exito")) {
@@ -242,8 +238,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void showMessagesFromChat() {
-        String SHOW_MESSAGES_URL = "https://fotay.000webhostapp.com/showToChat.php?emisor=" + senderName + "&receptor=" + receiverName;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, SHOW_MESSAGES_URL, null, new Response.Listener<JSONObject>() {
+        String webhostURL = "https://fotay.000webhostapp.com/showMessagesFromChat.php?emisor=" + senderName + "&receptor=" + receiverName;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -263,9 +259,7 @@ public class ChatActivity extends AppCompatActivity {
                         chatAdapter.notifyItemChanged(chatAdapter.getItemCount(), chatList.size());
 
                     }
-                    /*chatAdapter.notifyItemRangeRemoved(0, chatList.size());
-                    chatAdapter.notifyItemRangeInserted(chatAdapter.getItemCount(), chatList.size());*/
-                    //chatAdapter.notifyDataSetChanged();
+
                     if (chatAdapter.getItemCount() > 1) {
                         rv_chat.getLayoutManager().smoothScrollToPosition(rv_chat, null, chatAdapter.getItemCount() - 1);
                     }
@@ -295,7 +289,6 @@ public class ChatActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
         refreshMessages();
-        //refreshStop();
 
     }
 

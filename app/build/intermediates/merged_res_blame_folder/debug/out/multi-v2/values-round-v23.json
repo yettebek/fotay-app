@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
+            "outputFile": "/home/ye/Documents/AndroidStudio/fotay-app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-round-v23/values-round-v23.xml",
             "map": [
                 {
-                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-round\\dimens.xml",
+                    "source": "/home/ye/Documents/AndroidStudio/fotay-app/app/src/main/res/values-round/dimens.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "D:\\Users\\yersu\\YvTT\\ANDROID_STUDIO\\FotayApp\\app\\src\\main\\res\\values-round\\strings.xml",
+                    "source": "/home/ye/Documents/AndroidStudio/fotay-app/app/src/main/res/values-round/strings.xml",
                     "from": {
                         "startLines": "1",
                         "startColumns": "4",

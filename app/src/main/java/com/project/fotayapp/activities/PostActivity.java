@@ -46,7 +46,6 @@ import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
 
-    //private static String DELETE_PHOTO_URL = "";
     //Variables
     private ImageView iv_profile_pic, iv_comments;
     private TextView tv_username, tv_post_date, tv_comments;
@@ -171,10 +170,10 @@ public class PostActivity extends AppCompatActivity {
 
     //Eliminar foto de la base de datos
     public void deletePicture() {
-        String DELETE_PHOTO_URL = "https://fotay.000webhostapp.com/deletePhoto.php?foto_id=" + id;
+        String webhostURL = "https://fotay.000webhostapp.com/deletePhoto.php?foto_id=" + id;
 
         //[Volley API]
-        StringRequest request = new StringRequest(Request.Method.GET, DELETE_PHOTO_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("Foto eliminada.")) {

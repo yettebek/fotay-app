@@ -36,7 +36,7 @@ public class OptionsActivity extends AppCompatActivity {
     private TextView logout_account, delete_account;
     private Toolbar toolbar_back;
     private UserDataSQLite db;
-    private String URL_DELETE_ACCOUNT = "https://fotay.000webhostapp.com/deleteAccount.php";
+    private String webhostURL = "https://fotay.000webhostapp.com/deleteAccount.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class OptionsActivity extends AppCompatActivity {
         Integer idUsu = Integer.parseInt(Objects.requireNonNull(user_sqlite.get("usu_id")));
         String nomUsu = user_sqlite.get("usu_nombre");
         //StringRequest para eliminar los datos del usuario
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_DELETE_ACCOUNT, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("Usuario eliminado")) {

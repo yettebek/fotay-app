@@ -4,10 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b500a22dff66e2820532da4fbbe80eae/transformed/jetified-activity-1.2.3/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d22b7e6d992664b53e673885505a8ccf/transformed/jetified-activity-1.2.3/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b500a22dff66e2820532da4fbbe80eae/transformed/jetified-activity-1.2.3/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b500a22dff66e2820532da4fbbe80eae/transformed/jetified-activity-1.2.3/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b500a22dff66e2820532da4fbbe80eae/transformed/jetified-activity-1.2.3/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

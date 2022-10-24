@@ -23,11 +23,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     private ArrayList<Comment> commentAdapterList = new ArrayList<Comment>();
     private static CommentAdapter cInstance;
 
-    //Interfaz para comunicar con el fragment
-    public interface AdapterCallback {
-        public void onChangeCommentCount();
-        //public void onChangeCommentCount(int position);
-    }
     public CommentAdapter(Context comContext, ArrayList<Comment> commentList) {
         this.comContext = comContext;
         this.commentAdapterList = commentList;

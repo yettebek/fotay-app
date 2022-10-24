@@ -44,7 +44,8 @@ public class chatFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<ChatUser> chatUsersList = new ArrayList<>();
     public UserDataSQLite db;
-
+    String userId;
+    Chat chat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,31 +106,13 @@ public class chatFragment extends Fragment {
             }
         });
 
-
         return view;
-    }
-
-    //Método par actualizar el contador de mensajes y el último mensaje
-    public void updateChatUserContent(String userId, Chat chat) {
-
-        for (ChatUser chatUser : chatUsersList) {
-            if (chatUser.getUserChatId().equals(userId)) {
-                int index = chatUsersList.indexOf(chatUser);
-                chatUser.setLastMessage(chat.getMensaje());
-                chatUser.setCountMessages(chatUser.getCountMessages() + 1);
-                chatUsersList.remove(index);
-                chatUsersList.add(index, chatUser);
-                break;
-            }
-        }
-        userChatAdapter.notifyDataSetChanged();
-
     }
 
 
     private void getUsersInfo() {
-        String SHOW_USERS_URL = "https://fotay.000webhostapp.com/showUsers.php";
-        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, SHOW_USERS_URL, null,
+        String webhostURL = "https://fotay.000webhostapp.com/showChatUsers.php";
+        JsonObjectRequest JSONRequest = new JsonObjectRequest(Request.Method.GET, webhostURL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

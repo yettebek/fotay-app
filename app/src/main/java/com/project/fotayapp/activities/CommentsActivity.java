@@ -157,8 +157,8 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void addCommentToDB(int idPhoto, String userId, String userName, String dateComment, String userComment) {
-        String INSERT_COMMENT_URL = "https://fotay.000webhostapp.com/insertComment.php";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, INSERT_COMMENT_URL, new Response.Listener<String>() {
+        String webhostURL = "https://fotay.000webhostapp.com/insertComment.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, webhostURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response.equals("Exito")) {
@@ -231,16 +231,16 @@ public class CommentsActivity extends AppCompatActivity {
             int IDPhotoPost = PostActivity.id;
 
             //Método que muestra los comentarios de una foto en PostActivity
-            String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoPost;
-            showComments(SHOW_COMMENTS_URL);
+            String webhostURL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoPost;
+            showComments(webhostURL);
 
         } else if (classIntent.equals("HomeAdapter")) {
             id_photo = getIntent().getIntExtra(HOME_ADAPTER, 0);
             int IDPhotoHome = id_photo;
 
             //Método que muestra los comentarios de una foto en HomeAdapter
-            String SHOW_COMMENTS_URL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoHome;
-            showComments(SHOW_COMMENTS_URL);
+            String webhostURL = "https://fotay.000webhostapp.com/showComments.php?foto_id=" + IDPhotoHome;
+            showComments(webhostURL);
         }
     }
 
