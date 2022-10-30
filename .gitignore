@@ -40,7 +40,7 @@ local.properties
 captures/
 
 # Built application files
-*.apk
+#*.apk
 *.ap_
 *.aab
 
