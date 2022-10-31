@@ -60,7 +60,7 @@ Fotay is a _**work in progress**_ photography / social network app that host pho
 
 ## Downloads
 
-Click [here](/releases/fotay_v0.1.0.apk) to download the app.
+Click [here](https://github.com/yettebek/fotay-app/raw/main/releases/fotay_v0.1.0.apk) to download the app.
  
  
 
