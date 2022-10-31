@@ -27,26 +27,34 @@ Fotay is a _**work in progress**_ photography / social network app that host pho
 <div style="flex" align="center">
     <img height="550px" width=300px src="assets/screenshots/photo_2022-10-25_10-25-05.jpg">&nbsp;&nbsp;&nbsp;
     <img height="550px" width=300px src="assets/screenshots/reg.png">&nbsp;&nbsp;&nbsp;
-    <img height="550px" width=300px src="assets/screenshots/ini.png">&nbsp;&nbsp;&nbsp;
 </div>
 <br>
 <div style="flex" align="center">
-    <img height="550px" width=300px src="assets/screenshots/profile.png">&nbsp;&nbsp;&nbsp;
+    <img height="550px" width=300px src="assets/screenshots/ini.png">&nbsp;&nbsp;&nbsp;
+    <img height="550px" width=300px src="assets/screenshots/profile.png">&nbsp;&nbsp;&nbsp;  
+</div>
+<br>
+<div style="flex" align="center">
     <img height="550px" width=300px src="assets/screenshots/edit.png">&nbsp;&nbsp;&nbsp;
    <img height="550px" width=300px src="assets/screenshots/upload3.png">&nbsp;&nbsp;&nbsp;
 </div>
 <br>
 <div style="flex" align="center">
  <img height="550px" width=299px src="assets/screenshots/users.png">&nbsp;&nbsp;&nbsp;&nbsp;
-    <img height="550px" width=300px src="assets/screenshots/photo_2022-10-25_10-25-32.jpg">&nbsp;&nbsp;&nbsp;
-    <img height="550px" width=300px src="assets/screenshots/chat.png">&nbsp;&nbsp;
+    <img height="550px" width=300px src="assets/screenshots/photo_2022-10-25_10-25-32.jpg">&nbsp;&nbsp;
+    
 </div>
 <br>
 <div style="flex" align="center">
+<img height="550px" width=300px src="assets/screenshots/chat.png">&nbsp;&nbsp;&nbsp;
  <img height="550px" width=285px src="assets/screenshots/pos1.png">&nbsp;&nbsp;&nbsp;
-    <img height="550px" width=300px src="assets/screenshots/upload1.png">&nbsp;&nbsp;&nbsp;
-    <img height="550px" width=300px src="assets/screenshots/upload2.png">&nbsp;&nbsp;
 </div>
+<br>
+<div style="flex" align="center">
+    <img height="550px" width=300px src="assets/screenshots/upload1.png">&nbsp;&nbsp;&nbsp;
+    <img height="550px" width=300px src="assets/screenshots/upload2.png">&nbsp;&nbsp;&nbsp;
+</div>
+<br>
 
 --- 
 
